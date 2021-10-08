@@ -1,0 +1,36 @@
+@mixin button {
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    color: $text-color-1;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+    border: 2px solid transparent;
+}
+
+@mixin button-active {
+    @include button;
+    background-color: $text-color-1;
+    color: $background-color-2;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+@mixin button-rounded{
+    @include button;
+    border: 2px solid $text-color-1;
+    box-shadow: none
+}
+
+@mixin button-hover {
+    @include button;
+    background: rgba(0, 0, 0, 0.1);
+}

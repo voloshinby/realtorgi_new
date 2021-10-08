@@ -1,0 +1,5 @@
+Имя: John
+Фамилия: Doe
+Логин: 143187884560de14a667d6d
+Email: admin@gmail.com
+IP: 127.0.0.1

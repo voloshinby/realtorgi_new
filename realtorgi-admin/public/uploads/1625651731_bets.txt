@@ -1,0 +1,116 @@
+if($auction->step == 1 && $lot->step == 2){
+
+            $bet_step_one = ($lot->price_start * 0.05) + $lot->price_start;
+
+            $one_bet = $this->bet->where('lot_id', $lot->id)->orderBy('id', 'desc')->first();
+
+            if(isset($one_bet) && !is_null($one_bet)){
+
+                $bet = ($lot->price_start * 0.05) + $one_bet->bet_amount;
+
+                $bet = $this->bet->create([
+                    'user_id' => $request->get('user_id'),
+                    'lot_id' => $request->get('lot_id'),
+                    'bet_amount' => $bet,
+                ]);
+
+                if($auction->ends_at <= $unix_minutes){
+                    $auction->update([
+                        'ends_at' => (int)$auction->ends_at + 180,
+                    ]);
+                }
+
+            } else {
+
+                $bet = $this->bet->create([
+                    'user_id' => $request->get('user_id'),
+                    'lot_id' => $request->get('lot_id'),
+                    'bet_amount' => $bet_step_one,
+                ]);
+
+                if($auction->ends_at <= $unix_minutes){
+                    $auction->update([
+                        'ends_at' => (int)$auction->ends_at + 180,
+                    ]);
+                }
+
+            }
+
+
+        } else if($auction->step == 2 && $lot->step == 2) {
+
+            $one_bet = $this->bet->where('lot_id', $lot->id)->orderBy('id', 'desc')->first();
+
+            if(isset($one_bet) && !is_null($one_bet)){
+
+                $bet_step_two = $one_bet->bet_amount;
+                $bet_step_two = ($bet_step_two * 0.05) + $bet_step_two;
+
+                $bet = $this->bet->create([
+                    'user_id' => $request->get('user_id'),
+                    'lot_id' => $request->get('lot_id'),
+                    'bet_amount' => $bet_step_two,
+                ]);
+
+                if($auction->ends_at <= $unix_minutes){
+                    $auction->update([
+                        'ends_at' => (int)$auction->ends_at + 180,
+                    ]);
+                }
+
+
+            } else {
+                $bet_step_two = $lot->price_start;
+                $bet_step_two = ($lot->price_start * 0.05) + $bet_step_two;
+
+                $bet = $this->bet->create([
+                    'user_id' => $request->get('user_id'),
+                    'lot_id' => $request->get('lot_id'),
+                    'bet_amount' => $bet_step_two,
+                ]);
+
+                if($auction->ends_at <= $unix_minutes){
+                    $auction->update([
+                        'ends_at' => (int)$auction->ends_at + 180,
+                    ]);
+                }
+
+            }
+
+        } else if ($lot->step == 1) {
+            $one_bet = $this->bet->where('lot_id', $lot->id)->orderBy('id', 'desc')->first();
+
+            if(isset($one_bet) && !is_null($one_bet)){
+
+                $bet_step_three = $one_bet->bet_amount + $lot->price_step;
+
+                $bet = $this->bet->create([
+                    'user_id' => $request->get('user_id'),
+                    'lot_id' => $request->get('lot_id'),
+                    'bet_amount' => $bet_step_three,
+                ]);
+
+                if($auction->ends_at <= $unix_minutes){
+                    $auction->update([
+                        'ends_at' => (int)$auction->ends_at + 180,
+                    ]);
+                }
+
+            } else {
+
+                $bet_step_three = $lot->price_step + $lot->price_start;
+
+                $bet = $this->bet->create([
+                    'user_id' => $request->get('user_id'),
+                    'lot_id' => $request->get('lot_id'),
+                    'bet_amount' => $bet_step_three,
+                ]);
+
+                if($auction->ends_at <= $unix_minutes){
+                    $auction->update([
+                        'ends_at' => (int)$auction->ends_at + 180,
+                    ]);
+                }
+
+            }
+        }
