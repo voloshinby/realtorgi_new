@@ -4,14 +4,14 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\Users\UserRequest;
 use App\Models\AuctionBets;
-use App\Models\Lot;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use App\Models\Notification;
 use App\Models\AuctionConfirm;
+use App\Models\Lot;
+use App\Models\Notification;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends BaseController
 {
@@ -48,20 +48,22 @@ class UserController extends BaseController
 
         return $this->sendResponse($users, 'Users    list');
     }
+
     public function allList()
     {
-        $users = User::select('first_name', 'last_name',  'id')->get();
+        $users = User::select('first_name', 'last_name', 'id')->get();
 
         return $this->sendResponse($users, 'Users    list');
     }
 
-    public function lotList(Request $request){
+    public function lotList(Request $request)
+    {
 
         $bets = AuctionBets::select('lot_id')->groupBy('lot_id')->where('user_id', $request->id)->get();
 
         $betIds = [];
 
-        foreach($bets as $bet){
+        foreach ($bets as $bet) {
             $betIds[] = $bet->lot_id;
         }
 
@@ -70,13 +72,15 @@ class UserController extends BaseController
         return $this->sendResponse($lots, 'Lots list');
     }
 
-    public function betList(Request $request){
+    public function betList(Request $request)
+    {
         $bets = AuctionBets::where('user_id', $request->id)->with('lot')->paginate(1000);
 
         return $this->sendResponse($bets, 'Bets list');
     }
 
-    public function auctionConfirms($id){
+    public function auctionConfirms($id)
+    {
         $confirms = AuctionConfirm::latest()->where('user_id', $id)->get();
 
         return $this->sendResponse($confirms, 'Список заявок');
@@ -85,12 +89,12 @@ class UserController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Users\UserRequest  $request
+     * @param \App\Http\Requests\Users\UserRequest $request
      *
      * @param $id
      *
-     * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -105,16 +109,16 @@ class UserController extends BaseController
             'type' => 'User',
         ]);
 
-        if(isset($user) && !is_null($user)){
+        if (isset($user) && !is_null($user)) {
 
             Notification::create([
                 'user_id' => 0,
-                'text' => 'Был зарегистрирован новый пользователь с именем '.$user->first_name.' '.$user->last_name,
-                'status' => 'new'
+                'text' => 'Был зарегистрирован новый пользователь с именем ' . $user->first_name . ' ' . $user->last_name,
+                'status' => 'new',
             ]);
 
             Mail::send('emails.registrationCode', $user->toArray(),
-                function($message) use ($user){
+                function ($message) use ($user) {
                     $message->to($user->email, 'Клиент')->subject('Подтверждение регистрации на realtorgi.by');
                 }
             );
@@ -123,17 +127,17 @@ class UserController extends BaseController
         return $this->sendResponse($user, 'User Created Successfully');
     }
 
-    public function confirm_user(Request $request, $id){
-
+    public function confirm_user(Request $request, $id)
+    {
         $user = User::findOrFail($id);
 
-        if($request->get('registration_code') == $user->registration_code){
+        if ($request->get('registration_code') == $user->registration_code) {
             $user->update([
-                'email_verified_at' => date('Y-m-d H:i:s')
+                'email_verified_at' => date('Y-m-d H:i:s'),
             ]);
 
             Mail::send('emails.registration', $user->toArray(),
-                function($message) use ($user){
+                function ($message) use ($user) {
                     $message->to($user->email, 'Клиент')->subject('Вы успешно подтвердили регистрацию');
                 }
             );
@@ -168,11 +172,11 @@ class UserController extends BaseController
     /**
      * Update the resource in storage
      *
-     * @param  \App\Http\Requests\Users\UserRequest  $request
+     * @param \App\Http\Requests\Users\UserRequest $request
      * @param $id
      *
-     * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
+     * @return \Illuminate\Http\Response
      */
     public function update(UserRequest $request, $id)
     {
@@ -184,19 +188,19 @@ class UserController extends BaseController
 
         $user->update($request->all());
 
-        if(isset($user) && !is_null($user)){
+        if (isset($user) && !is_null($user)) {
 
             Notification::create([
                 'user_id' => $id,
                 'title' => 'Изменения данных.',
                 'text' => 'Вы успешно сменили данные своего аккаунта.',
-                'status' => 'new'
+                'status' => 'new',
             ]);
 
             Notification::create([
                 'user_id' => 0,
-                'text' => 'Был изменен профиль пользователя с именем '.$user->first_name.' '.$user->last_name,
-                'status' => 'new'
+                'text' => 'Был изменен профиль пользователя с именем ' . $user->first_name . ' ' . $user->last_name,
+                'status' => 'new',
             ]);
 
             // Mail::send('emails.userChange', $user->toArray(),
@@ -212,7 +216,7 @@ class UserController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
