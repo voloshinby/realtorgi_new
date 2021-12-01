@@ -23,7 +23,8 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Название</th>
+                      <th>Аукцион</th>
+                      <th>Название Лота</th>
                       <th>Категория</th>
                       <th>Предметы</th>
                       <th>Статус</th>
@@ -33,6 +34,7 @@
                   <tbody>
                      <tr v-for="lot in lots.data" :key="lot.id">
                         <td>{{lot.id}}</td>
+                         <td>{{lot.auction.name}}</td>
                         <td>
                             {{lot.name}}
                         </td>
