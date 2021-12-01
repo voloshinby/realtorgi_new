@@ -99,8 +99,8 @@ export default {
   },
 
   async fetch() {
-    const data = await this.$axios.get(`https://realtorgi.by/admin/api/admin/user_applications/${this.$store.state.auth.userData.id}`)
-    
+    const data = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/user_applications/${this.$store.state.auth.userData.id}`)
+
     this.lots = data.data.data.data
     console.log(this.lots)
   },
@@ -130,7 +130,7 @@ export default {
       this.openParticipationPopup = !this.openParticipationPopup
     },
     submitParticipation() {
-      this.$axios.put(`https://realtorgi.by/admin/api/admin/auctionConfirm/${this.choosenLot.id}`, {
+      this.$axios.put(process.env.API_URL +  `/admin/api/admin/auctionConfirm/${this.choosenLot.id}`, {
         user_id: this.$store.state.auth.userData.id
       }).then(() => {
         this.openParticipationPopup = !this.openParticipationPopup
@@ -138,12 +138,12 @@ export default {
       })
     },
     deleteRequest () {
-      this.$axios.delete(`https://realtorgi.by/admin/api/admin/auctionConfirm/${this.choosenLot.id}`).then ((response) => {
+      this.$axios.delete(process.env.API_URL +  `/admin/api/admin/auctionConfirm/${this.choosenLot.id}`).then ((response) => {
         this.choosenLot = {}
         this.deleteModal = false
         this.$fetch()
       })
-      
+
     },
     showDeleteModal (index) {
       this.deleteModal = !this.deleteModal
@@ -233,7 +233,7 @@ export default {
           }
           .delete {
             width: 3rem;
-            color: $error-color; 
+            color: $error-color;
           }
         }
         .first {

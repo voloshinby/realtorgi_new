@@ -46,11 +46,11 @@ export default {
     rememberMe: true,
     errorStatus: [],
   }),
-  
+
   methods: {
     submit() {
       if (this.errorStatus.length === 0) {
-        this.$axios.$post('https://realtorgi.by/admin/api/admin/user/login', {
+        this.$axios.$post(process.env.API_URL + '/admin/api/admin/user/login', {
           email: this.email,
           password: this.password
         }).then(response => {
@@ -93,7 +93,7 @@ export default {
             if (this.rememberMe) {
               localStorage.setItem('AUTH_TOKEN', encodedData)
             }
-            this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+            this.$axios.$get(process.env.API_URL + `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
             .then((response) => {
               this.$store.dispatch('getNotifications', {
                 notifications: response.data.data
@@ -101,7 +101,7 @@ export default {
               this.$store.dispatch('countUnreadNotifications')
               this.$router.push('/');
             })
-            
+
           }
           if (response.data === 'Error') {
             const checkEmailExististing = obj => obj.name === 'emailAndPasswordCheck'
@@ -142,7 +142,7 @@ export default {
           document.querySelector('#password').classList.remove('error')
         }
       }
-      
+
     },
     validateEmail() {
       var emailError = {name: 'Email error', status: 'Неверный формат электронной почты'}

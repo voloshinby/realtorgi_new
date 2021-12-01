@@ -73,7 +73,7 @@
             <img v-if="this.$store.state.auth.userData.image !== ''" :src="this.$store.state.auth.userData.image" />
             <img v-if="this.$store.state.auth.userData.image === ''" src="~/assets/img/user-avatar.png" />
             <div v-if="this.$store.state.auth.userData.unreadNotifications > 0" class="notification-status"><span>{{ this.$store.state.auth.userData.unreadNotifications }}</span></div>
-            <the-navbar-profile v-show="openProfileNavbar" class="header-profile-menu" @click="openProfileNavbar = false"/> 
+            <the-navbar-profile v-show="openProfileNavbar" class="header-profile-menu" @click="openProfileNavbar = false"/>
           </div>
           <nuxt-link :to="{ name: 'auth' }" v-if="this.$store.state.auth.authorized === false" class="sign-in-button">
             Личный кабинет
@@ -109,7 +109,7 @@
             Войти
           </nuxt-link>
         </div>
-        <div class="menu-navigation" v-show="openMenu" @click="openMenu = false"> 
+        <div class="menu-navigation" v-show="openMenu" @click="openMenu = false">
           <nuxt-link
             v-for="menuItem in mobileMenu" :key="menuItem.id"
             :to="menuItem.to"
@@ -180,7 +180,7 @@ export default {
   methods: {
     submit(e) {
       if (this.name.length > 1 && this.phone.length > 5) {
-        this.$axios.$post('https://realtorgi.by/admin/api/admin/feedback', {
+        this.$axios.$post(process.env.API_URL + '/admin/api/admin/feedback', {
           name: this.name,
           phone: this.phone
         })
@@ -189,7 +189,7 @@ export default {
           'title': `<div class='title'>Заявка на организацию торгов принята.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
           'text': `Ваша заявка на организацию торгов была принята. В скором времени администратор площадки с Вами свяжется`,
         })
-        this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+        this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
           user_id: this.$store.state.auth.userData.id,
           title: 'Заявка на организацию торгов принята.',
           text: `Ваша заявка на организацию торгов была принята. В скором времени администратор площадки с Вами свяжется`

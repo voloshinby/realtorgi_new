@@ -48,7 +48,7 @@
           <div class="remember-checkbox" v-if="auction.auction.type !== 'classic'">
             <input type="checkbox" name="rules" v-model="rulesAgree">
             <span>Я не являюсь должником предприятия находящегося в процедуре<br/>
-            экономической несостоятельности (банкротства), антикризисным управляющим или <br/> 
+            экономической несостоятельности (банкротства), антикризисным управляющим или <br/>
             оператором данной электронной торговой площадки</span>
           </div>
           <div class="participation-popup-buttons" >
@@ -166,7 +166,7 @@
             </div>
             <div class="row" v-for="event in betHistory" :key="event.id">
               <span class="time">{{ moment(event.created_at).format('HH:mm:ss') }}</span>
-    
+
               <span class="username">Пользователь №{{ event.user_id }} сделал ставку</span>
               <span class="price">{{ event.bet_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
             </div>
@@ -345,7 +345,7 @@
             </div>
           </div>
         </div>
-        <div v-if="auction.status === 'Предстоящие' || auction.status === 'Повторные' || auction.status === 'Текущие'" class="timer"> 
+        <div v-if="auction.status === 'Предстоящие' || auction.status === 'Повторные' || auction.status === 'Текущие'" class="timer">
           <div class="article" v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart > 0">
             <div class="article-param">
               До начала приема заявок
@@ -355,7 +355,7 @@
                 <span class="number">{{ daysStart }}</span>
                 <span class="word" v-if="
                   daysStart == 1
-                  || 
+                  ||
                   daysStart == 21
                   ||
                   daysStart == 31
@@ -364,9 +364,9 @@
                 </span>
                 <span class="word" v-if="
                   (daysStart > 1
-                  && 
+                  &&
                   daysStart < 5)
-                  || 
+                  ||
                   (daysStart > 21
                   &&
                   daysStart < 25)
@@ -379,7 +379,7 @@
                   (daysStart > 4
                   &&
                   daysStart < 21)
-                  || 
+                  ||
                   (daysStart > 25
                   &&
                   daysStart < 31)
@@ -396,7 +396,7 @@
                 </span>
                 <span class="word" v-if="
                   hoursStart == 2
-                  || 
+                  ||
                   hoursStart == 3
                   ||
                   hoursStart == 4
@@ -405,13 +405,13 @@
                 </span>
                 <span class="word" v-if="
                   hoursStart == 0
-                  ||  
+                  ||
                   hoursStart > 4
                 ">
                   часов
                 </span>
               </span>
-              <span class="timer-element"> 
+              <span class="timer-element">
                 <span class="number">{{ minutesStart }}</span>
                 <span class="word" v-if="
                   minutesStart == 1
@@ -537,7 +537,7 @@
                   secondsStart < 61)
                 ">
                   секунд
-                </span> 
+                </span>
               </span>
             </div>
           </div>
@@ -550,7 +550,7 @@
                 <span class="number">{{ daysEnd }}</span>
                 <span class="word" v-if="
                   daysEnd == 1
-                  || 
+                  ||
                   daysEnd == 21
                   ||
                   daysEnd == 31
@@ -559,9 +559,9 @@
                 </span>
                 <span class="word" v-if="
                   (daysEnd > 1
-                  && 
+                  &&
                   daysEnd < 5)
-                  || 
+                  ||
                   (daysEnd > 21
                   &&
                   daysEnd < 25)
@@ -574,7 +574,7 @@
                   (daysEnd > 4
                   &&
                   daysEnd < 21)
-                  || 
+                  ||
                   (daysEnd > 25
                   &&
                   daysEnd < 31)
@@ -591,7 +591,7 @@
                 </span>
                 <span class="word" v-if="
                   hoursEnd == 2
-                  || 
+                  ||
                   hoursEnd == 3
                   ||
                   hoursEnd == 4
@@ -606,7 +606,7 @@
                   часов
                 </span>
               </span>
-              <span class="timer-element"> 
+              <span class="timer-element">
                 <span class="number">{{ minutesEnd }}</span>
                 <span class="word" v-if="
                   minutesEnd == 1
@@ -732,7 +732,7 @@
                   secondsEnd < 61)
                 ">
                   секунд
-                </span> 
+                </span>
               </span>
             </div>
           </div>
@@ -745,7 +745,7 @@
                 <span class="number">{{ daysStartSelling }}</span>
                 <span class="word" v-if="
                   daysStartSelling == 1
-                  || 
+                  ||
                   daysStartSelling == 21
                   ||
                   daysStartSelling == 31
@@ -754,9 +754,9 @@
                 </span>
                 <span class="word" v-if="
                   (daysStartSelling > 1
-                  && 
+                  &&
                   daysStartSelling < 5)
-                  || 
+                  ||
                   (daysStartSelling > 21
                   &&
                   daysStartSelling < 25)
@@ -769,7 +769,7 @@
                   (daysStartSelling > 4
                   &&
                   daysStartSelling < 21)
-                  || 
+                  ||
                   (daysStartSelling > 25
                   &&
                   daysStartSelling < 31)
@@ -786,7 +786,7 @@
                 </span>
                 <span class="word" v-if="
                   hoursStartSelling == 2
-                  || 
+                  ||
                   hoursStartSelling == 3
                   ||
                   hoursStartSelling == 4
@@ -801,7 +801,7 @@
                   часов
                 </span>
               </span>
-              <span class="timer-element"> 
+              <span class="timer-element">
                 <span class="number">{{ minutesStartSelling }}</span>
                 <span class="word" v-if="
                   minutesStartSelling == 1
@@ -927,7 +927,7 @@
                   secondsStartSelling < 61)
                 ">
                   секунд
-                </span> 
+                </span>
               </span>
             </div>
           </div>
@@ -940,7 +940,7 @@
                 <span class="number">{{ daysEndSelling }}</span>
                 <span class="word" v-if="
                   daysEndSelling == 1
-                  || 
+                  ||
                   daysEndSelling == 21
                   ||
                   daysEndSelling == 31
@@ -949,9 +949,9 @@
                 </span>
                 <span class="word" v-if="
                   (daysEndSelling > 1
-                  && 
+                  &&
                   daysEndSelling < 5)
-                  || 
+                  ||
                   (daysEndSelling > 21
                   &&
                   daysEndSelling < 25)
@@ -964,7 +964,7 @@
                   (daysEndSelling > 4
                   &&
                   daysEndSelling < 21)
-                  || 
+                  ||
                   (daysEndSelling > 25
                   &&
                   daysEndSelling < 31)
@@ -981,7 +981,7 @@
                 </span>
                 <span class="word" v-if="
                   hoursEndSelling == 2
-                  || 
+                  ||
                   hoursEndSelling == 3
                   ||
                   hoursEndSelling == 4
@@ -996,7 +996,7 @@
                   часов
                 </span>
               </span>
-              <span class="timer-element"> 
+              <span class="timer-element">
                 <span class="number">{{ minutesEndSelling }}</span>
                 <span class="word" v-if="
                   minutesEndSelling == 1
@@ -1122,7 +1122,7 @@
                   secondsEndSelling < 61)
                 ">
                   секунд
-                </span> 
+                </span>
               </span>
             </div>
           </div>
@@ -1153,7 +1153,7 @@
                 <span class="label">Начальная цена</span>
                 <span class="value">{{ auction.price_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
               </div>
-              
+
               <div class="price-min" v-if="auction.auction.type !== 'classic' && auction.price_min">
                 <span class="label">Минимальная цена</span>
                 <span class="value">{{ auction.price_min.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}} BYN</span>
@@ -1286,7 +1286,7 @@
                 р/с BY70SLAN30124358100130000000 <br/>
                 в ЗАО Банк ВТБ (Беларусь), БИК SLANBY22, 220007, <br/>
                 г. Минск, ул. Московская, 14 <br/>
-                УНП 191302068 
+                УНП 191302068
               </p>
             </div>
             <div class="dropout">
@@ -1297,18 +1297,18 @@
               <div :class="{ visible: (showDropoutContent === 10) }" class="content">
                 <p>
                   - для резидентов РБ задаток перечисляется в белорусских рублях по
-                  курсу НБ РБ на дату перечисления Организатору аукциона задатка на 
-                  расчетный счет (IBAN): BY70SLAN30124358100130000000 в ЗАО Банк 
-                  ВТБ (Беларусь), г. Минск, ул. Московская, 14, BIC: SLANBY22; 
+                  курсу НБ РБ на дату перечисления Организатору аукциона задатка на
+                  расчетный счет (IBAN): BY70SLAN30124358100130000000 в ЗАО Банк
+                  ВТБ (Беларусь), г. Минск, ул. Московская, 14, BIC: SLANBY22;
                   <br/>
                   <br/>
-                  - для нерезидентов РБ задаток перечисляется в валютном эквиваленте 
-                  по курсу НБ РБ на дату платежа на следующие счета: в долларах США (USD) - 
-                  расчетный счет (IBAN): BY64SLAN30124358151350000000, в российских рублях (RUB) 
+                  - для нерезидентов РБ задаток перечисляется в валютном эквиваленте
+                  по курсу НБ РБ на дату платежа на следующие счета: в долларах США (USD) -
+                  расчетный счет (IBAN): BY64SLAN30124358151350000000, в российских рублях (RUB)
                   <br/>
                   <br/>
-                  - расчетный счет (IBAN): BY64SLAN30124358151350100000 в ЗАО Банк ВТБ (Беларусь), 
-                  г. Минск, ул. Московская, 14, BIC: SLANBY22. Назначение платежа: 
+                  - расчетный счет (IBAN): BY64SLAN30124358151350100000 в ЗАО Банк ВТБ (Беларусь),
+                  г. Минск, ул. Московская, 14, BIC: SLANBY22. Назначение платежа:
                   «Задаток согласно извещению о проведении аукциона <br/>
                   No______ по лоту No_________».
                   <br/>
@@ -1347,7 +1347,7 @@ export default {
     XIcon,
     LoadingSpinner,
     Swiper,
-    SwiperSlide 
+    SwiperSlide
   },
 
   data: () => ({
@@ -1383,7 +1383,7 @@ export default {
     currentBid: Number,
     moment: moment,
     inputBid: '',
-    
+
     // Swiper
     swiperOption: {
       // loop: true,
@@ -1429,25 +1429,25 @@ export default {
     hoursEndSelling: null,
     minutesEndSelling: null,
     secondsEndSelling: null
-    
+
   }),
   async fetch() {
-    let data = await this.$axios.get(`https://realtorgi.by/admin/api/admin/lot/${this.$route.params.id}`);
+    let data = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/lot/${this.$route.params.id}`);
     let percentToGet = 5;
     let percent = (percentToGet / 100) * data.data.data.price_start;
-    this.price_buy = data.data.data.price_start + percent;    
+    this.price_buy = data.data.data.price_start + percent;
     this.auction = data.data.data;
-    data = await this.$axios.get(`https://realtorgi.by/admin/api/admin/lot_item/${this.$route.params.id}`);
+    data = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/lot_item/${this.$route.params.id}`);
     this.auctionItems = data.data.data.data;
-    data = await this.$axios.get(`https://realtorgi.by/admin/api/admin/bet/list/${this.$route.params.id}`);
+    data = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/bet/list/${this.$route.params.id}`);
     this.betHistory = data.data.data;
-    let suggest = await this.$axios.get(`https://realtorgi.by/admin/api/admin/user/sells/${this.$route.params.id}`);
+    let suggest = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/user/sells/${this.$route.params.id}`);
     this.suggest = suggest.data.data.user_sell_suggest;
     this.auction.currentUser = this.$store.state.auth.userData.id;
     var count = 0;
     for(let i = 0; i < this.auction.confirms.length; i++){
       if(this.auction.confirms[i].user_id == this.$store.state.auth.userData.id){
-        this.currentConfirm = this.auction.confirms[i].confirmed_user; 
+        this.currentConfirm = this.auction.confirms[i].confirmed_user;
       }
       if(this.auction.confirms[i].confirmed_user == 1){
         count++
@@ -1458,7 +1458,7 @@ export default {
       return parseFloat(b.bet_amount) - parseFloat(a.bet_amount);
     });
     this.polling = setInterval(() => {
-      this.$axios.get(`https://realtorgi.by/admin/api/admin/lot/${this.$route.params.id}`).then((response) => {
+      this.$axios.get(process.env.API_URL +  `/admin/api/admin/lot/${this.$route.params.id}`).then((response) => {
         this.auction = response.data.data
       })
     }, 7500)
@@ -1484,7 +1484,7 @@ export default {
         if (this.distanceEndSelling <= 0) {
           while (i < 1) {
             this.auction.status = 'Состоявшиеся'
-            this.$axios.$put(`https://realtorgi.by/admin/api/admin/lot/${this.$route.params.id}`, {
+            this.$axios.$put(process.env.API_URL +  `/admin/api/admin/lot/${this.$route.params.id}`, {
               status: 'Состоявшиеся',
             })
             i++;
@@ -1512,7 +1512,7 @@ export default {
           if (this.auction.users_count < 2) {
             while (j <= 1) {
               this.auction.status = 'Несостоявшиеся'
-              this.$axios.$put(`https://realtorgi.by/admin/api/admin/lot/${this.$route.params.id}`, {
+              this.$axios.$put(process.env.API_URL +  `/admin/api/admin/lot/${this.$route.params.id}`, {
                 status: 'Несостоявшиеся',
               })
               j++;
@@ -1536,7 +1536,7 @@ export default {
                 'text': `Уважаемый пользователь, для подтверждения своего участия в торгах, Вам требуется перейти в аукционный зал текущих торгов.
                 Аукционный зал находится в разделе "Покупателю".`,
               })
-              this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+              this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
                 title: 'Подтверждение заявки на участие.',
                 text: `Уважаемый пользователь, для подтверждения своего участия в торгах, Вам требуется перейти в аукционный зал текущих торгов.
@@ -1557,7 +1557,7 @@ export default {
         if (this.distanceStartSelling <= 0) {
           while (j < 1) {
             this.auction.status = 'Текущие'
-            this.$axios.$put(`https://realtorgi.by/admin/api/admin/lot/${this.$route.params.id}`, {
+            this.$axios.$put(process.env.API_URL +  `/admin/api/admin/lot/${this.$route.params.id}`, {
               status: 'Текущие',
             })
             j++;
@@ -1568,7 +1568,7 @@ export default {
     if (this.auction.status === 'Текущие') {
       setInterval(() => {
         // кнопка сделать ставку
-        this.$axios.get(`https://realtorgi.by/admin/api/admin/bet/list/${this.$route.params.id}`).then((response) => {
+        this.$axios.get(process.env.API_URL +  `/admin/api/admin/bet/list/${this.$route.params.id}`).then((response) => {
           this.betHistory = response.data.data;
           this.betHistory.sort(function(a, b) {
             return parseFloat(b.bet_amount) - parseFloat(a.bet_amount);
@@ -1583,7 +1583,7 @@ export default {
       if (this.auction.price_step) {
         if (this.auction.auction.step == 1 && this.auction.step == 2){
           this.currentBid = (this.auction.price_start * (1 + (this.auction.price_start / 100)) );
-        } 
+        }
         else if (this.auction.auction.step == 2 && this.auction.step== 2) {
           if (this.betHistory.length !== 0) {
             this.currentBid = (parseFloat(this.betHistory[0].bet_amount.replace(/\D/g,'')) * (1 + (this.auction.price_start / 100)) );
@@ -1591,7 +1591,7 @@ export default {
           else {
             this.currentBid = (this.auction.price_start * (1 + (this.auction.price_start / 100)) );
           }
-        } 
+        }
         else if (this.auction.auction.step == 2 && this.auction.step == 1) {
           if (this.betHistory.length !== 0) {
             this.currentBid = (this.betHistory[0].bet_amount + parseFloat(this.auction.price_step.replace(/\D/g,'')))
@@ -1599,7 +1599,7 @@ export default {
           else {
             this.currentBid = (this.auction.price_start + parseFloat(this.auction.price_step.replace(/\D/g,'')))
           }
-          
+
         }
         else {
           this.currentBid = (this.auction.price_start + parseFloat(this.auction.price_step.replace(/\D/g,'')))
@@ -1613,7 +1613,7 @@ export default {
           else {
             this.currentBid = (this.auction.price_start * 1.05);
           }
-        } 
+        }
         else if (this.auction.auction.step == 2 && this.auction.step== 2) {
           if (this.betHistory.length !== 0) {
             this.currentBid = this.betHistory[0].bet_amount * 1.05;
@@ -1671,7 +1671,7 @@ export default {
     submitParticipation () {
       if (this.auction.auction.type !== 'classic' ) {
         if (this.policyAgree === true && this.rulesAgree === true && this.reglamentAgree === true && this.auction.auction.seller_id != this.$store.state.auth.userData.id) {
-            this.$axios.$post('https://realtorgi.by/admin/api/admin/auctionConfirm', {
+            this.$axios.$post(process.env.API_URL + '/admin/api/admin/auctionConfirm', {
             user_id: this.$store.state.auth.userData.id,
             lot_id: this.auction.id,
             current_auction: this.auction.auction.seller_id,
@@ -1688,12 +1688,12 @@ export default {
             'title': `<div class='title'>Заявка на участие в лоте №${this.auction.lot_number}.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
             'text': 'Ваша заявка на участие была принята. В скором времени администратор площадки её рассмотрит.',
           })
-          this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+          this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
             user_id: this.$store.state.auth.userData.id,
             title: `Заявка на участие в лоте №${this.auction.lot_number}.`,
             text: 'Ваша заявка на участие была принята. В скором времени администратор площадки её рассмотрит.'
           })
-          this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+          this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
           .then((response) => {
             this.$store.dispatch('getNotifications', {
               notifications: response.data.data
@@ -1712,7 +1712,7 @@ export default {
       }
       else {
         if (this.policyAgree === true && this.reglamentAgree === true) {
-          this.$axios.$post('https://realtorgi.by/admin/api/admin/auctionConfirm', {
+          this.$axios.$post(process.env.API_URL + '/admin/api/admin/auctionConfirm', {
             user_id: this.$store.state.auth.userData.id,
             lot_id: this.auction.id,
           })
@@ -1723,12 +1723,12 @@ export default {
             'title': `<div class='title'>Заявка на участие в лоте №${this.auction.lot_number}.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
             'text': 'Ваша заявка на участие была принята. В скором времени администратор площадки её рассмотрит.',
           })
-          this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+          this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
             user_id: this.$store.state.auth.userData.id,
             title: `Заявка на участие в лоте №${this.auction.lot_number}.`,
             text: 'Ваша заявка на участие была принята. В скором времени администратор площадки её рассмотрит.'
           })
-          this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+          this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
           .then((response) => {
             this.$store.dispatch('getNotifications', {
               notifications: response.data.data
@@ -1757,20 +1757,20 @@ export default {
       }
       else {
           if (this.bidError === true) {
-            this.$axios.$post('https://realtorgi.by/admin/api/admin/bet', {
+            this.$axios.$post(process.env.API_URL + '/admin/api/admin/bet', {
               user_id: this.$store.state.auth.userData.id,
               lot_id: this.auction.id,
             })
           }
           else {
-            this.$axios.$post('https://realtorgi.by/admin/api/admin/bet', {
+            this.$axios.$post(process.env.API_URL + '/admin/api/admin/bet', {
               user_id: this.$store.state.auth.userData.id,
               lot_id: this.auction.id,
               bet: this.inputBid
             })
           }
           this.toggleMakeBidPopup = false;
-          this.$axios.get(`https://realtorgi.by/admin/api/admin/bet/list/${this.$route.params.id}`)
+          this.$axios.get(process.env.API_URL +  `/admin/api/admin/bet/list/${this.$route.params.id}`)
           .then((response) => {
             this.betHistory = response.data.data
             this.betHistory.sort(function(a, b) {
@@ -1782,12 +1782,12 @@ export default {
             'title': `<div class='title'>Ставка принята.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
             'text': `Ваша ставка на лот №${this.auction.lot_number} была принята.`,
           })
-          this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+          this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
             user_id: this.$store.state.auth.userData.id,
             title: 'Ставка принята.',
             text: `Ваша ставка на лот №${this.auction.lot_number} была принята.`
           })
-          this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+          this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
           .then((response) => {
             this.$store.dispatch('getNotifications', {
               notifications: response.data.data
@@ -1795,23 +1795,23 @@ export default {
             this.$store.dispatch('countUnreadNotifications')
           })
         }
-      
+
     },
     makeSell () {
       // действие кнопки покупка
       if (this.currentConfirm == 1 && this.currentConfirmCount == 1) {
-        this.$axios.$post('https://realtorgi.by/admin/api/admin/user/sells', {
+        this.$axios.$post(process.env.API_URL + '/admin/api/admin/user/sells', {
               user_sell_suggest: this.$store.state.auth.userData.id,
               lot_id: this.$route.params.id,
               price_sell_suggest: this.price_buy
             })
-          this.$fetch(); 
+          this.$fetch();
         this.$notify({
             'group': 'user-notifications',
             'title': `<div class='title'>Успешная покупка.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
             'text': 'Покупка успешно реализовано',
           });
-          
+
       }
     },
     toggleDropoutContent(index) {
@@ -1825,7 +1825,7 @@ export default {
   },
   mounted() {
     let userId = this.$store.state.auth.userData.id
-    this.$axios.get(`https://realtorgi.by/admin/api/admin/lot/confirms/${this.$route.params.id}`).then((response) => {
+    this.$axios.get(process.env.API_URL +  `/admin/api/admin/lot/confirms/${this.$route.params.id}`).then((response) => {
       this.lotRequests = response.data.data
       this.lotRequests.find((request) => {
         if (request.user_id == userId) {
@@ -1835,7 +1835,7 @@ export default {
           }
         }
       })
-    })    
+    })
   },
   beforeDestroy () {
     clearInterval(this.polling)
@@ -2228,7 +2228,7 @@ export default {
             flex-direction: column;
             align-items: center;
           }
-          
+
           .price-min {
             display: flex;
             flex-direction: column;
@@ -2284,7 +2284,7 @@ export default {
             opacity: 0.9;
             margin-bottom: 0.2rem;
           }
-          
+
         }
       }
     }
@@ -2554,7 +2554,7 @@ export default {
         }
       }
       .bid-input {
-        width: 10rem; 
+        width: 10rem;
         margin-bottom: 1rem;
       }
       .warning {
@@ -2769,7 +2769,7 @@ export default {
             .price-start {
               align-items: center;
             }
-            
+
             .price-min {
               align-items: center;
             }
