@@ -57,7 +57,7 @@ class LotController extends BaseController
      */
     public function store(LotRequest $request)
     {
-        $status = 'На модерации';
+        $status = 'Предстоящие';
 
         if (!is_null($request->get('status')) && !empty($request->get('status'))) {
             $status = $request->get('status');

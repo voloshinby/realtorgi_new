@@ -10,6 +10,8 @@ class Lot extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public const COMING_STATUS = 'Предстоящие';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -17,9 +19,27 @@ class Lot extends Model
      */
 
     protected $fillable = [
-        'lot_number', 'auction_id', 'name', 'info', 'price_start',
-        'price_min', 'step', 'deposit', 'images', 'files', 'additional_info',
-        'status', 'deleted_at', 'created_at', 'updated_at', 'category_id', 'price_step'
+        'lot_number',
+        'auction_id',
+        'name',
+        'info',
+        'price_start',
+        'price_min',
+        'step',
+        'deposit',
+        'images',
+        'files',
+        'additional_info',
+        'status',
+        'deleted_at',
+        'created_at',
+        'updated_at',
+        'category_id',
+        'price_step',
+    ];
+
+    protected $attributes = [
+        'status' => self::COMING_STATUS,
     ];
 
     public function user_seller()
@@ -49,7 +69,8 @@ class Lot extends Model
         );
     }
 
-    public function auction_gallery(){
+    public function auction_gallery()
+    {
         return $this->hasManyThrough(
             AuctionGallery::class,
             Auction::class,
