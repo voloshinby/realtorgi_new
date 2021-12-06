@@ -139,7 +139,6 @@ export default {
         this.$axios.$post(process.env.API_URL + '/admin/api/admin/feedback', {
           name: this.name,
           phone: this.phone,
-          email: this.email,
         });
         this.$notify({
           'group': 'user-notifications',
