@@ -70,7 +70,7 @@ export default {
 
   methods: {
     submit() {
-      this.$axios.post('https://realtorgi.by/admin/api/admin/message', {
+      this.$axios.post(process.env.API_URL + '/admin/api/admin/message', {
         name: this.name,
         email: this.email,
         text: this.text
@@ -190,7 +190,7 @@ section {
     flex-direction: column;
     .contacts-content {
       margin-right: 0;
-      margin-bottom: 2rem; 
+      margin-bottom: 2rem;
     }
   }
 }

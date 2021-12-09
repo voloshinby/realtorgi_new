@@ -39,7 +39,7 @@
                         </td>
                       <td>{{ formatDate(auction.starts_at) }} - {{ formatDate(auction.ends_at) }}</td>
                       <td>{{ formatDate(auction.start_selling) }} - {{ formatDate(auction.end_selling) }}</td>
-                      <td v-if="auction.seller_id != 0">{{auction.user_seller.full_name}}</td>
+                      <td v-if="auction.seller_id">{{auction.user_seller.full_name}}</td>
                       <td v-else>{{ auction.seller_custom }}</td>
                       <td v-if="auction.step == '1'">От начальной цены</td>
                       <td v-if="auction.step == '2'">От текущей цены</td>

@@ -77,7 +77,7 @@ export default {
           let file = this.$refs.legalEntityForm._data.files[i]
           formData.append(`images[` + i + `]`, file);
         }
-        this.$axios.$post(`https://realtorgi.by/admin/api/admin/gallery/uploadFiles/` + this.$store.state.auth.userData.id,
+        this.$axios.$post(process.env.API_URL +  `/admin/api/admin/gallery/uploadFiles/` + this.$store.state.auth.userData.id,
           formData,
           {
             headers: {
@@ -85,7 +85,7 @@ export default {
             }
           }
         )
-        this.$axios.$post(`https://realtorgi.by/admin/api/admin/change_user`, {
+        this.$axios.$post(process.env.API_URL +  `/admin/api/admin/change_user`, {
           user_id: this.$store.state.auth.userData.id,
           type_user: 'jur',
           inn: this.$refs.legalEntityForm._data.inn,
@@ -107,19 +107,19 @@ export default {
             this.$router.push('/account/seller');
             if (this.$store.state.auth.userData.profile.type_user === 'jur' ||
               this.$store.state.auth.userData.profile.type_user === 'ip' ||
-              this.$store.state.auth.userData.profile.type_user === 'phys') 
+              this.$store.state.auth.userData.profile.type_user === 'phys')
             {
               this.$notify({
                 'group': 'user-notifications',
                 'title': `<div class='title'>Заявка на изменение профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
               })
-              this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+              this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
                 title: 'Заявка на изменение профиля.',
                 text: 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.'
               })
-              this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+              this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
               .then((response) => {
                 this.$store.dispatch('getNotifications', {
                   notifications: response.data.data
@@ -133,12 +133,12 @@ export default {
                 'title': `<div class='title'>Заявка на добавление профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
               })
-              this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+              this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
                 title: 'Заявка на добавление профиля.',
                 text: 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.'
               })
-              this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+              this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
               .then((response) => {
                 this.$store.dispatch('getNotifications', {
                   notifications: response.data.data
@@ -155,7 +155,7 @@ export default {
             let file = this.$refs.individualEnterpreneurForm._data.files[i]
             formData.append(`images[` + i + `]`, file);
           }
-          this.$axios.$post(`https://realtorgi.by/admin/api/admin/gallery/uploadFiles/` + this.$store.state.auth.userData.id,
+          this.$axios.$post(process.env.API_URL +  `/admin/api/admin/gallery/uploadFiles/` + this.$store.state.auth.userData.id,
             formData,
             {
               headers: {
@@ -163,7 +163,7 @@ export default {
               }
             }
           )
-        this.$axios.$post(`https://realtorgi.by/admin/api/admin/change_user`, {
+        this.$axios.$post(process.env.API_URL +  `/admin/api/admin/change_user`, {
           user_id: this.$store.state.auth.userData.id,
           type_user: 'ip',
           inn: this.$refs.individualEnterpreneurForm._data.inn,
@@ -182,19 +182,19 @@ export default {
             this.$router.push('/account/seller');
             if (this.$store.state.auth.userData.profile.type_user === 'jur' ||
               this.$store.state.auth.userData.profile.type_user === 'ip' ||
-              this.$store.state.auth.userData.profile.type_user === 'phys') 
+              this.$store.state.auth.userData.profile.type_user === 'phys')
             {
               this.$notify({
                 'group': 'user-notifications',
                 'title': `<div class='title'>Заявка на изменение профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
               })
-              this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+              this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
                 title: 'Заявка на изменение профиля.',
                 text: 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.'
               })
-              this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+              this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
               .then((response) => {
                 this.$store.dispatch('getNotifications', {
                   notifications: response.data.data
@@ -208,12 +208,12 @@ export default {
                 'title': `<div class='title'>Заявка на добавление профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
               })
-              this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+              this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
                 title: 'Заявка на добавление профиля.',
                 text: 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.'
               })
-              this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+              this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
               .then((response) => {
                 this.$store.dispatch('getNotifications', {
                   notifications: response.data.data
@@ -230,7 +230,7 @@ export default {
           let file = this.$refs.physicalForm._data.files[i]
           formData.append(`images[` + i + `]`, file);
         }
-        this.$axios.$post(`https://realtorgi.by/admin/api/admin/gallery/uploadFiles/` + this.$store.state.auth.userData.id,
+        this.$axios.$post(process.env.API_URL +  `/admin/api/admin/gallery/uploadFiles/` + this.$store.state.auth.userData.id,
           formData,
           {
             headers: {
@@ -238,7 +238,7 @@ export default {
             }
           }
         )
-        this.$axios.$post(`https://realtorgi.by/admin/api/admin/change_user`, {
+        this.$axios.$post(process.env.API_URL +  `/admin/api/admin/change_user`, {
           user_id: this.$store.state.auth.userData.id,
           type_user: 'phys',
           full_name: this.$refs.physicalForm._data.full_name,
@@ -253,14 +253,14 @@ export default {
           if (response.success) {
             if (this.$store.state.auth.userData.profile.type_user === 'jur' ||
               this.$store.state.auth.userData.profile.type_user === 'ip' ||
-              this.$store.state.auth.userData.profile.type_user === 'phys') 
+              this.$store.state.auth.userData.profile.type_user === 'phys')
             {
               this.$notify({
                 'group': 'user-notifications',
                 'title': `<div class='title'>Заявка на изменение профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
               })
-              this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+              this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
                 title: 'Заявка на изменение профиля.',
                 text: 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.'
@@ -272,7 +272,7 @@ export default {
                 'title': `<div class='title'>Заявка на добавление профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
               })
-              this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+              this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
                 title: 'Заявка на добавление профиля.',
                 text: 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.'
@@ -369,7 +369,7 @@ export default {
         outline: none;
       }
     }
-    
+
   }
 }
 

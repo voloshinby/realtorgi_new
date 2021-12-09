@@ -26,7 +26,7 @@ export default {
     checkCode() {
       this.confirmationCode = this.confirmationCode.replace(new RegExp(/[^\d]/,'ig'), "")
       if (this.confirmationCode.length === 6) {
-        this.$axios.post(`https://realtorgi.by/admin/api/admin/registration/confirm/${this.$store.state.auth.userData.id}`, {
+        this.$axios.post(process.env.API_URL +  `/admin/api/admin/registration/confirm/${this.$store.state.auth.userData.id}`, {
           registration_code: this.confirmationCode
         }).then((response) => {
           if (response.data.message === 'Ошибка, введите верный код') {
@@ -39,7 +39,7 @@ export default {
             this.animated = true
           }
           if (response.data.message === 'Подтверждение прошло успешно') {
-            this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+            this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
               user_id: this.$store.state.auth.userData.id,
               title: 'Электронный адрес вашей почты был подтвержден.',
               text: 'Подтверждение электронного адреса вашей почты прошло успешно.'
@@ -49,7 +49,7 @@ export default {
               'title': `<div class='title'>Электронный адрес вашей почты был подтвержден.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
               'text': 'Подтверждие электронного адреса вашей почты прошло успешно.',
             })
-            this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+            this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
               .then((response) => {
                 this.$store.dispatch('getNotifications', {
                   notifications: response.data.data
@@ -75,7 +75,7 @@ export default {
       this.$router.push('/')
     }
   },
-} 
+}
 </script>
 <style lang="scss" scoped>
 @import "~/assets/scss/common.scss";

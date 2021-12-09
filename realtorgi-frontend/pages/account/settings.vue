@@ -87,7 +87,7 @@ export default ({
       this.$router.push('/auth/registration/confirm')
     }
   },
-  
+
   methods: {
     changeOption(type) {
       if (type === 'email') {
@@ -253,7 +253,7 @@ export default ({
     },
     submit() {
       if (this.choosenOption === 'changeEmail') {
-        this.$axios.$post('https://realtorgi.by/admin/api/admin/user/login', {
+        this.$axios.$post(process.env.API_URL + '/admin/api/admin/user/login', {
           email: this.$store.state.auth.userData.email,
           password: this.password
         }).then((response) => {
@@ -263,7 +263,7 @@ export default ({
             document.querySelector('#password').classList.add('error')
           }
           if (response.data !== 'Error') {
-            this.$axios.$put(`https://realtorgi.by/admin/api/admin/user/${this.$store.state.auth.userData.id}`, {
+            this.$axios.$put(process.env.API_URL +  `/admin/api/admin/user/${this.$store.state.auth.userData.id}`, {
               email: this.email
             }).then((response) => {
               this.$store.dispatch('changeAuthStatus', {
@@ -307,7 +307,7 @@ export default ({
                 'title': `<div class='title'>Изменения данных.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Вы успешно сменили данные своего аккаунта.',
               })
-              this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+              this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
               .then((response) => {
                 this.$store.dispatch('getNotifications', {
                   notifications: response.data.data
@@ -334,7 +334,7 @@ export default ({
         document.querySelector('#password-confirm').classList.add('error')
         }
         else {
-          this.$axios.$post('https://realtorgi.by/admin/api/admin/user/login', {
+          this.$axios.$post(process.env.API_URL + '/admin/api/admin/user/login', {
             email: this.$store.state.auth.userData.email,
             password: this.passwordOld
           }).then((response) => {
@@ -344,7 +344,7 @@ export default ({
               document.querySelector('#password-old').classList.add('error')
             }
             if (response.data !== 'Error') {
-              this.$axios.$put(`https://realtorgi.by/admin/api/admin/user/${this.$store.state.auth.userData.id}`, {
+              this.$axios.$put(process.env.API_URL +  `/admin/api/admin/user/${this.$store.state.auth.userData.id}`, {
                 password: this.password
               }).then(() => {
                 this.$notify({
@@ -352,7 +352,7 @@ export default ({
                   'title': `<div class='title'>Изменения данных.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                   'text': 'Вы успешно сменили данные своего аккаунта.',
                 })
-                this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+                this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
                 .then((response) => {
                   this.$store.dispatch('getNotifications', {
                     notifications: response.data.data

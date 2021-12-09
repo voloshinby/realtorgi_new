@@ -5,7 +5,7 @@
       <div class="orginize-auction-form" @click.stop>
         <form class="orginize-auction-form-wrapper" onsubmit="return false">
           <h1 class="title">Создать аукцион</h1>
-          
+
           <div class="subtitle">Чтобы Связаться с представителем площадки позвоните на номер +375172566135, либо оставьте ваши контактные данные и организатор свяжется с Вами!</div>
           <div class="orginize-auction-forms">
             <div class="name-input input">
@@ -99,17 +99,17 @@
           <nuxt-link :to="{ name: 'auctions' }">
             <button class="find-more-button">Все аукционы <arrow-right-icon/></button>
           </nuxt-link>
-          
+
         </div>
         <!-- <div @click="orginizeAuctionOpen = !orginizeAuctionOpen" class="make-auction-button">
             <plus-icon/>
             Организовать торги
         </div> -->
-        
+
       </div>
     </div>
-    
-   
+
+
   </section>
 </template>
 
@@ -136,17 +136,16 @@ export default {
   methods: {
     submit(e) {
       if (this.name.length > 1 && this.phone.length > 5 && this.email.length > 6) {
-        this.$axios.$post('https://realtorgi.by/admin/api/admin/feedback', {
+        this.$axios.$post(process.env.API_URL + '/admin/api/admin/feedback', {
           name: this.name,
           phone: this.phone,
-          email: this.email,
         });
         this.$notify({
           'group': 'user-notifications',
           'title': `<div class='title'>Заявка на создание аукциона принята.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
           'text': `Ваша заявка на организацию торгов была принята. В скором времени администратор площадки с Вами свяжется`,
         });
-        this.$axios.$post('https://realtorgi.by/admin/api/admin/notification', {
+        this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
           user_id: this.$store.state.auth.userData.id,
           title: 'Заявка на организацию торгов принята.',
           text: `Ваша заявка на организацию торгов была принята. В скором времени администратор площадки с Вами свяжется`
@@ -155,14 +154,14 @@ export default {
         console.log(this.name);
         console.log(this.email);
         console.log(this.phone);
-        
+
       }
-      
+
     }
   },
 
   async fetch() {
-    const data = await this.$axios.get(`https://realtorgi.by/admin/api/admin/user/auctions/${this.$store.state.auth.userData.id}`)
+    const data = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/user/auctions/${this.$store.state.auth.userData.id}`)
     this.requestedAuctions = data.data.data.data
     // console.log(data.data.data.data)
   },
@@ -578,7 +577,7 @@ export default {
     width: 1rem;
   }
 }
-      
+
       // .mobile-navigation {
       //   display: flex;
       //   align-items: center;
@@ -588,14 +587,14 @@ export default {
           align-items: center;
         }
       // }
-    
+
 }
 @media (max-width: 768px) {
   .actions {
     .auction-button {
       display: none;
     }
-  }   
+  }
 }
 @media (max-width: 476px) {
         .actions {
@@ -607,6 +606,6 @@ export default {
             color: $link-color;
           }
         }
-     
+
 }
 </style>

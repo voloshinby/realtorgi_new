@@ -10,17 +10,17 @@
         <div class="notification" v-for="(notification, index) in paginatedData" :key="index">
           <div class="notification-header">
             <div v-if="notification.title" class="title">{{ notification.title }}</div>
-            <div v-else class="title">Без заголовка</div>    
+            <div v-else class="title">Без заголовка</div>
             <div class="time">{{ moment((Date.parse(notification.created_at))).fromNow()}}</div>
           </div>
           <div class="notification-subtitle">
             {{ notification.text }}
-          </div> 
+          </div>
         </div>
       </div>
       <div class="notifications-pagination" v-if="this.$store.state.auth.userData.notifications.length > 10">
         <div class="pagination-number">
-          <span> 
+          <span>
             Страница {{ pageNumber + 1 }} из {{ pagesAmount }}
           </span>
         </div>
@@ -57,15 +57,15 @@ export default ({
   }),
 
   async fetch() {
-    var data = await this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+    var data = await this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
     this.$store.dispatch('getNotifications', {
       notifications: data.data.data
     })
-    data = await this.$axios.$post('https://realtorgi.by/admin/api/admin/notifications/update_all', {
+    data = await this.$axios.$post(process.env.API_URL + '/admin/api/admin/notifications/update_all', {
       user_id: this.$store.state.auth.userData.id,
       status: 'old'
     }).then(() => {
-      this.$axios.get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+      this.$axios.get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
       .then((response) => {
         this.$store.dispatch('getNotifications', {
           notifications: response.data.data.data
@@ -214,7 +214,7 @@ export default ({
           padding: 1rem 0;
           &-header {
             flex-direction: column;
-            margin-bottom: 1rem !important; 
+            margin-bottom: 1rem !important;
             .title {
               width: 100% !important;
             }
@@ -226,7 +226,7 @@ export default ({
       }
     }
   }
-  
+
 }
 
 @media (max-width: 375px) {

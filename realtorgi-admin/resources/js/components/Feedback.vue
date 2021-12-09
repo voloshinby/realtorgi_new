@@ -26,13 +26,12 @@
                       <td>{{feedback.id}}</td>
                       <td>{{ feedback.name }}</td>
                       <td>{{ feedback.phone }}</td>
-                      <td>{{ feedback.email }}</td>
                       <td>
                         <a @click="editModal(feedback)">
                             <i class="fa fa-edit blue"></i>
                         </a>
                         /
-                        <a @click="deleteAuction(feedback.id)">
+                        <a @click="deleteNotification(feedback.id)">
                             <i class="fa fa-trash red"></i>
                         </a>
                       </td>
@@ -111,7 +110,6 @@
                     id : '',
                     name: '',
                     phone: '',
-                    email: '',
                 }),
 
                 autocompleteItems: [],
@@ -167,7 +165,7 @@
                                       'success'
                                       );
                                   // Fire.$emit('AfterCreate');
-                                  this.loadAuctions();
+                                  this.loadNotifications();
                               }).catch((data)=> {
                                   Swal.fire("Failed!", data.message, "warning");
                               });

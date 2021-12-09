@@ -28,7 +28,7 @@ class CreateLotsTable extends Migration
             $table->text('images')->nullable();
             $table->text('files')->nullable();
             $table->text('additional_info')->nullable();
-            $table->string('status')->nullable()->default('Черновик');
+            $table->string('status')->nullable()->default('Предстоящие');
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

@@ -27,7 +27,7 @@ class LotsSeeder extends Seeder
                     'step' => 1,
                     'deposit' => rand(1, 1000),
                     'additional_info' => 'Доп информация',
-                    'status' => 'Черновик',
+                    'status' => 'Архивные',
                     'category_id' => rand(1, 7)
                 ],
                 [
@@ -40,7 +40,7 @@ class LotsSeeder extends Seeder
                     'step' => 1,
                     'deposit' => rand(1, 1000),
                     'additional_info' => 'Доп информация',
-                    'status' => 'Черновик',
+                    'status' => 'Архивные',
                     'category_id' => rand(1, 7)
                 ],
                 [
@@ -53,7 +53,7 @@ class LotsSeeder extends Seeder
                     'step' => 1,
                     'deposit' => rand(1, 1000),
                     'additional_info' => 'Доп информация',
-                    'status' => 'Черновик',
+                    'status' => 'Архивные',
                     'category_id' => rand(1, 7)
                 ],
                 [
@@ -66,7 +66,7 @@ class LotsSeeder extends Seeder
                     'step' => 1,
                     'deposit' => rand(1, 1000),
                     'additional_info' => 'Доп информация',
-                    'status' => 'Черновик',
+                    'status' => 'Архивные',
                     'category_id' => rand(1, 7)
                 ],
                 [
@@ -79,7 +79,7 @@ class LotsSeeder extends Seeder
                     'step' => 1,
                     'deposit' => rand(1, 1000),
                     'additional_info' => 'Доп информация',
-                    'status' => 'Черновик',
+                    'status' => 'Архивные',
                     'category_id' => rand(1, 7)
                 ],
                 [
@@ -92,7 +92,7 @@ class LotsSeeder extends Seeder
                     'step' => 1,
                     'deposit' => rand(1, 1000),
                     'additional_info' => 'Доп информация',
-                    'status' => 'Черновик',
+                    'status' => 'Архивные',
                     'category_id' => rand(1, 7)
                 ],
                 [
@@ -105,7 +105,7 @@ class LotsSeeder extends Seeder
                     'step' => 1,
                     'deposit' => rand(1, 1000),
                     'additional_info' => 'Доп информация',
-                    'status' => 'Черновик',
+                    'status' => 'Архивные',
                     'category_id' => rand(1, 7)
                 ],
             ]

@@ -203,7 +203,7 @@ export default {
   mounted() {
     if (localStorage.getItem('AUTH_TOKEN')) {
       var decodedData = (localStorage.getItem('AUTH_TOKEN')).split('9c1eEB325C3Cf308A61eE5B5D6f699BCb668E608')
-      this.$axios.$post('https://realtorgi.by/admin/api/admin/user/login', {
+      this.$axios.$post(process.env.API_URL + '/admin/api/admin/user/login', {
         email: atob(decodedData[0]),
         password: atob(decodedData[1])
       }).then(response => {
@@ -239,9 +239,9 @@ export default {
             notifications: [],
             unreadNotifications: 0,
           }
-          
+
         })
-        this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+        this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
           .then((response) => {
           this.$store.dispatch('getNotifications', {
             notifications: response.data.data
