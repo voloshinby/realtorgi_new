@@ -152,13 +152,13 @@
 
               this.$Progress.start();
 
-              axios.get('/api/lot_item/'+this.$route.params.id+'?page=' + page).then(({ data }) => (this.items = data.data));
+              axios.get('/admin/api/lot_item/'+this.$route.params.id+'?page=' + page).then(({ data }) => (this.items = data.data));
 
               this.$Progress.finish();
           },
           loadItems(){
             // if(this.$gate.isAdmin()){
-              axios.get("/api/lot_item/"+this.$route.params.id).then(({ data }) => (this.items = data.data));
+              axios.get("/admin/api/lot_item/"+this.$route.params.id).then(({ data }) => (this.items = data.data));
             // }
           },
 
@@ -176,7 +176,7 @@
           createItem(){
               this.$Progress.start();
 
-              this.form.post('/api/lot_item')
+              this.form.post('/admin/api/lot_item')
               .then((data)=>{
                 if(data.data.success){
                   $('#addNew').modal('hide');
@@ -193,7 +193,7 @@
                             let file = this.files[i];
                             formData.append('images[' + i + ']', file);
                         }
-                        axios.post( '/api/item/uploadImages/'+data.data.data.id,
+                        axios.post( '/admin/api/item/uploadImages/'+data.data.data.id,
                         formData,
                         {
                             headers: {
@@ -231,7 +231,7 @@
           updateItem(){
               this.$Progress.start();
 
-              this.form.put('/api/lot_item/'+this.form.id)
+              this.form.put('/admin/api/lot_item/'+this.form.id)
               .then((response) => {
 
                   // success
@@ -248,7 +248,7 @@
                             let file = this.files[i];
                             formData.append('images[' + i + ']', file);
                         }
-                        axios.post( '/api/item/uploadImages/'+this.form.id,
+                        axios.post( '/admin/api/item/uploadImages/'+this.form.id,
                         formData,
                         {
                             headers: {
@@ -285,7 +285,7 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('/api/lot_item/'+id).then(()=>{
+                              this.form.delete('/admin/api/lot_item/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',
@@ -304,7 +304,7 @@
                 var alertSure = confirm('Вы уверены что хотите удалить изображение?');
 
                 if(alertSure){
-                    axios.post( '/api/item/destroyImages/'+id,
+                    axios.post( '/admin/api/item/destroyImages/'+id,
                         ).then(function(){
                             console.log('SUCCESS!!');
                             $('#image_'+id).remove();
@@ -320,7 +320,7 @@
                 var alertSure = confirm('Вы уверены что хотите удалить файл?');
 
                 if(alertSure){
-                    axios.post( '/api/item/destroyFiles/'+id,
+                    axios.post( '/admin/api/item/destroyFiles/'+id,
                         ).then(function(){
                             console.log('SUCCESS!!');
                             $('#file_'+id).remove();

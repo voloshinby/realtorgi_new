@@ -4,13 +4,13 @@
         <div class="row">
 
           <div class="col-12">
-        
+
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Product List</h3>
 
                 <div class="card-tools">
-                  
+
                   <button type="button" class="btn btn-sm btn-primary" @click="newModal">
                       <i class="fa fa-plus-square"></i>
                       Add New
@@ -40,7 +40,7 @@
                       <td>{{product.price}}</td>
                       <!-- <td><img v-bind:src="'/' + product.photo" width="100" alt="product"></td> -->
                       <td>
-                        
+
                         <a href="#" @click="editModal(product)">
                             <i class="fa fa-edit blue"></i>
                         </a>
@@ -98,7 +98,7 @@
 
                             <label>Category</label>
                             <select class="form-control" v-model="form.category_id">
-                              <option 
+                              <option
                                   v-for="(cat,index) in categories" :key="index"
                                   :value="index"
                                   :selected="index == form.category_id">{{ cat }}</option>
@@ -152,7 +152,7 @@
                     photoUrl: '',
                 }),
                 categories: [],
-              
+
                 tag:  '',
                 autocompleteItems: [],
             }
@@ -162,22 +162,22 @@
           getResults(page = 1) {
 
               this.$Progress.start();
-              
-              axios.get('api/product?page=' + page).then(({ data }) => (this.products = data.data));
+
+              axios.get('/admin/api/product?page=' + page).then(({ data }) => (this.products = data.data));
 
               this.$Progress.finish();
           },
           loadProducts(){
 
             // if(this.$gate.isAdmin()){
-              axios.get("api/product").then(({ data }) => (this.products = data.data));
+              axios.get("/admin/api/product").then(({ data }) => (this.products = data.data));
             // }
           },
           loadCategories(){
-              axios.get("/api/category/list").then(({ data }) => (this.categories = data.data));
+              axios.get("/admin/api/category/list").then(({ data }) => (this.categories = data.data));
           },
           loadTags(){
-              axios.get("/api/tag/list").then(response => {
+              axios.get("/admin/api/tag/list").then(response => {
                   this.autocompleteItems = response.data.data.map(a => {
                       return { text: a.name, id: a.id };
                   });
@@ -197,7 +197,7 @@
           createProduct(){
               this.$Progress.start();
 
-              this.form.post('api/product')
+              this.form.post('/admin/api/product')
               .then((data)=>{
                 if(data.data.success){
                   $('#addNew').modal('hide');
@@ -228,7 +228,7 @@
           },
           updateProduct(){
               this.$Progress.start();
-              this.form.put('api/product/'+this.form.id)
+              this.form.put('/admin/api/product/'+this.form.id)
               .then((response) => {
                   // success
                   $('#addNew').modal('hide');
@@ -258,7 +258,7 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('api/product/'+id).then(()=>{
+                              this.form.delete('/admin/api/product/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',
@@ -275,7 +275,7 @@
 
         },
         mounted() {
-            
+
         },
         created() {
             this.$Progress.start();

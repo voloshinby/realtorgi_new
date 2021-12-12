@@ -265,23 +265,23 @@
 
               this.$Progress.start();
 
-              axios.get('/api/lot?page=' + page).then(({ data }) => (this.lots = data.data));
+              axios.get('/admin/api/lot?page=' + page).then(({ data }) => (this.lots = data.data));
 
               this.$Progress.finish();
           },
           loadLots(){
             // if(this.$gate.isAdmin()){
-              axios.get("/api/lot").then(({ data }) => (this.lots = data.data));
+              axios.get("/admin/api/lot").then(({ data }) => (this.lots = data.data));
             // }
           },
           loadCategories(){
-              axios.get("/api/category/list").then(({ data }) => (this.categories = data.data));
+              axios.get("/admin/api/category/list").then(({ data }) => (this.categories = data.data));
           },
           loadAuctions(){
-              axios.get("/api/auction/list").then(({ data }) => (this.auctions = data.data));
+              axios.get("/admin/api/auction/list").then(({ data }) => (this.auctions = data.data));
           },
           loadOneAuction(){
-              axios.get("/api/auction/" + this.form.auction_id).then(({ data }) => (this.one_auction = data.data));
+              axios.get("/admin/api/auction/" + this.form.auction_id).then(({ data }) => (this.one_auction = data.data));
               console.log(this.one_auction);
           },
           editModal(lot){
@@ -358,7 +358,7 @@
               if(!error){
                 this.$Progress.start();
 
-                this.form.post('/api/lot')
+                this.form.post('/admin/api/lot')
                 .then((data)=>{
                     if(data.data.success){
                     $('#addNew').modal('hide');
@@ -374,7 +374,7 @@
                             let file = this.files[i];
                             formData.append('images[' + i + ']', file);
                         }
-                        axios.post( '/api/lot/uploadImages/'+data.data.data.id,
+                        axios.post( '/admin/api/lot/uploadImages/'+data.data.data.id,
                         formData,
                         {
                             headers: {
@@ -473,7 +473,7 @@
               if(!error){
                 this.$Progress.start();
 
-                this.form.put('/api/lot/'+this.form.id)
+                this.form.put('/admin/api/lot/'+this.form.id)
                 .then((response) => {
 
                     // success
@@ -490,7 +490,7 @@
                             let file = this.files[i];
                             formData.append('images[' + i + ']', file);
                         }
-                        axios.post( '/api/lot/uploadImages/'+this.form.id,
+                        axios.post( '/admin/api/lot/uploadImages/'+this.form.id,
                         formData,
                         {
                             headers: {
@@ -528,7 +528,7 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('/api/lot/'+id).then(()=>{
+                              this.form.delete('/admin/api/lot/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',
@@ -547,7 +547,7 @@
                 var alertSure = confirm('Вы уверены что хотите удалить изображение?');
 
                 if(alertSure){
-                    axios.post( '/api/lot/destroyImages/'+id,
+                    axios.post( '/admin/api/lot/destroyImages/'+id,
                         ).then(function(){
                             console.log('SUCCESS!!');
                             $('#image_'+id).remove();
@@ -563,7 +563,7 @@
                 var alertSure = confirm('Вы уверены что хотите удалить файл?');
 
                 if(alertSure){
-                    axios.post( '/api/lot/destroyFiles/'+id,
+                    axios.post( '/admin/api/lot/destroyFiles/'+id,
                         ).then(function(){
                             console.log('SUCCESS!!');
                             $('#file_'+id).remove();

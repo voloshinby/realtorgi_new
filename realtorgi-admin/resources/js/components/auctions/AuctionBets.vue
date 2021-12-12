@@ -139,22 +139,22 @@
 
               this.$Progress.start();
 
-              axios.get('api/bet?page=' + page).then(({ data }) => (this.bets = data.data));
+              axios.get('/admin/api/bet?page=' + page).then(({ data }) => (this.bets = data.data));
 
               this.$Progress.finish();
           },
           loadBets(){
 
             // if(this.$gate.isAdmin()){
-              axios.get("api/bet").then(({ data }) => (this.bets = data.data));
+              axios.get("/admin/api/bet").then(({ data }) => (this.bets = data.data));
             // }
           },
           loadUsers(){
-              axios.get("/api/user/list").then(({ data }) => (this.users = data.data));
+              axios.get("/admin/api/user/list").then(({ data }) => (this.users = data.data));
           },
           loadLots(){
             // if(this.$gate.isAdmin()){
-              axios.get("/api/lot/list").then(({ data }) => (this.lots = data.data));
+              axios.get("/admin/api/lot/list").then(({ data }) => (this.lots = data.data));
             // }
           },
           editModal(bet){
@@ -171,7 +171,7 @@
           createBet(){
               this.$Progress.start();
 
-              this.form.post('api/bet')
+              this.form.post('/admin/api/bet')
               .then((data)=>{
                 if(data.data.success){
                   $('#addNew').modal('hide');
@@ -202,7 +202,7 @@
           },
           updateBet(){
               this.$Progress.start();
-              this.form.put('api/bet/'+this.form.id)
+              this.form.put('/admin/api/bet/'+this.form.id)
               .then((response) => {
                   // success
                   $('#addNew').modal('hide');
@@ -232,7 +232,7 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('api/bet/'+id).then(()=>{
+                              this.form.delete('/admin/api/bet/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',

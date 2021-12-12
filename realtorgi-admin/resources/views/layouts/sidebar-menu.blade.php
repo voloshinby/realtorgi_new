@@ -30,7 +30,7 @@
 
 
         <li class="nav-item">
-            <router-link to="/auctions" class="nav-link">
+            <router-link to="/admin/auctions" class="nav-link">
             <i class="nav-icon fas fa-list orange"></i>
             <p>
                 Аукционы
@@ -40,7 +40,7 @@
 
 
         <li class="nav-item">
-            <router-link to="/lots" class="nav-link">
+            <router-link to="/admin/lots" class="nav-link">
             <i class="nav-icon fas fa-list orange"></i>
             <p>
                 Лоты
@@ -49,7 +49,7 @@
         </li>
 
         <li class="nav-item">
-            <router-link to="/bets" class="nav-link">
+            <router-link to="/admin/bets" class="nav-link">
             <i class="nav-icon fas fa-list orange"></i>
             <p>
                 Ставки
@@ -60,20 +60,20 @@
 
       @can('isAdmin')
         <li class="nav-item">
-          <router-link to="/users" class="nav-link">
+          <router-link to="/admin/users" class="nav-link">
             <i class="fa fa-users nav-icon blue"></i>
             <p>Пользователи</p>
           </router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/change_users" class="nav-link">
+            <router-link to="/admin/change_users" class="nav-link">
               <i class="fa fa-users nav-icon blue"></i>
               <p>Изменения данных</p>
             </router-link>
           </li>
 
           <li class="nav-item">
-            <router-link to="/messages" class="nav-link">
+            <router-link to="/admin/messages" class="nav-link">
               <i class="nav-icon fas fa-list orange"></i>
               <p>
                 Сообщения
@@ -104,7 +104,7 @@
         <ul class="nav nav-treeview">
 
           <li class="nav-item">
-            <router-link to="/categories" class="nav-link">
+            <router-link to="/admin/categories" class="nav-link">
               <i class="nav-icon fas fa-list-ol green"></i>
               <p>
                 Категории
@@ -112,7 +112,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/countries" class="nav-link">
+            <router-link to="/admin/countries" class="nav-link">
               <i class="nav-icon fas fa-tags green"></i>
               <p>
                 Области
@@ -121,7 +121,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/feedback" class="nav-link">
+            <router-link to="/admin/feedback" class="nav-link">
               <i class="nav-icon fas fa-list orange"></i>
               <p>
                 Организация
@@ -135,7 +135,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/notifications" class="nav-link">
+            <router-link to="/admin/notifications" class="nav-link">
               <i class="nav-icon fas fa-list orange"></i>
               <p>
                 Уведомления
@@ -149,7 +149,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/export_data" class="nav-link">
+            <router-link to="/admin/export_data" class="nav-link">
               <i class="nav-icon fas fa-list orange"></i>
               <p>
                 Архивы по лотам

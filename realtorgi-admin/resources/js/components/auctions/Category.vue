@@ -115,14 +115,14 @@
 
               this.$Progress.start();
 
-              axios.get('api/category?page=' + page).then(({ data }) => (this.categories = data.data));
+              axios.get('/admin/api/category?page=' + page).then(({ data }) => (this.categories = data.data));
 
               this.$Progress.finish();
           },
           loadCategories(){
 
             // if(this.$gate.isAdmin()){
-              axios.get("api/category").then(({ data }) => (this.categories = data.data));
+              axios.get("/admin/api/category").then(({ data }) => (this.categories = data.data));
             // }
           },
 
@@ -140,7 +140,7 @@
           createCategory(){
               this.$Progress.start();
 
-              this.form.post('api/category')
+              this.form.post('/admin/api/category')
               .then((data)=>{
                 if(data.data.success){
                   $('#addNew').modal('hide');
@@ -171,7 +171,7 @@
           },
           updateCategory(){
               this.$Progress.start();
-              this.form.put('api/category/'+this.form.id)
+              this.form.put('/admin/api/category/'+this.form.id)
               .then((response) => {
                   // success
                   $('#addNew').modal('hide');
@@ -201,7 +201,7 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('api/category/'+id).then(()=>{
+                              this.form.delete('/admin/api/category/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',

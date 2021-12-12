@@ -254,7 +254,7 @@ export default {
     loadAuctionConfirms() {
       // if(this.$gate.isAdmin()){
       axios
-        .get("/api/auctionConfirm")
+        .get("/admin/api/auctionConfirm")
         .then(({ data }) => (this.auctionConfirms = data.data));
       // }
     },
@@ -276,7 +276,7 @@ export default {
       this.$Progress.start();
 
       axios
-        .get("/api/auctionConfirm?page=" + page)
+        .get("/admin/api/auctionConfirm?page=" + page)
         .then(({ data }) => (this.auctionConfirms = data.data));
 
       this.$Progress.finish();
@@ -294,11 +294,11 @@ export default {
         // Send request to the server
         if (result.value) {
           this.form
-            .delete("/api/auctionConfirm/" + id)
+            .delete("/admin/api/auctionConfirm/" + id)
             .then(() => {
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
               // Fire.$emit('AfterCreate');
-              
+
             })
             .catch((data) => {
               Swal.fire("Failed!", data.message, "warning");
@@ -306,12 +306,12 @@ export default {
         }
         this.loadAuctionConfirms();
       });
-      
+
     },
 
     updateAuctionConfirm(id) {
       // this.$Progress.start();
-      axios.put("/api/auctionConfirm/" + id)
+      axios.put("/admin/api/auctionConfirm/" + id)
       .then(function (response) {
         // handle success
         console.log(response);
@@ -331,7 +331,7 @@ export default {
   created() {
     this.$Progress.start();
 
-    this.loadAuctionConfirms() 
+    this.loadAuctionConfirms()
             // .then(() => {
             //   Swal.fire("Confirms", "Подтверждено.", "success");
             //   // Fire.$emit('AfterCreate');

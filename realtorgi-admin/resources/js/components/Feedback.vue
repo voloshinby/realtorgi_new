@@ -121,14 +121,14 @@
 
               this.$Progress.start();
 
-              axios.get('/api/feedback?page=' + page).then(({ data }) => (this.feedbacks = data.data));
+              axios.get('/admin/api/feedback?page=' + page).then(({ data }) => (this.feedbacks = data.data));
 
               this.$Progress.finish();
           },
           loadNotifications(){
 
             // if(this.$gate.isAdmin()){
-              axios.get("/api/feedback").then(({ data }) => (this.feedbacks = data.data));
+              axios.get("/admin/api/feedback").then(({ data }) => (this.feedbacks = data.data));
             // }
           },
 
@@ -138,7 +138,7 @@
               $('#addNew').modal('show');
               this.form.fill(feedback);
               this.$Progress.start();
-              this.form.put('/api/feedback/'+this.form.id)
+              this.form.put('/admin/api/feedback/'+this.form.id)
               this.$Progress.finish();
           },
           newModal(){
@@ -158,7 +158,7 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('/api/feedback/'+id).then(()=>{
+                              this.form.delete('/admin/api/feedback/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',

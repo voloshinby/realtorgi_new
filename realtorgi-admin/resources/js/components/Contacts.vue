@@ -31,7 +31,7 @@
                             <i class="fa fa-edit blue"></i>
                         </a>
                         /
-                        <a @click="deleteAuction(message.id)">
+                        <a @click="deleteMessage(message.id)">
                             <i class="fa fa-trash red"></i>
                         </a>
                       </td>
@@ -123,14 +123,14 @@
 
               this.$Progress.start();
 
-              axios.get('/api/message?page=' + page).then(({ data }) => (this.messages = data.data));
+              axios.get('/admin/api/message?page=' + page).then(({ data }) => (this.messages = data.data));
 
               this.$Progress.finish();
           },
           loadNotifications(){
 
             // if(this.$gate.isAdmin()){
-              axios.get("/api/message").then(({ data }) => (this.messages = data.data));
+              axios.get("/admin/api/message").then(({ data }) => (this.messages = data.data));
             // }
           },
 
@@ -140,7 +140,7 @@
               $('#addNew').modal('show');
               this.form.fill(notification);
               this.$Progress.start();
-              this.form.put('/api/message/'+this.form.id)
+              this.form.put('/admin/api/message/'+this.form.id)
               this.$Progress.finish();
           },
           newModal(){
@@ -148,7 +148,7 @@
               this.form.reset();
               $('#addNew').modal('show');
           },
-          deleteNotification(id){
+            deleteMessage(id){
               Swal.fire({
                   title: 'Are you sure?',
                   text: "You won't be able to revert this!",
@@ -160,7 +160,7 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('/api/message/'+id).then(()=>{
+                              this.form.delete('/admin/api/message/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',

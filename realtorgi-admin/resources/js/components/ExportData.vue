@@ -75,12 +75,12 @@
 
             loadData(){
                 // if(this.$gate.isAdmin()){
-                axios.get("api/archive").then(({ data }) => (this.export_data = data.data));
+                axios.get("/admin/api/archive").then(({ data }) => (this.export_data = data.data));
                 // }
             },
 
             downloadArchive(id, link){
-                axios.get("/api/archive/download/" + id)
+                axios.get("/admin/api/archive/download/" + id)
                 .then((data)=>{
                     var lk = document.getElementById("archive-download-" + id);
                     console.log(lk);

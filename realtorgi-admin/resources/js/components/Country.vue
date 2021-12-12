@@ -115,14 +115,14 @@
 
               this.$Progress.start();
 
-              axios.get('api/country?page=' + page).then(({ data }) => (this.countries = data.data));
+              axios.get('/admin/api/country?page=' + page).then(({ data }) => (this.countries = data.data));
 
               this.$Progress.finish();
           },
           loadCountries(){
 
             // if(this.$gate.isAdmin()){
-              axios.get("api/country").then(({ data }) => (this.countries = data.data));
+              axios.get("/admin/api/country").then(({ data }) => (this.countries = data.data));
             // }
           },
 
@@ -140,7 +140,7 @@
           createCountry(){
               this.$Progress.start();
 
-              this.form.post('api/country')
+              this.form.post('/admin/api/country')
               .then((data)=>{
                 if(data.data.success){
                   $('#addNew').modal('hide');
@@ -171,7 +171,7 @@
           },
           updateCountry(){
               this.$Progress.start();
-              this.form.put('api/country/'+this.form.id)
+              this.form.put('/admin/api/country/'+this.form.id)
               .then((response) => {
                   // success
                   $('#addNew').modal('hide');
@@ -201,7 +201,7 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('api/country/'+id).then(()=>{
+                              this.form.delete('/admin/api/country/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',

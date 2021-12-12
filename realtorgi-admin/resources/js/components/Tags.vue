@@ -4,13 +4,13 @@
         <div class="row">
 
           <div class="col-12">
-        
+
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Tag List</h3>
 
                 <div class="card-tools">
-                  
+
                   <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addNew">
                       <i class="fa fa-plus-square"></i>
                       Add New
@@ -90,14 +90,14 @@
 
           loadTags(){
             // if(this.$gate.isAdmin()){
-              axios.get("api/tags").then(({ data }) => (this.tags = data.data));
+              axios.get("/admin/api/tags").then(({ data }) => (this.tags = data.data));
             // }
           },
-          
+
           createTag(){
               this.$Progress.start();
 
-              this.form.post('api/tags')
+              this.form.post('/admin/api/tags')
               .then((data)=>{
                   $('#addNew').modal('hide');
 
@@ -120,7 +120,7 @@
 
         },
         mounted() {
-            
+
         },
         created() {
             this.$Progress.start();

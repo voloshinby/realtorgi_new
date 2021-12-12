@@ -16,7 +16,7 @@ class VersionTest extends TestCase
      */
     public function testAppVersion()
     {
-        $response = $this->getJson('/api/version');
+        $response = $this->getJson('/admin/api/version');
         $response
             ->assertStatus(200)
             ->assertJson([

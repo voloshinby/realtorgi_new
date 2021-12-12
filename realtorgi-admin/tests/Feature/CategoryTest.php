@@ -19,7 +19,7 @@ class CategoryTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'api')
-            ->getJson('/api/category');
+            ->getJson('/admin/api/category');
 
         $response
             ->assertStatus(200)

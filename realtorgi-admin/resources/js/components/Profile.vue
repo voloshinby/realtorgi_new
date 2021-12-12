@@ -173,7 +173,7 @@
                 if(this.form.password == ''){
                     this.form.password = undefined;
                 }
-                this.form.put('api/profile')
+                this.form.put('/admin/api/profile')
                 .then((data)=>{
                     this.$Progress.finish();
                     Toast.fire({
@@ -193,7 +193,7 @@
 
             updatePassword(){
                 this.$Progress.start();
-                this.form.post('api/change-password')
+                this.form.post('/admin/api/change-password')
                 .then((data)=>{
                     //  Fire.$emit('AfterCreate');
                     this.$Progress.finish();
@@ -221,7 +221,7 @@
 
             this.$Progress.start();
 
-            axios.get("api/profile")
+            axios.get("/admin/api/profile")
             .then(({ data }) => (this.form.fill(data.data)));
 
             this.$Progress.finish();
