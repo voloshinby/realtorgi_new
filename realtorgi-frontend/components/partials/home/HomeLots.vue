@@ -398,7 +398,7 @@ export default {
           this.pageCount
         })
       } else {
-        this.$axios.get('https://realtorgi.by/admin/api/admin/lot').then((response) => {
+        this.$axios.get(process.env.API_URL + '/admin/api/admin/lot').then((response) => {
           this.auctions = response.data.data.data
           this.auctions = this.auctions.filter(item => !item.status.includes("Черновик") && !item.status.includes("На модерации"));
           this.filteredByStatusAuctions = this.auctions
