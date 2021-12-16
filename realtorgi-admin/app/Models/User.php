@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Role;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,12 +17,32 @@ class User extends Authenticatable// implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'login', 'type', 'email', 'type_user', 'first_name', 'last_name',
-        'full_name', 'passport_number', 'passport_issuer', 'passportDate',
-        'passport_personal', 'registration_address', 'residence_address',
-        'phone', 'inn', 'short_name', 'egr_date', 'manager_data', 'place_of_residence',
-        'bank_details', 'legal_entity', 'active', 'password', 'remember_token',
-        'email_verified_at', 'registration_code'
+        'login',
+        'type',
+        'email',
+        'type_user',
+        'first_name',
+        'last_name',
+        'full_name',
+        'passport_number',
+        'passport_issuer',
+        'passportDate',
+        'passport_personal',
+        'registration_address',
+        'residence_address',
+        'phone',
+        'inn',
+        'short_name',
+        'egr_date',
+        'manager_data',
+        'place_of_residence',
+        'bank_details',
+        'legal_entity',
+        'active',
+        'password',
+        'remember_token',
+        'email_verified_at',
+        'registration_code',
     ];
 
     /**
@@ -33,7 +51,8 @@ class User extends Authenticatable// implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -45,7 +64,7 @@ class User extends Authenticatable// implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-     /**
+    /**
      * Get the profile photo URL attribute.
      *
      * @return string

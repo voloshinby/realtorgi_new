@@ -188,4 +188,22 @@ class AuctionConfirmController extends BaseController
 
         return response()->json(['success' => true]);
     }
+
+    public function notificateComment($id, Request $request)
+    {
+        $auctionConfirm = $this->auctionConfirm->findOrFail($id);
+
+        if (!empty($request->get('comment'))) {
+            Notification::create([
+                'user_id' => $auctionConfirm->user_id,
+                'title' => 'Комментарий о вашей заявке',
+                'text' => $request->get('comment'),
+                'status' => 'new',
+            ]);
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
 }

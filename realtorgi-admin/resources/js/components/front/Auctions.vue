@@ -48,21 +48,21 @@
 
               this.$Progress.start();
 
-              axios.get('/api/front/auction_front?page=' + page).then(({ data }) => (this.auctions = data.data));
+              axios.get('/admin/api/admin/front/auction_front?page=' + page).then(({ data }) => (this.auctions = data.data));
 
               this.$Progress.finish();
           },
           loadAuctions(){
 
             // if(this.$gate.isAdmin()){
-              axios.get("/api/front/auction_front").then(({ data }) => (this.auctions = data.data));
+              axios.get("/admin/api/admin/front/auction_front").then(({ data }) => (this.auctions = data.data));
             // }
           },
           loadUsers(){
-              axios.get("/api/user/list").then(({ data }) => (this.users = data.data));
+              axios.get("/admin/api/admin/user/list").then(({ data }) => (this.users = data.data));
           },
           loadCategories(){
-              axios.get("/api/category/list").then(({ data }) => (this.categories = data.data));
+              axios.get("/admin/api/admin/category/list").then(({ data }) => (this.categories = data.data));
           }
         },
         created() {

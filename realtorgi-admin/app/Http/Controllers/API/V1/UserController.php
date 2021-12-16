@@ -4,14 +4,14 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\Users\UserRequest;
 use App\Models\AuctionBets;
-use App\Models\AuctionConfirm;
 use App\Models\Lot;
-use App\Models\Notification;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Models\Notification;
+use Illuminate\Support\Facades\Mail;
+use App\Models\AuctionConfirm;
 
 class UserController extends BaseController
 {
@@ -106,7 +106,8 @@ class UserController extends BaseController
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
             'registration_code' => rand(100000, 999999),
-            'type' => 'User',
+            'type' => 'user',
+            'type_user' => $request->get('type_user'),
         ]);
 
         if (isset($user) && !is_null($user)) {
@@ -152,13 +153,11 @@ class UserController extends BaseController
     public function login(Request $request)
     {
 
-        $user = User::where('email', $request->get('email'))->first();
-        print_r($user); exit();
+        $user = User::where('email', $request->get('email'))->with('gallery', 'files')->first();
 
         if(isset($user) && !is_null($user)){
             if(Hash::check($request->get('password'), $user->password)){
                 Session::put('email', $user->email);
-                return redirect('/');
             } else {
                 return $this->sendResponse('Error', 'Неправильный пароль');
             }
@@ -172,11 +171,11 @@ class UserController extends BaseController
     /**
      * Update the resource in storage
      *
-     * @param \App\Http\Requests\Users\UserRequest $request
+     * @param  \App\Http\Requests\Users\UserRequest  $request
      * @param $id
      *
-     * @throws \Illuminate\Validation\ValidationException
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(UserRequest $request, $id)
     {
@@ -203,11 +202,11 @@ class UserController extends BaseController
                 'status' => 'new',
             ]);
 
-            // Mail::send('emails.userChange', $user->toArray(),
-            //     function($message) use ($user){
-            //         $message->to($user->email, 'Клиент')->subject('Изменения данных пользователя realtorgi.by');
-            //     }
-            // );
+            Mail::send('emails.userChange', $user->toArray(),
+                function($message) use ($user){
+                    $message->to($user->email, 'Клиент')->subject('Изменения данных пользователя realtorgi.by');
+                }
+            );
         }
 
         return $this->sendResponse($user, 'User Information has been updated');

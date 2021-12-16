@@ -251,13 +251,11 @@ export default {
           category: this.$route.query.category
         })
         this.auctions = data.data.data.data
-        this.auctions = this.auctions.filter(item => !item.status.includes("Черновик") && !item.status.includes("На модерации"));
       } else {
         const data = await this.$axios.get(process.env.API_URL + '/admin/api/admin/lot')
         this.choosenFilter = {name: 'Все'}
         this.auctions = data.data.data.data
         // console.log(data.data.data.data[0].auction.start_selling)
-        this.auctions = this.auctions.filter(item => !item.status.includes("Черновик") && !item.status.includes("На модерации"));
         if (this.$route.name !== 'auctions') {
           this.auctions = this.auctions.filter(item => item.status.includes("Предстоящие"));
         }
@@ -276,8 +274,7 @@ export default {
       })
     } else {
       const data = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/auction/lots/${this.$route.params.id}`)
-      this.auctions = data.data.data.data
-      this.auctions = this.auctions.filter(item => !item.status.includes("Черновик") && !item.status.includes("На модерации"));
+      this.auctions = data.data.data
       this.filteredByStatusAuctions = this.auctions
       this.pageCount
     }
@@ -387,7 +384,6 @@ export default {
           category: category.name
         }).then((response) => {
           this.auctions = response.data.data.data
-          this.auctions = this.auctions.filter(item => !item.status.includes("Черновик") && !item.status.includes("На модерации"));
           this.filteredByStatusAuctions = this.auctions
           if (this.choosenStatuses.name !== 'Все') {
             this.filteredByStatusAuctions = this.auctions.filter(item => (item.status === this.choosenStatuses.name));
@@ -399,8 +395,8 @@ export default {
         })
       } else {
         this.$axios.get('https://realtorgi.by/admin/api/admin/lot').then((response) => {
-          this.auctions = response.data.data.data
-          this.auctions = this.auctions.filter(item => !item.status.includes("Черновик") && !item.status.includes("На модерации"));
+          this.auctions = response.data.data
+          console.log(response.data, 'rsponse')
           this.filteredByStatusAuctions = this.auctions
           if (this.choosenStatuses.name !== 'Все') {
             this.filteredByStatusAuctions = this.auctions.filter(item => (item.status === this.choosenStatuses.name));

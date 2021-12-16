@@ -57,6 +57,16 @@ class Lot extends Model
         return $this->belongsTo(Auction::class);
     }
 
+    public function gallery()
+    {
+        return $this->hasMany('App\Models\Gallery', 'lot_id', 'id');
+    }
+
+    public function files()
+    {
+        return $this->hasMany('App\Models\File', 'lot_id', 'id');
+    }
+
     public function auction_files()
     {
         return $this->hasManyThrough(
@@ -81,18 +91,12 @@ class Lot extends Model
         );
     }
 
-    public function gallery()
-    {
-        return $this->hasMany('App\Models\Gallery', 'lot_id', 'id');
-    }
-
-    public function files()
-    {
-        return $this->hasMany('App\Models\File', 'lot_id', 'id');
-    }
-
     public function users()
     {
         return $this->hasOne('App\Models\AuctionConfirm', 'lot_id', 'id')->where('confirmed_user', 1);
+    }
+
+    public function confirms(){
+        return $this->hasMany('App\Models\AuctionConfirm', 'lot_id', 'id');
     }
 }
