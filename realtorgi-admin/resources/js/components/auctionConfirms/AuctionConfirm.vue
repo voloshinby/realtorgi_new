@@ -298,7 +298,7 @@ export default {
         loadAuctionConfirms() {
             // if(this.$gate.isAdmin()){
             axios
-                .get("/api/auctionConfirm")
+                .get("/admin/api/admin/auctionConfirm")
                 .then(({data}) => (this.auctionConfirms = data.data));
             // }
         },
@@ -323,23 +323,26 @@ export default {
             this.$Progress.start();
 
             axios
-                .get("/api/auctionConfirm?page=" + page)
+                .get("/admin/api/admin/auctionConfirm?page=" + page)
                 .then(({data}) => (this.auctionConfirms = data.data));
 
             this.$Progress.finish();
         },
         createComment() {
-            console.log(this.form, this.comment);
-            axios.post("/api/auctionConfirm/notification/" + this.form.id, {
+            axios.post("/admin/api/admin/auctionConfirm/notification/" + this.form.id, {
                 comment: this.comment
             })
                 .then(function (response) {
-                    console.log(response);
+                    if (response.data.success) {
+                        Swal.fire("Готово!", "Новый комментарий добавлен", "success");
+                        $("#addComment").modal("hide");
+                        this.comment = '';
+                    }
                 })
                 .catch(function (error) {
-                    console.log(error);
+
                 });
-            this.loadAuctionConfirms();
+            this.$Progress.finish();
         },
         deleteAuctionConfirm(id) {
             Swal.fire({
@@ -353,7 +356,7 @@ export default {
                 // Send request to the server
                 if (result.value) {
                     this.form
-                        .delete("/api/auctionConfirm/" + id)
+                        .delete("/admin/api/admin/auctionConfirm/" + id)
                         .then(() => {
                             Swal.fire("Deleted!", "Your file has been deleted.", "success");
                             // Fire.$emit('AfterCreate');
@@ -369,7 +372,7 @@ export default {
         },
         updateAuctionConfirm(id) {
             // this.$Progress.start();
-            axios.put("/api/auctionConfirm/" + id)
+            axios.put("/admin/api/admin/auctionConfirm/" + id)
                 .then(function (response) {
                     // handle success
                     console.log(response);

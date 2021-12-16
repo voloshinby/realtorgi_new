@@ -394,7 +394,7 @@ export default {
           this.pageCount
         })
       } else {
-        this.$axios.get('https://realtorgi.by/admin/api/admin/lot').then((response) => {
+        this.$axios.get(process.env.API_URL + '/admin/api/admin/lot').then((response) => {
           this.auctions = response.data.data
           console.log(response.data, 'rsponse')
           this.filteredByStatusAuctions = this.auctions

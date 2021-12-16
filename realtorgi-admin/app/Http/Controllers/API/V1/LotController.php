@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\Auctions\LotRequest;
-use App\Models\Lot;
-use App\Models\Gallery;
-use App\Models\File;
-use App\Models\Category;
-use Illuminate\Http\Request;
-use App\Models\Notification;
 use App\Models\AuctionConfirm;
+use App\Models\Category;
+use App\Models\File;
+use App\Models\Gallery;
+use App\Models\Lot;
+use App\Models\Notification;
+use Illuminate\Http\Request;
 
 class LotController extends BaseController
 {
@@ -44,6 +44,7 @@ class LotController extends BaseController
             'gallery',
             'files',
             'category',
+            'confirms',
         ])->withCount('users')->paginate(1000);
 
         return $this->sendResponse($lots, 'Lots list');
@@ -102,6 +103,7 @@ class LotController extends BaseController
             'gallery',
             'files',
             'category',
+            'confirms',
         ])->withCount('users')->findOrFail($id);
 
         return $this->sendResponse($lot, 'Lot Details');
@@ -152,9 +154,11 @@ class LotController extends BaseController
         return $this->sendResponse($userLots, 'Lots list');
     }
 
-    public function userCount($id){
+    public function userCount($id)
+    {
 
-        $count = AuctionConfirm::latest()->where('lot_id', $id)->where('confirmed_user', 1)->select('user_id')->distinct()->count('user_id');
+        $count = AuctionConfirm::latest()->where('lot_id', $id)->where('confirmed_user',
+            1)->select('user_id')->distinct()->count('user_id');
 
         return $this->sendResponse($count, 'Count');
     }
@@ -258,25 +262,31 @@ class LotController extends BaseController
             'gallery',
             'files',
             'category',
-        ])->where('status', '<>', 'На модерации')->paginate(1000);
+            'confirms',
+        ])->withCount('users')->where('status', '<>', 'На модерации')->paginate(1000);
 
         return $this->sendResponse($lots, 'Lots list');
 
     }
 
-    public function userSells(Request $request){
+    public function userSells(Request $request)
+    {
 
         $lot_id = $request->get('lot_id');
         $user_sell_suggest = $request->get('user_sell_suggest');
         $price_sell_suggest = $request->get('price_sell_suggest');
         // $lot = $this->lot->findOrFail($id);
         // print_r($request->all()); exit();
-        $lots = Lot::where('id', $lot_id)->update(['user_sell_suggest' => $user_sell_suggest,
-                                                    'price_sell_suggest' => $price_sell_suggest]);
+        $lots = Lot::where('id', $lot_id)->update([
+            'user_sell_suggest' => $user_sell_suggest,
+            'price_sell_suggest' => $price_sell_suggest,
+        ]);
         return $this->sendResponse("success", 'Lots list');
 
     }
-    public function userSellsInfo(Request $request, $id){
+
+    public function userSellsInfo(Request $request, $id)
+    {
         $lots = Lot::where('id', $id)->first();
 
         return $this->sendResponse($lots, 'Suggest sell');

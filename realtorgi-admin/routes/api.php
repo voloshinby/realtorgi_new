@@ -74,7 +74,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     Route::get('admin/user/sells/{id}', 'LotController@userSellsInfo');
     /* Архив */
     Route::get('admin/archive/download/{id}', 'ExportDataController@download');
-    Route::post('auctionConfirm/notification/{id}', 'AuctionConfirmController@notificateComment');
+    Route::post('admin/auctionConfirm/notification/{id}', 'AuctionConfirmController@notificateComment');
 
     Route::apiResources([
         'admin/user' => 'UserController',
