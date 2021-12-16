@@ -6,16 +6,16 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
   <title>{{ config('app.name', 'Laravel') }}</title>
 
 
-  <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
-
+  <link rel="stylesheet" href="{{ mix('/admin/css/app.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
-
 <div class="wrapper" id="app">
+
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
     <!-- Left navbar links -->
@@ -43,7 +43,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <router-link to="/dashboard" class="brand-link" style="text-align: center;">
+    <router-link to="/admin/auctions" class="brand-link" style="text-align: center;">
       {{-- <img src="{{ asset('/images/logo.png') }}" alt="The Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8"> --}}
       <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
@@ -52,7 +52,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-        <router-link to="/profile">
+        <router-link to="/admin/profile">
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
               <div class="image">
                 <img src="{{ auth()->user()->photo }}" class="img-circle elevation-2" alt="User Image">
@@ -122,6 +122,6 @@
     window.user = @json(auth()->user())
 </script>
 @endauth
-<script src="{{ mix('/js/app.js') }}"></script>
+<script src="{{ mix('/admin/js/app.js') }}"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
       {{-- <li class="nav-item">
-        <router-link to="/dashboard" class="nav-link">
+        <router-link to="/admin/dashboard" class="nav-link">
           <i class="nav-icon fas fa-tachometer-alt blue"></i>
           <p>
             Главная
@@ -18,62 +18,59 @@
         </router-link>
       </li> --}}
 
-      @can('isAdmin')
-        <li class="nav-item">
-            <router-link to="/auctionConfirms" class="nav-link">
-            <i class="nav-icon fas fa-list orange"></i>
-            <p>
-                Заявки на участие
-            </p>
-            </router-link>
-        </li>
+      <li class="nav-item">
+        <router-link to="/admin/auctionConfirms" class="nav-link">
+          <i class="nav-icon fas fa-list orange"></i>
+          <p>
+            Заявки на участие
+          </p>
+        </router-link>
+      </li>
 
 
-        <li class="nav-item">
-            <router-link to="/auctions" class="nav-link">
-            <i class="nav-icon fas fa-list orange"></i>
-            <p>
-                Аукционы
-            </p>
-            </router-link>
-        </li>
+      <li class="nav-item">
+        <router-link to="/admin/auctions" class="nav-link">
+          <i class="nav-icon fas fa-list orange"></i>
+          <p>
+            Аукционы
+          </p>
+        </router-link>
+      </li>
 
+      <li class="nav-item">
+        <router-link to="/admin/lots" class="nav-link">
+          <i class="nav-icon fas fa-list orange"></i>
+          <p>
+            Лоты
+          </p>
+        </router-link>
+      </li>
 
-        <li class="nav-item">
-            <router-link to="/lots" class="nav-link">
-            <i class="nav-icon fas fa-list orange"></i>
-            <p>
-                Лоты
-            </p>
-            </router-link>
-        </li>
-
-        <li class="nav-item">
-            <router-link to="/bets" class="nav-link">
-            <i class="nav-icon fas fa-list orange"></i>
-            <p>
-                Ставки
-            </p>
-            </router-link>
-        </li>
-      @endcan
+      <li class="nav-item">
+        <router-link to="/admin/bets" class="nav-link">
+          <i class="nav-icon fas fa-list orange"></i>
+          <p>
+            Ставки
+          </p>
+        </router-link>
+      </li>
 
       @can('isAdmin')
         <li class="nav-item">
-          <router-link to="/users" class="nav-link">
+          <router-link to="/admin/users" class="nav-link">
             <i class="fa fa-users nav-icon blue"></i>
             <p>Пользователи</p>
           </router-link>
         </li>
         <li class="nav-item">
-            <router-link to="/change_users" class="nav-link">
+            <router-link to="/admin/change_users" class="nav-link">
               <i class="fa fa-users nav-icon blue"></i>
               <p>Изменения данных</p>
             </router-link>
-          </li>
+        </li>
 
-          <li class="nav-item">
-            <router-link to="/messages" class="nav-link">
+	<li class="nav-item">
+            <router-link to="/admin/messages" class="nav-link">
               <i class="nav-icon fas fa-list orange"></i>
               <p>
                 Сообщения
@@ -104,15 +101,16 @@
         <ul class="nav nav-treeview">
 
           <li class="nav-item">
-            <router-link to="/categories" class="nav-link">
+            <router-link to="/admin/categories" class="nav-link">
               <i class="nav-icon fas fa-list-ol green"></i>
               <p>
                 Категории
               </p>
             </router-link>
           </li>
+
           <li class="nav-item">
-            <router-link to="/countries" class="nav-link">
+            <router-link to="/admin/countries" class="nav-link">
               <i class="nav-icon fas fa-tags green"></i>
               <p>
                 Области
@@ -121,7 +119,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/feedback" class="nav-link">
+            <router-link to="/admin/feedback" class="nav-link">
               <i class="nav-icon fas fa-list orange"></i>
               <p>
                 Организация
@@ -135,7 +133,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/notifications" class="nav-link">
+            <router-link to="/admin/notifications" class="nav-link">
               <i class="nav-icon fas fa-list orange"></i>
               <p>
                 Уведомления
@@ -149,7 +147,7 @@
           </li>
 
           <li class="nav-item">
-            <router-link to="/export_data" class="nav-link">
+            <router-link to="/admin/export_data" class="nav-link">
               <i class="nav-icon fas fa-list orange"></i>
               <p>
                 Архивы по лотам

@@ -338,19 +338,20 @@
                 }
             },
 
-            getResults(page = 1) {
+          getResults(page = 1) {
 
               this.$Progress.start();
 
-              axios.get('/api/auction?page=' + page).then(({ data }) => (this.auctions = data.data));
+              axios.get('/admin/api/admin/auction?page=' + page).then(({ data }) => (this.auctions = data.data));
 
               this.$Progress.finish();
-            },
-            loadAuctions(){
+          },
+          loadAuctions(){
+
             // if(this.$gate.isAdmin()){
-              axios.get("/api/auction").then(({ data }) => (this.auctions = data.data));
+              axios.get("/admin/api/admin/auction").then(({ data }) => (this.auctions = data.data));
             // }
-            },
+          },
 
           formatDate(time){
             var timestamp = time; //Get the timestamp
@@ -366,16 +367,16 @@
 
           loadUsers(){
             //   axios.get("/api/user/list").then(({ data }) => (this.users = data.data));
-            //   axios.get("/api/user/list").then(({ data }) => (console.log(data.data)));
-            //   axios.get("/api/user/all/list").then(({ data }) => (console.log(data.data)));
-              axios.get("/api/user/all/list").then(({ data }) => (this.users = data.data));
+              axios.get("/admin/api/admin/user/list").then(({ data }) => (console.log(data.data)));
+            //   axios.get("/admin/api/admin/user/all/list").then(({ data }) => (console.log(data.data)));
+              axios.get("/admin/api/admin/user/all/list").then(({ data }) => (this.users = data.data));
 
           },
           loadCategories(){
-              axios.get("/api/category/list").then(({ data }) => (this.categories = data.data));
+              axios.get("/admin/api/admin/category/list").then(({ data }) => (this.categories = data.data));
           },
           loadCities(){
-              axios.get("/api/city/list").then(({ data }) => (this.cities = data.data));
+              axios.get("/admin/api/admin/city/list").then(({ data }) => (this.cities = data.data));
           },
 
           editModal(auction){
@@ -428,7 +429,7 @@
               }
               if(!error){
                 this.$Progress.start();
-                this.form.post('/api/auction')
+                this.form.post('/admin/api/admin/auction')
                 .then((data)=>{
                     if(data.data.success){
                     $('#addNew').modal('hide');
@@ -445,7 +446,7 @@
                             let file = this.files[i];
                             formData.append('images[' + i + ']', file);
                         }
-                        axios.post( '/api/auction/uploadImages/'+data.data.data.id,
+                        axios.post( '/api/auction/admin/uploadImages/'+data.data.data.id,
                         formData,
                         {
                             headers: {
@@ -520,7 +521,7 @@
               }
               if(!error){
                 this.$Progress.start();
-                this.form.put('/api/auction/'+this.form.id)
+                this.form.put('/admin/api/admin/auction/'+this.form.id)
                 .then((response) => {
                     // success
                     $('#addNew').modal('hide');
@@ -536,7 +537,7 @@
                             let file = this.files[i];
                             formData.append('images[' + i + ']', file);
                         }
-                        axios.post( '/api/auction/uploadImages/'+this.form.id,
+                        axios.post( '/admin/api/admin/auction/uploadImages/'+this.form.id,
                         formData,
                         {
                             headers: {
@@ -574,7 +575,7 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('/api/auction/'+id).then(()=>{
+                              this.form.delete('/admin/api/admin/auction/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',
@@ -593,7 +594,7 @@
                 var alertSure = confirm('Вы уверены что хотите удалить изображение?');
 
                 if(alertSure){
-                    axios.post( '/api/auction/destroyImages/'+id,
+                    axios.post( '/admin/api/admin/auction/destroyImages/'+id,
                         ).then(function(){
                             console.log('SUCCESS!!');
                             $('#image_'+id).remove();
@@ -609,7 +610,7 @@
                 var alertSure = confirm('Вы уверены что хотите удалить файл?');
 
                 if(alertSure){
-                    axios.post( '/api/auction/destroyFiles/'+id,
+                    axios.post( '/admin/api/admin/auction/destroyFiles/'+id,
                         ).then(function(){
                             console.log('SUCCESS!!');
                             $('#file_'+id).remove();

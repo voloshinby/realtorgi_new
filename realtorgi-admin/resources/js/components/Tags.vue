@@ -90,14 +90,14 @@
 
           loadTags(){
             // if(this.$gate.isAdmin()){
-              axios.get("api/tags").then(({ data }) => (this.tags = data.data));
+              axios.get("/admin/api/admin/tags").then(({ data }) => (this.tags = data.data));
             // }
           },
           
           createTag(){
               this.$Progress.start();
 
-              this.form.post('api/tags')
+              this.form.post('/admin/api/admin/tags')
               .then((data)=>{
                   $('#addNew').modal('hide');
 

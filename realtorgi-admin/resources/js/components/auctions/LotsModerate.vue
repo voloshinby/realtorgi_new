@@ -255,20 +255,20 @@
 
               this.$Progress.start();
 
-              axios.get('/api/lot?page=' + page).then(({ data }) => (this.lots = data.data));
+              axios.get('/admin/api/admin/lot?page=' + page).then(({ data }) => (this.lots = data.data));
 
               this.$Progress.finish();
           },
           loadLots(){
             // if(this.$gate.isAdmin()){
-              axios.get("/api/lot").then(({ data }) => (this.lots = data.data));
+              axios.get("/admin/api/admin/lot").then(({ data }) => (this.lots = data.data));
             // }
           },
           loadCategories(){
-              axios.get("/api/category/list").then(({ data }) => (this.categories = data.data));
+              axios.get("/admin/api/admin/category/list").then(({ data }) => (this.categories = data.data));
           },
           loadAuctions(){
-              axios.get("/api/auction/list").then(({ data }) => (this.auctions = data.data));
+              axios.get("/admin/api/admin/auction/list").then(({ data }) => (this.auctions = data.data));
           },
           editModal(lot){
               this.editmode = true;
@@ -284,7 +284,7 @@
           updateLot(){
               this.$Progress.start();
 
-              this.form.put('/api/lot/'+this.form.id)
+              this.form.put('/admin/api/admin/lot/'+this.form.id)
               .then((response) => {
 
                   // success
@@ -315,7 +315,7 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('/api/lot/'+id).then(()=>{
+                              this.form.delete('/admin/api/admin/lot/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',
@@ -334,7 +334,7 @@
                 var alertSure = confirm('Вы уверены что хотите удалить изображение?');
 
                 if(alertSure){
-                    axios.post( '/api/lot/destroyImages/'+id,
+                    axios.post( '/admin/api/admin/lot/destroyImages/'+id,
                         ).then(function(){
                             console.log('SUCCESS!!');
                             $('#image_'+id).remove();
@@ -350,7 +350,7 @@
                 var alertSure = confirm('Вы уверены что хотите удалить файл?');
 
                 if(alertSure){
-                    axios.post( '/api/lot/destroyFiles/'+id,
+                    axios.post( '/admin/api/admin/lot/destroyFiles/'+id,
                         ).then(function(){
                             console.log('SUCCESS!!');
                             $('#file_'+id).remove();

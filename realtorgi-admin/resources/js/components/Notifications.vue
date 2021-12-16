@@ -105,14 +105,14 @@
 
               this.$Progress.start();
 
-              axios.get('/api/notification?page=' + page).then(({ data }) => (this.notifications = data.data));
+              axios.get('/admin/api/admin/notification?page=' + page).then(({ data }) => (this.notifications = data.data));
 
               this.$Progress.finish();
           },
           loadNotifications(){
 
             // if(this.$gate.isAdmin()){
-              axios.get("/api/notification").then(({ data }) => (this.notifications = data.data));
+              axios.get("/admin/api/admin/notification").then(({ data }) => (this.notifications = data.data));
             // }
           },
 

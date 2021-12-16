@@ -7,7 +7,7 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Список ставок</h3>
+                <h3 class="card-title">Auctions List</h3>
 
                 <div class="card-tools">
 
@@ -24,26 +24,23 @@
                     <tr>
                       <th>ID</th>
                       <th>Название</th>
-                      <th>Пользователь</th>
-                      <th>Ставка</th>
+                      <th>Дата начала - конец</th>
                       <th>Действия</th>
                     </tr>
                   </thead>
                   <tbody>
-                     <tr v-for="bet in bets.data" :key="bet.id">
-                      <td>{{bet.id}}</td>
+                     <tr v-for="auction in auctions.data" :key="auction.id">
+                      <td>{{auction.id}}</td>
                         <td>
-                            {{bet.lot.name}}
+                            {{auction.name}}
                         </td>
-                      <td v-if="bet.user.full_name != '' && bet.user.full_name != null">{{ bet.user.full_name }}</td>
-                      <td v-else>{{ bet.user.first_name }} {{ bet.user.last_name }}</td>
-                      <td>{{ bet.bet_amount }}</td>
+                      <td>{{auction.starts_at}} - {{auction.ends_at}}</td>
                       <td>
-                        <a @click="editModal(bet)">
+                        <a @click="editModal(auction)">
                             <i class="fa fa-edit blue"></i>
                         </a>
                         /
-                        <a @click="deleteBet(bet.id)">
+                        <a @click="deleteAuction(auction.id)">
                             <i class="fa fa-trash red"></i>
                         </a>
                       </td>
@@ -53,7 +50,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                  <pagination :data="bets" @pagination-change-page="getResults"></pagination>
+                  <pagination :data="auctions" @pagination-change-page="getResults"></pagination>
               </div>
             </div>
             <!-- /.card -->
@@ -65,32 +62,34 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" v-show="!editmode">Create New Bet</h5>
-                    <h5 class="modal-title" v-show="editmode">Edit Bet</h5>
+                    <h5 class="modal-title" v-show="!editmode">Create New Auction</h5>
+                    <h5 class="modal-title" v-show="editmode">Edit Auction</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
-                <form @submit.prevent="editmode ? updateBet() : createBet()">
+                <form @submit.prevent="editmode ? updateAuction() : createAuction()">
                     <div class="modal-body">
-
                         <div class="form-group">
-                            <label>Лот</label>
-                            <select class="form-control" v-model="form.lot_id">
-                              <option
-                                  v-for="(lt,index) in lots" :key="index"
-                                  :value="index"
-                                  :selected="index == form.lot_id">{{ lt }}</option>
-                            </select>
-                            <has-error :form="form" field="lot_id"></has-error>
+                            <label>Name</label>
+                            <input v-model="form.name" type="text" name="name"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                            <has-error :form="form" field="name"></has-error>
                         </div>
 
                         <div class="form-group">
-                            <label>user_id</label>
-                            <input v-model="form.user_id" type="text" name="user_id"
-                                class="form-control" :class="{ 'is-invalid': form.errors.has('user_id') }">
-                            <has-error :form="form" field="user_id"></has-error>
+                            <label>Начало</label>
+                            <input v-model="form.starts_at" type="datetime-local" name="starts_at"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('starts_at') }">
+                            <has-error :form="form" field="starts_at"></has-error>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Конец</label>
+                            <input type="datetime-local" v-model="form.ends_at" name="ends_at"
+                                class="form-control" :class="{ 'is-invalid': form.errors.has('ends_at') }">
+                            <has-error :form="form" field="ends_at"></has-error>
                         </div>
 
                     </div>
@@ -117,18 +116,13 @@
         data () {
             return {
                 editmode: false,
-                bets : {},
+                auctions : {},
                 form: new Form({
                     id : '',
-                    user: '',
-                    lot: '',
-                    lot_id: '',
-                    author_id: '',
-                    bet_amount: '',
-                    updated_at: '',
-                    created_at: '',
+                    name: '',
+                    starts_at: '',
+                    ends_at: '',
                 }),
-                lots: [],
 
                 autocompleteItems: [],
             }
@@ -139,39 +133,31 @@
 
               this.$Progress.start();
 
-              axios.get('/admin/api/admin/bet?page=' + page).then(({ data }) => (this.bets = data.data));
+              axios.get('/admin/api/admin/auction?page=' + page).then(({ data }) => (this.auctions = data.data));
 
               this.$Progress.finish();
           },
-          loadBets(){
+          loadAuctions(){
 
             // if(this.$gate.isAdmin()){
-              axios.get("/admin/api/admin/bet").then(({ data }) => (this.bets = data.data));
+              axios.get("/admin/api/admin/auction").then(({ data }) => (this.auctions = data.data));
             // }
           },
-          loadUsers(){
-              axios.get("/admin/api/admin/user/list").then(({ data }) => (this.users = data.data));
-          },
-          loadLots(){
-            // if(this.$gate.isAdmin()){
-              axios.get("/admin/api/admin/lot/list").then(({ data }) => (this.lots = data.data));
-            // }
-          },
-          editModal(bet){
+          editModal(auction){
               this.editmode = true;
               this.form.reset();
               $('#addNew').modal('show');
-              this.form.fill(bet);
+              this.form.fill(auction);
           },
           newModal(){
               this.editmode = false;
               this.form.reset();
               $('#addNew').modal('show');
           },
-          createBet(){
+          createAuction(){
               this.$Progress.start();
 
-              this.form.post('/admin/api/admin/bet')
+              this.form.post('/admin/api/admin/auction')
               .then((data)=>{
                 if(data.data.success){
                   $('#addNew').modal('hide');
@@ -181,7 +167,7 @@
                         title: data.data.message
                     });
                   this.$Progress.finish();
-                  this.loadBets();
+                  this.loadAuctions();
 
                 } else {
                   Toast.fire({
@@ -200,9 +186,9 @@
                   });
               })
           },
-          updateBet(){
+          updateAuction(){
               this.$Progress.start();
-              this.form.put('/admin/api/admin/bet/'+this.form.id)
+              this.form.put('/admin/api/admin/auction/'+this.form.id)
               .then((response) => {
                   // success
                   $('#addNew').modal('hide');
@@ -213,14 +199,14 @@
                   this.$Progress.finish();
                       //  Fire.$emit('AfterCreate');
 
-                  this.loadBets();
+                  this.loadAuctions();
               })
               .catch(() => {
                   this.$Progress.fail();
               });
 
           },
-          deleteBet(id){
+          deleteAuction(id){
               Swal.fire({
                   title: 'Are you sure?',
                   text: "You won't be able to revert this!",
@@ -232,14 +218,14 @@
 
                       // Send request to the server
                         if (result.value) {
-                              this.form.delete('api/bet/'+id).then(()=>{
+                              this.form.delete('/admin/api/admin/auction/'+id).then(()=>{
                                       Swal.fire(
                                       'Deleted!',
                                       'Your file has been deleted.',
                                       'success'
                                       );
                                   // Fire.$emit('AfterCreate');
-                                  this.loadBets();
+                                  this.loadAuctions();
                               }).catch((data)=> {
                                   Swal.fire("Failed!", data.message, "warning");
                               });
@@ -254,9 +240,7 @@
         created() {
             this.$Progress.start();
 
-            this.loadBets();
-            this.loadUsers();
-            this.loadLots();
+            this.loadAuctions();
 
             this.$Progress.finish();
         },

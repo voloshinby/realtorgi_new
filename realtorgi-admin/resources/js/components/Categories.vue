@@ -102,14 +102,14 @@
 
           loadCategories(){
             // if(this.$gate.isAdmin()){
-              axios.get("api/category").then(({ data }) => (this.categories = data.data));
+              axios.get("/admin/api/admin/category").then(({ data }) => (this.categories = data.data));
             // }
           },
           
           createCategory(){
               this.$Progress.start();
 
-              this.form.post('api/category')
+              this.form.post('/admin/api/admin/category')
               .then((data)=>{
                   $('#addNew').modal('hide');
 

@@ -458,7 +458,7 @@
             sendComment(){
                 this.$Progress.start();
 
-                this.form.put('api/change_user/'+this.form.id)
+                this.form.put('/admin/api/admin/change_user/'+this.form.id)
                 .then((response) => {
                     // success
                     $('#user_comment').modal('hide');
@@ -512,14 +512,14 @@
 
                   this.$Progress.start();
 
-                  axios.get('api/change_user?page=' + page).then(({ data }) => (this.users = data.data));
+                  axios.get('/admin/api/admin/change_user?page=' + page).then(({ data }) => (this.users = data.data));
 
                   this.$Progress.finish();
             },
             updateUser(){
                 this.$Progress.start();
 
-                this.form.put('api/change_user/'+this.form.id)
+                this.form.put('/admin/api/admin/change_user/'+this.form.id)
                 .then((response) => {
                     // success
                     $('#addNew').modal('hide');
@@ -575,7 +575,7 @@
 
                         // Send request to the server
                          if (result.value) {
-                            this.form.delete('api/change_user/'+id).then(()=>{
+                            this.form.delete('/admin/api/admin/change_user/'+id).then(()=>{
                                     Swal.fire(
                                     'Deleted!',
                                     'Your file has been deleted.',
@@ -593,7 +593,7 @@
             this.$Progress.start();
 
             if(this.$gate.isAdmin()){
-              axios.get("api/change_user").then(({ data }) => (this.users = data.data));
+              axios.get("/admin/api/admin/change_user").then(({ data }) => (this.users = data.data));
             }
 
             this.$Progress.finish();
@@ -603,7 +603,7 @@
                 var alertSure = confirm('Вы уверены что хотите удалить изображение?');
 
                 if(alertSure){
-                    axios.post( '/api/gallery/destroyImages/'+id,
+                    axios.post( '/admin/api/admin/gallery/destroyImages/'+id,
                         ).then(function(){
                             console.log('SUCCESS!!');
                             $('#image_'+id).remove();
@@ -619,7 +619,7 @@
                 var alertSure = confirm('Вы уверены что хотите удалить файл?');
 
                 if(alertSure){
-                    axios.post( '/api/gallery/destroyFiles/'+id,
+                    axios.post( '/admin/api/admin/gallery/destroyFiles/'+id,
                         ).then(function(){
                             console.log('SUCCESS!!');
                             $('#file_'+id).remove();
