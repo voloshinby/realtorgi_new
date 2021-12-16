@@ -4,13 +4,13 @@
         <div class="row">
 
           <div class="col-12">
-        
+
             <div class="card" v-if="$gate.isAdmin()">
               <div class="card-header">
                 <h3 class="card-title">Category List</h3>
 
                 <div class="card-tools">
-                  
+
                   <button type="button" class="btn btn-sm btn-primary" @click="newModal">
                       <i class="fa fa-plus-square"></i>
                       Add New
@@ -120,14 +120,14 @@
             getResults(page = 1) {
 
                   this.$Progress.start();
-                  
-                  axios.get('/api/category?page=' + page).then(({ data }) => (this.categories = data.data));
+
+                  axios.get('/admin/api/category?page=' + page).then(({ data }) => (this.categories = data.data));
 
                   this.$Progress.finish();
             },
             updateCategory(){
                 this.$Progress.start();
-                this.form.put('/api/category/'+this.form.id)
+                this.form.put('/admin/api/category/'+this.form.id)
                 .then((response) => {
                     // success
                     $('#addNew').modal('hide');
@@ -159,13 +159,13 @@
 
             loadCategories(){
                 if(this.$gate.isAdmin()){
-                    axios.get("/api/category").then(({ data }) => (this.categories = data.data));
+                    axios.get("/admin/api/category").then(({ data }) => (this.categories = data.data));
                 }
             },
-            
+
             createCategory(){
 
-                this.form.post('/api/category')
+                this.form.post('/admin/api/category')
                 .then((response)=>{
                     $('#addNew').modal('hide');
 

@@ -4,13 +4,13 @@
         <div class="row">
 
           <div class="col-12">
-        
+
             <div class="card" v-if="$gate.isAdmin()">
               <div class="card-header">
                 <h3 class="card-title">Tag List</h3>
 
                 <div class="card-tools">
-                  
+
                   <button type="button" class="btn btn-sm btn-primary" @click="newModal">
                       <i class="fa fa-plus-square"></i>
                       Add New
@@ -111,15 +111,15 @@
             getResults(page = 1) {
 
                   this.$Progress.start();
-                  
-                  axios.get('/api/tag?page=' + page).then(({ data }) => (this.tags = data.data));
+
+                  axios.get('/admin/api/tag?page=' + page).then(({ data }) => (this.tags = data.data));
 
                   this.$Progress.finish();
             },
             updateTag(){
                 this.$Progress.start();
                 // console.log('Editing data');
-                this.form.put('/api/tag/'+this.form.id)
+                this.form.put('/admin/api/tag/'+this.form.id)
                 .then((response) => {
                     // success
                     $('#addNew').modal('hide');
@@ -151,13 +151,13 @@
 
             loadTags(){
                 if(this.$gate.isAdmin()){
-                    axios.get("/api/tag").then(({ data }) => (this.tags = data.data));
+                    axios.get("/admin/api/tag").then(({ data }) => (this.tags = data.data));
                 }
             },
-            
+
             createTag(){
 
-                this.form.post('/api/tag')
+                this.form.post('/admin/api/tag')
                 .then((response)=>{
                     $('#addNew').modal('hide');
 

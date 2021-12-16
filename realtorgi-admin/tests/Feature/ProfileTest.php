@@ -27,7 +27,7 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'api')
-            ->getJson('/api/profile');
+            ->getJson('/admin/api/profile');
 
         $response
             ->assertStatus(200)
@@ -46,7 +46,7 @@ class ProfileTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->getJson('/api/profile');
+        $response = $this->getJson('/admin/api/profile');
 
         $response->assertStatus(401);
     }
@@ -61,7 +61,7 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'api')
-            ->putJson('/api/profile', ['email' => $this->faker->email, 'name' => $this->faker->name]);
+            ->putJson('/admin/api/profile', ['email' => $this->faker->email, 'name' => $this->faker->name]);
 
         $response
             ->assertStatus(200)
@@ -80,7 +80,7 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'api')
-            ->putJson('/api/profile', ['name' => $this->faker->name]);
+            ->putJson('/admin/api/profile', ['name' => $this->faker->name]);
 
         $response->assertStatus(422);
     }
@@ -95,7 +95,7 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'api')
-            ->postJson('/api/change-password', [
+            ->postJson('/admin/api/change-password', [
                 'current_password' => 123456,
                 'new_password' => 123456789,
                 'confirm_password' => 123456789
@@ -119,7 +119,7 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'api')
-            ->postJson('/api/change-password', ['current_password' => $this->faker->password]);
+            ->postJson('/admin/api/change-password', ['current_password' => $this->faker->password]);
 
         $response->assertStatus(422);
     }

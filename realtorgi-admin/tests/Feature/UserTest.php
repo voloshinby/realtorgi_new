@@ -26,7 +26,7 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'api')
-            ->getJson('/api/user');
+            ->getJson('/admin/api/user');
 
         $response
             ->assertStatus(200)
@@ -48,7 +48,7 @@ class UserTest extends TestCase
         ]);
 
         $response = $this->actingAs($user, 'api')
-            ->getJson('/api/user');
+            ->getJson('/admin/api/user');
 
         $response
             ->assertStatus(403)
@@ -74,7 +74,7 @@ class UserTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-            ->postJson('/api/user', $data);
+            ->postJson('/admin/api/user', $data);
 
         $response
             ->assertStatus(200)
@@ -98,7 +98,7 @@ class UserTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-            ->postJson('/api/user', $data);
+            ->postJson('/admin/api/user', $data);
 
         $response->assertStatus(422);
     }
@@ -118,7 +118,7 @@ class UserTest extends TestCase
         ];
 
         $response = $this->actingAs($user, 'api')
-            ->putJson('/api/user/' . $user->id, $data);
+            ->putJson('/admin/api/user/' . $user->id, $data);
         $response
             ->assertStatus(200)
             ->assertJson([
@@ -136,7 +136,7 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'api')
-            ->putJson('/api/user/' . $user->id, ['email' => 'Invalid@email com']);
+            ->putJson('/admin/api/user/' . $user->id, ['email' => 'Invalid@email com']);
 
         $response->assertStatus(422);
     }
@@ -152,7 +152,7 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user, 'api')
-            ->deleteJson('/api/user/' . $user->id);
+            ->deleteJson('/admin/api/user/' . $user->id);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -172,7 +172,7 @@ class UserTest extends TestCase
         ]);
 
         $response = $this->actingAs($user, 'api')
-            ->deleteJson('/api/user/' . $user->id);
+            ->deleteJson('/admin/api/user/' . $user->id);
 
         $response->assertStatus(403);
     }
