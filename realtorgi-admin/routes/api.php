@@ -69,6 +69,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     Route::get('auction/lots/{id}', 'AuctionController@lots');
     Route::post('registration/confirm/{id}', 'UserController@confirm_user');
     Route::get('user_applications/{id}', 'AuctionConfirmController@allApplications');
+    Route::post('auctionConfirm/notification/{id}', 'AuctionConfirmController@notificateComment');
     /* Архив */
     Route::get('archive/download/{id}', 'ExportDataController@download');
 

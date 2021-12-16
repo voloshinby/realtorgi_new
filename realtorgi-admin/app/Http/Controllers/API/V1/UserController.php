@@ -106,7 +106,8 @@ class UserController extends BaseController
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
             'registration_code' => rand(100000, 999999),
-            'type' => 'User',
+            'type' => 'user',
+            'type_user' => $request->get('type_user'),
         ]);
 
         if (isset($user) && !is_null($user)) {

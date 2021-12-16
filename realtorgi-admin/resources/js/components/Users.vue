@@ -471,16 +471,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label>Роль</label>
-                            <select name="type" v-model="form.type" id="type" class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
-                                <option value="">Select User Role</option>
-                                <option value="admin">Администратор</option>
-                                <option value="user">Пользователь</option>
-                            </select>
-                            <has-error :form="form" field="type"></has-error>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

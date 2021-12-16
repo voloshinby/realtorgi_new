@@ -12,8 +12,13 @@ class Feedback extends Model
     protected $fillable = [
         'name',
         'phone',
+        'email',
         'created_at',
         'updated_at',
         'status',
+    ];
+
+    protected $attributes = [
+        'email' => 'test@mail.ru',
     ];
 }
