@@ -2,15 +2,14 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Auction;
 use App\Models\AuctionBets;
 use App\Models\AuctionConfirm;
 use App\Models\Lot;
-use App\Models\User;
-use App\Models\ExportData;
 use App\Models\Notification;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
 class Auctions extends Command
@@ -50,8 +49,8 @@ class Auctions extends Command
         $curr = Carbon::now()->timestamp;
         $auctions = Auction::get();
 
-        if(isset($auctions) || !is_null($auctions)){
-            foreach($auctions as $auction){
+        if (isset($auctions) || !is_null($auctions)) {
+            foreach ($auctions as $auction) {
 
                 $starts_at = (int)$auction['starts_at'];
                 $ends_at = (int)$auction['ends_at'];
@@ -76,86 +75,88 @@ class Auctions extends Command
                 //     }
 
                 // }
-                if ($start_selling <= (int)$curr && $end_selling >= (int)$curr){
+                if ($start_selling <= (int)$curr && $end_selling >= (int)$curr) {
                     $lots = Lot::where('auction_id', $auction['id'])->get();
 
-                    foreach($lots as $lot){
+                    foreach ($lots as $lot) {
                         $countUsers = AuctionConfirm::where('confirmed_user', 1)->where('confirmed_admin', 1)->where('lot_id', $lot['id'])->count();
 
-                        if($countUsers > 1){
+                        if ($countUsers > 1) {
                             Lot::where('id', $lot['id'])->update([
-                                'status' => 'Текущие'
+                                'status' => 'Текущие',
                             ]);
                         } else {
                             Lot::where('id', $lot['id'])->update([
-                                'status' => 'Несостоявшиеся'
+                                'status' => 'Несостоявшиеся',
                             ]);
                         }
                     }
-                }
-                else if($end_selling <= (int)$curr){
-                    $lots = Lot::where('auction_id', $auction['id'])->get();
+                } else {
+                    if ($end_selling <= (int)$curr) {
+                        $lots = Lot::where('auction_id', $auction['id'])->get();
 
-                    foreach($lots as $lot){
-                        $countUsers = AuctionConfirm::where('confirmed_user', 1)->where('confirmed_admin', 1)->where('lot_id', $lot['id'])->count();
-                        $countBets = AuctionBets::where('lot_id', $lot['id'])->count();
+                        foreach ($lots as $lot) {
+                            $countUsers = AuctionConfirm::where('confirmed_user', 1)->where('confirmed_admin',
+                                1)->where('lot_id', $lot['id'])->count();
+                            $countBets = AuctionBets::where('lot_id', $lot['id'])->count();
 
-                        if($countUsers > 1 && $countBets > 0){
-                            Lot::where('id', $lot['id'])->update([
-                                'status' => 'Состоявшиеся'
-                            ]);
-
-                            // ExportData::where('lot_id', $lot['id'])->update(['done', 1]);
-
-                            $maxBet = AuctionBets::where('lot_id', $lot['id'])->max('bet_amount');
-
-                            $bet = AuctionBets::where('lot_id', $lot['id'])->where('bet_amount', $maxBet)->first();
-
-                            $user = User::where('id', $bet['user_id'])->first();
-
-                            $lot = Lot::where('id', $bet['lot_id'])->first();
-
-                            if($bet['winner'] == 0){
-                                $bet->update([
-                                    'winner' => 1
+                            if ($countUsers > 1 && $countBets > 0) {
+                                Lot::where('id', $lot['id'])->update([
+                                    'status' => 'Состоявшиеся',
                                 ]);
 
-                                Notification::create([
-                                    'title' => 'Победа в аукционе',
-                                    'text' => 'Пользователь '.$user['first_name'].' '.$user['last_name'].' победил в лоте под номером '.$lot['lot_number'],
-                                    'user_id' => 0,
-                                    'status' => 'new',
-                                ]);
+                                // ExportData::where('lot_id', $lot['id'])->update(['done', 1]);
 
-                                Mail::send('emails.auctionWinner', $lot->toArray(),
-                                    function($message) use ($user){
-                                        $message->to($user['email'])->subject('Победа в аукционе');
-                                    }
-                                );
+                                $maxBet = AuctionBets::where('lot_id', $lot['id'])->max('bet_amount');
+
+                                $bet = AuctionBets::where('lot_id', $lot['id'])->where('bet_amount', $maxBet)->first();
+
+                                $user = User::where('id', $bet['user_id'])->first();
+
+                                $lot = Lot::where('id', $bet['lot_id'])->first();
+
+                                if ($bet['winner'] == null) {
+                                    $bet->update([
+                                        'winner' => 1,
+                                    ]);
+
+                                    Notification::create([
+                                        'title' => 'Победа в аукционе',
+                                        'text' => 'Пользователь ' . $user['first_name'] . ' ' . $user['last_name'] . ' победил в лоте под номером ' . $lot['lot_number'],
+                                        'user_id' => 0,
+                                        'status' => 'new',
+                                    ]);
+
+                                    Mail::send('emails.auctionWinner', $lot->toArray(),
+                                        function ($message) use ($user) {
+                                            $message->to($user['email'])->subject('Победа в аукционе');
+                                        }
+                                    );
+                                }
+
+                            } else {
+                                Lot::where('id', $lot['id'])->update([
+                                    'status' => 'Несостоявшиеся',
+                                ]);
                             }
 
+                        }
+                    } else {
+                        if ($starts_at <= (int)$curr && $start_selling >= (int)$curr) {
+                            $lots = Lot::where('auction_id', $auction['id'])->get();
+
+                            foreach ($lots as $lot) {
+
+                                if ($lot['status'] != 'Предстоящие') {
+                                    Lot::where('id', $lot['id'])->update([
+                                        'status' => 'Предстоящие',
+                                    ]);
+                                }
+                            }
                         } else {
-                            Lot::where('id', $lot['id'])->update([
-                                'status' => 'Несостоявшиеся'
-                            ]);
-                        }
-
-                    }
-                }
-                else if($starts_at <= (int)$curr && $start_selling >= (int)$curr){
-                    $lots = Lot::where('auction_id', $auction['id'])->get();
-
-                    foreach($lots as $lot){
-
-                        if($lot['status'] != 'Предстоящие'){
-                            Lot::where('id', $lot['id'])->update([
-                                'status' => 'Предстоящие'
-                            ]);
+                            continue;
                         }
                     }
-                }
-                else {
-                    continue;
                 }
 
             }

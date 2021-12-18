@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use Illuminate\Http\Request;
 use App\Models\Notification;
+use Illuminate\Http\Request;
 
 class NotificationsController extends BaseController
 {
@@ -27,7 +27,7 @@ class NotificationsController extends BaseController
      */
     public function index()
     {
-        $notifications = $this->notification->latest()->with('user')->where('user_id', 0)->paginate(1000);
+        $notifications = $this->notification->latest()->with('user')->where('user_id', 0)->paginate(200);
 
         return $this->sendResponse($notifications, 'Notifications list');
     }
@@ -35,13 +35,13 @@ class NotificationsController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
 
-        if($request->get('user_id') != 0){
+        if ($request->get('user_id') != 0) {
             $notification = $this->notification->create([
                 'user_id' => $request->get('user_id'),
                 'title' => $request->get('title'),
@@ -53,23 +53,25 @@ class NotificationsController extends BaseController
             $notification = $this->notification->create([
                 'user_id' => '0',
                 'text' => $request->get('text'),
-                'status' => 'new'
+                'status' => 'new',
             ]);
         }
 
         return $this->sendResponse($notification, 'Notification Created Successfully');
     }
 
-    public function userList($id){
+    public function userList($id)
+    {
 
         $notifications = $this->notification->where('user_id', $id)->paginate(1000);
 
         return $this->sendResponse($notifications, 'Notifications list');
     }
 
-    public function updateAll(Request $request){
+    public function updateAll(Request $request)
+    {
 
-       $notification = $this->notification->where('user_id', $request->get('user_id'))->update([
+        $notification = $this->notification->where('user_id', $request->get('user_id'))->update([
             'status' => $request->get('status'),
         ]);
 
@@ -80,7 +82,7 @@ class NotificationsController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -95,8 +97,7 @@ class NotificationsController extends BaseController
         $notification = $this->notification->findOrFail($id);
 
         $notification->update([
-            'status' => $request->get('status'),
-            'is_shown' => $request->get('is_shown')
+            'is_view_by_admin' => true,
         ]);
 
         return $this->sendResponse($notification, 'Notification has been updated');
@@ -105,7 +106,7 @@ class NotificationsController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -117,5 +118,12 @@ class NotificationsController extends BaseController
         $notification->delete();
 
         return $this->sendResponse($notification, 'Notification has been Deleted');
+    }
+
+    public function readAllNotifications()
+    {
+        $this->notification->where('is_view_by_admin', false)->update(['is_view_by_admin' => true]);
+
+        return $this->sendResponse([], 'Notifications have been Read');
     }
 }

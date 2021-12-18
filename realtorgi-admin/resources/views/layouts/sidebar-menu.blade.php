@@ -90,9 +90,9 @@
           <i class="nav-icon fas fa-cog green"></i>
           <p>
             Настройки
-            @if(DB::table('feedback')->where('status', 'new')->count() > 0 || DB::table('notifications')->where('status', 'new')->count() > 0)
+            @if(DB::table('feedback')->where('status', 'new')->count() > 0 || DB::table('notifications')->where('is_view_by_admin', 0)->count() > 0)
                 <span style="color: orange;">
-                    ({{ DB::table('feedback')->where('status', 'new')->count() + DB::table('notifications')->where('status', 'new')->count() }})
+                    ({{ DB::table('feedback')->where('status', 'new')->count() + DB::table('notifications')->where('is_view_by_admin', 0)->count() }})
                 </span>
             @endif
             <i class="right fas fa-angle-left"></i>
@@ -137,9 +137,9 @@
               <i class="nav-icon fas fa-list orange"></i>
               <p>
                 Уведомления
-                @if(DB::table('notifications')->where('status', 'new')->count() > 0)
+                @if(DB::table('notifications')->where('is_view_by_admin', 0)->count() > 0)
                     <span style="color: orange;">
-                        ({{ DB::table('notifications')->where('status', 'new')->count() }})
+                        ({{ DB::table('notifications')->where('is_view_by_admin', 0)->count() }})
                     </span>
                 @endif
               </p>

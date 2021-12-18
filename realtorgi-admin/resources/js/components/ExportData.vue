@@ -11,10 +11,10 @@
 
                 <div class="card-tools">
 
-                  <button type="button" class="btn btn-sm btn-primary" v-on:click="downloadArchive()">
+                 <!-- <button type="button" class="btn btn-sm btn-primary" v-on:click="downloadArchive()">
                       <i class="fa fa-plus-square"></i>
                       Add New
-                  </button>
+                  </button>-->
                 </div>
               </div>
               <!-- /.card-header -->
@@ -35,9 +35,9 @@
                       <td>{{ ed.name }}</td>
                       <td>
                         <a
-                            :data-name="ed.name.replace(' ', '-') + '-' + ed.id +'.zip'"
+                            :data-name="ed.name.replace(' ', '-').toLowerCase() +  ed.id +'.zip'"
                             :id="'archive-download-' + ed.id"
-                            @click="downloadArchive(ed.id, '/uploads/archives/' + ed.name.replace(' ', '-') + '-' + ed.id +'.zip')"
+                            @click="downloadArchive(ed.id, '/uploads/archives/' + ed.name.replace(' ', '-').toLowerCase() + ed.id +'.zip')"
                         >
                             <button class="col-md-4 form-control btn btn-primary">
                                 Скачать
@@ -86,11 +86,11 @@
                     console.log(lk);
                     var name = lk.getAttribute('data-name');
                     console.log(name);
+                    console.log(link);
                     lk.setAttribute('href', link.replace(' ', ''));
                     lk.setAttribute('download', name);
                     lk.click();
                     this.$Progress.finish();
-                    location.reload();
                 })
                 .catch(()=>{
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Http\Controllers\API\V1\BaseController;
+use Illuminate\Support\Str;
 use ZipArchive;
 use App\Models\ExportData;
 use App\Models\Lot;
@@ -40,9 +40,9 @@ class ExportDataController extends BaseController
             }
         }
 
-        $lot = $this->lot->latest()->where('status', 'Состоявшиеся')->whereIn('id', $idsArray)->paginate(1000);
+        $lots = $this->lot->latest()->where('status', 'Состоявшиеся')->whereIn('id', $idsArray)->paginate(100);
 
-        return $this->sendResponse($lot, 'Archives list');
+        return $this->sendResponse($lots, 'Archives list');
     }
 
     public function download($id){
@@ -53,8 +53,8 @@ class ExportDataController extends BaseController
 
         $zip = new ZipArchive();
 
-        $filename = $lot->name.'-'.$lot->id.'.zip';
-        $filename = str_replace([' ', ',', '№', '.', '/', '$', '%'], '-', $filename);
+        $lotSlug = Str::slug($lot->name);
+        $filename = $lotSlug . $lot->id.'.zip';
 
         if($zip->open(public_path('/uploads/archives/'.$filename), ZipArchive::CREATE) !== TRUE){
             exit("Невозможно открыть");

@@ -10,7 +10,11 @@ class AuctionBets extends Model
     use HasFactory;
 
     protected $fillable = [
-        'lot_id', 'user_id', 'bet_amount', 'created_at', 'updated_at'
+        'lot_id',
+        'user_id',
+        'bet_amount',
+        'created_at',
+        'updated_at',
     ];
 
     public function user()
