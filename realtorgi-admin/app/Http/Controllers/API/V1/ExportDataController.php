@@ -53,8 +53,7 @@ class ExportDataController extends BaseController
 
         $zip = new ZipArchive();
 
-        $lotSlug = Str::slug($lot->name);
-        $filename = $lotSlug . $lot->id.'.zip';
+        $filename = $lot->id.'.zip';
 
         if($zip->open(public_path('/uploads/archives/'.$filename), ZipArchive::CREATE) !== TRUE){
             exit("Невозможно открыть");
