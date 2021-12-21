@@ -51,7 +51,7 @@ class UserController extends BaseController
 
     public function allList()
     {
-        $users = User::select('first_name', 'last_name', 'id')->get();
+        $users = User::select('first_name', 'last_name', 'id', 'phone')->get();
 
         return $this->sendResponse($users, 'Users    list');
     }

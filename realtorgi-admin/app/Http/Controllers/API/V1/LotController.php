@@ -192,43 +192,34 @@ class LotController extends BaseController
 
     public function upload(Request $request, $id)
     {
-        $fileUpload = new Gallery();
+        if ($request->file() && $request->file('images')) {
+            foreach ($request->file('images') as $image) {
+                $file_path = $image->store("lots/{$id}", 'public');
 
-        if ($request->file()) {
-            if ($request->file('images')) {
-                foreach ($request->file('images') as $image) {
+                $data = [
+                    'name' => time() . '_' . $image->getClientOriginalName(),
+                    'path' => '/admin/storage/' . $file_path,
+                    'lot_id' => $id,
+                ];
 
-                    $file_name = time() . '_' . $image->getClientOriginalName();
-                    $file_path = $image->storeAs('', $file_name, 'uploads');
+                if (getimagesize($image) != false) {
+                    Gallery::create($data);
 
-                    $data = [
-                        'name' => time() . '_' . $image->getClientOriginalName(),
-                        'path' => '/public/uploads/' . $file_path,
-                        'lot_id' => $id,
-                    ];
+                    Notification::create([
+                        'user_id' => 0,
+                        'text' => 'К лоту под номером ' . $id . ' были загружены новые изображения',
+                        'status' => 'new',
+                    ]);
+                } else {
+                    File::create($data);
 
-                    if (getimagesize($image) != false) {
-                        Gallery::create($data);
-
-                        Notification::create([
-                            'user_id' => 0,
-                            'text' => 'К лоту под номером ' . $id . ' были загружены новые изображения',
-                            'status' => 'new',
-                        ]);
-                    } else {
-                        File::create($data);
-
-                        Notification::create([
-                            'user_id' => 0,
-                            'text' => 'К лоту под номером ' . $id . ' были загружены новые файлы',
-                            'status' => 'new',
-                        ]);
-                    }
-
+                    Notification::create([
+                        'user_id' => 0,
+                        'text' => 'К лоту под номером ' . $id . ' были загружены новые файлы',
+                        'status' => 'new',
+                    ]);
                 }
             }
-
-
         }
 
         return response()->json(['success' => true]);

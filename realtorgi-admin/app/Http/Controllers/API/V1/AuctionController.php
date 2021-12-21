@@ -4,13 +4,12 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\Auctions\AuctionRequest;
 use App\Models\Auction;
-use App\Models\Country;
-use Illuminate\Http\Request;
-use App\Models\Notification;
-use App\Models\Lot;
 use App\Models\AuctionFiles;
 use App\Models\AuctionGallery;
-use Carbon\Carbon;
+use App\Models\Country;
+use App\Models\Lot;
+use App\Models\Notification;
+use Illuminate\Http\Request;
 
 class AuctionController extends BaseController
 {
@@ -46,41 +45,41 @@ class AuctionController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\Auctions\AuctionRequest  $request
+     * @param App\Http\Requests\Auctions\AuctionRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(AuctionRequest $request)
     {
 
-        if(!is_null($request->get('starts_at')) && $request->get('starts_at') != ''){
+        if (!is_null($request->get('starts_at')) && $request->get('starts_at') != '') {
             $starts_at = date("U", strtotime($request->get('starts_at')));
         } else {
             $starts_at = date('d-m-Y H:i:s', strtotime('+30 days', strtotime('8:00:00')));
             $starts_at = date('U', strtotime($starts_at));
         }
 
-        if(!is_null($request->get('ends_at')) && $request->get('ends_at') != ''){
+        if (!is_null($request->get('ends_at')) && $request->get('ends_at') != '') {
             $ends_at = date("U", strtotime($request->get('ends_at')));
         } else {
             $ends_at = date('d-m-Y H:i:s', strtotime('+30 days', strtotime('17:00:00')));
             $ends_at = date('U', strtotime($ends_at));
         }
 
-        if(!is_null($request->get('start_selling')) && $request->get('start_selling') != ''){
+        if (!is_null($request->get('start_selling')) && $request->get('start_selling') != '') {
             $start_selling = date("U", strtotime($request->get('start_selling')));
         } else {
             $start_selling = date('d-m-Y H:i:s', strtotime('+31 days', strtotime('9:00:00')));
             $start_selling = date('U', strtotime($start_selling));
         }
 
-        if(!is_null($request->get('end_selling')) && $request->get('end_selling') != ''){
+        if (!is_null($request->get('end_selling')) && $request->get('end_selling') != '') {
             $end_selling = date("U", strtotime($request->get('end_selling')));
         } else {
             $end_selling = date('d-m-Y H:i:s', strtotime('+31 days', strtotime('16:00:00')));
             $end_selling = date('U', strtotime($end_selling));
         }
 
-        if(!is_null($request->get('city_id')) && !empty($request->get('city_id'))){
+        if (!is_null($request->get('city_id')) && !empty($request->get('city_id'))) {
             $city = Country::where('id', $request->get('city_id'))->first();
             $city = $city['name'];
         } else {
@@ -111,11 +110,11 @@ class AuctionController extends BaseController
             'seller_custom' => $request->get('seller_custom'),
         ]);
 
-        if(!is_null($request->get('seller_id')) && !empty($request->get('seller_id'))){
+        if (!is_null($request->get('seller_id')) && !empty($request->get('seller_id'))) {
             Notification::create([
                 'user_id' => $request->get('seller_id'),
                 'title' => 'Создание аукциона',
-                'text' => 'Ваш аукцион был успешно создан, его номер: '.$auction->auction_number,
+                'text' => 'Ваш аукцион был успешно создан, его номер: ' . $auction->auction_number,
                 'status' => 'new',
             ]);
         }
@@ -136,9 +135,14 @@ class AuctionController extends BaseController
         return $this->sendResponse($auction, 'Auction Details');
     }
 
-    public function lots($id){
-
-        $lot = Lot::latest()->where('auction_id', $id)->with(['auction', 'gallery', 'files', 'category'])->withCount('users')->paginate(1000);
+    public function lots($id)
+    {
+        $lot = Lot::latest()->where('auction_id', $id)->with([
+            'auction',
+            'gallery',
+            'files',
+            'category',
+        ])->withCount('users')->paginate(1000);
 
         return $this->sendResponse($lot, 'Lots List');
 
@@ -154,8 +158,8 @@ class AuctionController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Auction  $auction
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Auction $auction
      * @return \Illuminate\Http\Response
      */
     public function update(AuctionRequest $request, $id)
@@ -163,34 +167,34 @@ class AuctionController extends BaseController
         $auction = $this->auction->findOrFail($id);
 
         // $starts_at = date('U', strtotime($request->get('starts_at')));
-        if($auction->starts_at == $request->get('starts_at')){
+        if ($auction->starts_at == $request->get('starts_at')) {
             $starts_at = $auction->starts_at;
         } else {
             $starts_at = date('U', strtotime($request->get('starts_at')));
         }
 
         // $ends_at = date('U', strtotime($request->get('ends_at')));
-        if($auction->ends_at == $request->get('ends_at')){
+        if ($auction->ends_at == $request->get('ends_at')) {
             $ends_at = $auction->ends_at;
         } else {
             $ends_at = date('U', strtotime($request->get('ends_at')));
         }
 
         // $start_selling = date('U', strtotime($request->get('start_selling')));
-        if($auction->start_selling == $request->get('start_selling')){
+        if ($auction->start_selling == $request->get('start_selling')) {
             $start_selling = $auction->start_selling;
         } else {
             $start_selling = date('U', strtotime($request->get('start_selling')));
         }
 
         // $end_selling = date('U', strtotime($request->get('end_selling')));
-        if($auction->end_selling == $request->get('end_selling')){
+        if ($auction->end_selling == $request->get('end_selling')) {
             $end_selling = $auction->end_selling;
         } else {
             $end_selling = date('U', strtotime($request->get('end_selling')));
         }
 
-        if(!is_null($request->get('city_id')) && !empty($request->get('city_id'))){
+        if (!is_null($request->get('city_id')) && !empty($request->get('city_id'))) {
             $city = Country::where('id', $request->get('city_id'))->first();
             $city = $city['name'];
         } else {
@@ -224,7 +228,8 @@ class AuctionController extends BaseController
         return $this->sendResponse($auction, 'Auction Information has been updated');
     }
 
-    public function userList($id){
+    public function userList($id)
+    {
         $auctions = $this->auction->latest()->where('seller_id', $id)->paginate(1000);
 
         return $this->sendResponse($auctions, 'Auctions list');
@@ -247,35 +252,28 @@ class AuctionController extends BaseController
         return $this->sendResponse($auction, 'Auction has been Deleted');
     }
 
-    public function upload (Request $request, $id){
+    public function upload(Request $request, $id)
+    {
+        if ($request->file() && $request->file('images')) {
+            foreach ($request->file('images') as $image) {
+                $file_path = $image->store("auctions/{$id}", 'public');
 
-        if($request->file()){
-            if($request->file('images')){
-                foreach($request->file('images') as $image){
+                $data = [
+                    'name' => time() . '_' . $image->getClientOriginalName(),
+                    'path' => '/admin/storage/' . $file_path,
+                    'auction_id' => $id,
+                ];
 
-                    $file_name = time().'_'.$image->getClientOriginalName();
-                    $file_name = str_replace(' ', '_', $file_name);
-                    $file_path = $image->storeAs('', $file_name, 'uploads');
-
-                    $data = [
-                        'name' => $file_name,
-                        'path' => '/public/uploads/'.$file_path,
-                        'auction_id' => $id,
-                    ];
-
-                    if(getimagesize($image) != false) {
-                        AuctionGallery::create($data);
-                    } else {
-                        AuctionFiles::create($data);
-                    }
-
+                if (getimagesize($image) != false) {
+                    AuctionGallery::create($data);
+                } else {
+                    AuctionFiles::create($data);
                 }
+
             }
-
-
         }
 
-        return response()->json(['success'=>'File uploaded']);
+        return response()->json(['success' => 'File uploaded']);
 
     }
 

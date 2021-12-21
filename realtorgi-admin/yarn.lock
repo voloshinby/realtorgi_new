@@ -7948,6 +7948,11 @@
   "resolved" "https://registry.npmjs.org/vue-router/-/vue-router-3.4.9.tgz"
   "version" "3.4.9"
 
+"vue-search-select@^2.9.5":
+  "integrity" "sha512-pK5lSoeWjUqxYPcYbTgEmoaqb0f38pHd4KZBNBunWmnPw3S0O8s8eqWEVHG14G3zcvKGP9fkvBs7+Eikj7csYQ=="
+  "resolved" "https://registry.npmjs.org/vue-search-select/-/vue-search-select-2.9.5.tgz"
+  "version" "2.9.5"
+
 "vue-style-loader@^4.1.0":
   "integrity" "sha512-0ip8ge6Gzz/Bk0iHovU9XAUQaFt/G2B61bnWa2tCcqqdgfHs1lF9xXorFbE55Gmy92okFT+8bfmySuUOu13vxQ=="
   "resolved" "https://registry.npmjs.org/vue-style-loader/-/vue-style-loader-4.1.2.tgz"
