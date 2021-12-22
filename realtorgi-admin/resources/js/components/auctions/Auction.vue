@@ -2,9 +2,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-
                 <div class="col-12">
-
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Список аукционов</h3>
@@ -81,216 +79,212 @@
                         </div>
 
                         <form @submit.prevent="editmode ? updateAuction() : createAuction()">
-                            <div class="modal-body">
+                            <div class="modal-body row">
 
-                                <div class="form-group">
-                                    <label>Вид торгов</label>
-                                    <select class="form-control form-type" v-model="form.type" v-on:change="changeType">
-                                        <option value="">Выберите тип торгов</option>
-                                        <option :selected="form.type == 'econom'" value="econom">Торги в результате
-                                            экономической несостоятельности
-                                        </option>
-                                        <option :selected="form.type == 'classic'" value="classic">Классические
-                                            электронные торги
-                                        </option>
-                                    </select>
-                                    <!-- <has-error :form="form" field="type"></has-error> -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Вид торгов</label>
+                                        <select class="form-control form-type" v-model="form.type"
+                                                v-on:change="changeType">
+                                            <option value="">Выберите тип торгов</option>
+                                            <option :selected="form.type == 'econom'" value="econom">Торги в результате
+                                                экономической несостоятельности
+                                            </option>
+                                            <option :selected="form.type == 'classic'" value="classic">Классические
+                                                электронные торги
+                                            </option>
+                                        </select>
+                                        <!-- <has-error :form="form" field="type"></has-error> -->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Область</label>
+                                        <select class="form-control" v-model="form.city_id">
+                                            <option value="">Выберите область</option>
+                                            <option
+                                                v-for="(ct,index) in cities" :key="index"
+                                                :value="index"
+                                                :selected="index == form.city_id">{{ ct }}
+                                            </option>
+                                        </select>
+                                        <!-- <has-error :form="form" field="city_id"></has-error> -->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Название</label>
+                                        <input v-model="form.name" type="text" name="name" placeholder="Название"
+                                               class="form-control form-name">
+                                        <!-- <has-error :form="form" field="name"></has-error> -->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Номер аукциона</label>
+                                        <input v-model="form.auction_number" type="text" name="auction_number"
+                                               placeholder="Номер аукциона"
+                                               class="form-control form-number">
+                                        <!-- <has-error :form="form" field="auction_number"></has-error> -->
+                                    </div>
+
+                                    <div class="form-group" v-if="editmode">
+                                        <label>Организатор аукциона</label>
+                                        <ckeditor v-model="form.organizer_requisites"
+                                                  name="organizer_requisites"></ckeditor>
+                                        <!-- <has-error :form="form" field="organizer_requisites"></has-error> -->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Дата приема заявок</label>
+                                        <input v-model="form.starts_at" type="datetime-local" name="starts_at"
+                                               value=""
+                                               class="form-control">
+                                        <!-- <has-error :form="form" field="starts_at"></has-error> -->
+                                        <!--  <span
+                                              v-if="formatDate(form.starts_at) != '1970:01:1 3:0:0' && formatDate(form.starts_at) != 'NaN:NaN:NaN NaN:NaN:NaN'"><b
+                                              style="color: green;">Текущее значение: {{
+                                                  formatDate(form.starts_at)
+                                              }}</b></span>-->
+                                      </div>
+
+                                      <div class="form-group">
+                                          <label>Дата и время окончания приема заявок</label>
+                                          <input type="datetime-local" v-model="form.ends_at" name="ends_at"
+                                                 class="form-control">
+                                          <!-- <has-error :form="form" field="ends_at"></has-error> -->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Дата и время начала торгов</label>
+                                        <input v-model="form.start_selling" type="datetime-local" name="start_selling"
+                                               class="form-control">
+                                        <!-- <has-error :form="form" field="start_selling"></has-error> -->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Дата и время окончания торгов</label>
+                                        <input type="datetime-local" v-model="form.end_selling" name="end_selling"
+                                               class="form-control">
+                                        <!-- <has-error :form="form" field="end_selling"></has-error> -->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Собственник (список)</label>
+                                        <model-select
+                                            :options="mappedUsers"
+                                            v-model="form.seller_id"
+                                            :customAttr="customAppAttributeFunc"
+                                            placeholder="Выберите собственника">
+
+                                        </model-select>
+                                        <!-- <has-error :form="form" field="seller_id"></has-error> -->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Собственник (новый)</label>
+                                        <input type="text" v-model="form.seller_custom" name="seller_custom"
+                                               placeholder="Имя Фамилия собственника (необязательно)"
+                                               class="form-control form-seller_custom">
+                                        <!-- <has-error :form="form" field="seller_custom"></has-error> -->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Контактный номер продавца</label>
+                                        <input type="text" v-model="form.seller_phone" name="seller_phone"
+                                               placeholder="Номер продавца (Пример: +375291234567)"
+                                               class="form-control">
+                                        <!-- <has-error :form="form" field="seller_phone"></has-error> -->
+                                    </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" v-if="editmode">
+                                        <label>Реквизиты для внесения задатка</label>
+                                        <ckeditor v-model="form.requisites" name="requisites"></ckeditor>
+                                        <!-- <has-error :form="form" field="requisites"></has-error> -->
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>Область</label>
-                                    <select class="form-control" v-model="form.city_id">
-                                        <option value="">Выберите область</option>
-                                        <option
-                                            v-for="(ct,index) in cities" :key="index"
-                                            :value="index"
-                                            :selected="index == form.city_id">{{ ct }}
-                                        </option>
-                                    </select>
-                                    <!-- <has-error :form="form" field="city_id"></has-error> -->
-                                </div>
+                                    <div class="form-group" v-if="form.type == 'econom'">
+                                        <label>Антикризисный управляющий</label>
+                                        <input type="text" v-model="form.anticrisis_manager" name="anticrisis_manager"
+                                               placeholder="Антикризисный управляющий"
+                                               class="form-control">
+                                        <!-- <has-error :form="form" field="anticrisis_manager"></has-error> -->
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>Название</label>
-                                    <input v-model="form.name" type="text" name="name" placeholder="Название"
-                                           class="form-control form-name">
-                                    <!-- <has-error :form="form" field="name"></has-error> -->
-                                </div>
+                                    <div class="form-group" v-if="form.type == 'econom'">
+                                        <label>Номер управляющего</label>
+                                        <input type="text" v-model="form.anticrisis_manager_phone"
+                                               name="anticrisis_manager_phone"
+                                               placeholder="Номер управляющего (Пример: +375291234567)"
+                                               class="form-control">
+                                        <!-- <has-error :form="form" field="anticrisis_manager_phone"></has-error> -->
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>Номер аукциона</label>
-                                    <input v-model="form.auction_number" type="text" name="auction_number"
-                                           placeholder="Номер аукциона"
-                                           class="form-control form-number">
-                                    <!-- <has-error :form="form" field="auction_number"></has-error> -->
-                                </div>
+                                    <div class="form-group">
+                                        <label>Как посмотреть имущество</label>
+                                        <ckeditor v-model="form.how_to_view_the_property"
+                                                  name="how_to_view_the_property"></ckeditor>
+                                        <!-- <has-error :form="form" field="how_to_view_the_property"></has-error> -->
+                                    </div>
 
-                                <div class="form-group" v-if="editmode">
-                                    <label>Организатор аукциона</label>
-                                    <ckeditor v-model="form.organizer_requisites"
-                                              name="organizer_requisites"></ckeditor>
-                                    <!-- <has-error :form="form" field="organizer_requisites"></has-error> -->
-                                </div>
+                                    <div class="form-group">
+                                        <label>Контактное лицо</label>
+                                        <input type="text" v-model="form.contact_person" name="contact_person"
+                                               placeholder="Контактное лицо"
+                                               class="form-control">
+                                        <!-- <has-error :form="form" field="contact_person"></has-error> -->
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>Дата приема заявок</label>
-                                    <input v-model="form.starts_at" type="datetime-local" name="starts_at"
-                                           class="form-control">
-                                    <!-- <has-error :form="form" field="starts_at"></has-error> -->
-                                    <span
-                                        v-if="formatDate(form.starts_at) != '1970:01:1 3:0:0' && formatDate(form.starts_at) != 'NaN:NaN:NaN NaN:NaN:NaN'"><b
-                                        style="color: green;">Текущее значение: {{
-                                            formatDate(form.starts_at)
-                                        }}</b></span>
-                                </div>
+                                    <div class="form-group">
+                                        <label>Возмещение затрат по аукциону</label>
+                                        <input type="text" v-model="form.compensation" name="compensation"
+                                               placeholder="Возмещение затрат по аукциону"
+                                               class="form-control">
+                                        <!-- <has-error :form="form" field="compensation"></has-error> -->
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>Дата и время окончания приема заявок</label>
-                                    <input type="datetime-local" v-model="form.ends_at" name="ends_at"
-                                           class="form-control">
-                                    <!-- <has-error :form="form" field="ends_at"></has-error> -->
-                                    <span
-                                        v-if="formatDate(form.ends_at) != '1970:01:1 3:0:0' && formatDate(form.starts_at) != 'NaN:NaN:NaN NaN:NaN:NaN'"><b
-                                        style="color: green;">Текущее значение: {{
-                                            formatDate(form.ends_at)
-                                        }}</b></span>
-                                </div>
+                                    <div class="form-group">
+                                        <label>Шаг торгов</label>
+                                        <select class="form-control form-step" v-model="form.step">
+                                            <option value="">Выберите шаг</option>
+                                            <option :selected="form.step == '1'" value="1">От начальной цены</option>
+                                            <option :selected="form.step == '2'" value="2">От текущей цены</option>
+                                        </select>
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>Дата и время начала торгов</label>
-                                    <input v-model="form.start_selling" type="datetime-local" name="start_selling"
-                                           class="form-control">
-                                    <!-- <has-error :form="form" field="start_selling"></has-error> -->
-                                    <span
-                                        v-if="formatDate(form.start_selling) != '1970:01:1 3:0:0' && formatDate(form.starts_at) != 'NaN:NaN:NaN NaN:NaN:NaN'"><b
-                                        style="color: green;">Текущее значение: {{ formatDate(form.start_selling) }}</b></span>
-                                </div>
+                                    <div class="form-group">
+                                        <label>Дополнительная информация</label>
+                                        <ckeditor v-model="form.additional_info" name="additional_info"></ckeditor>
+                                        <!-- <has-error :form="form" field="additional_info"></has-error> -->
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>Дата и время окончания торгов</label>
-                                    <input type="datetime-local" v-model="form.end_selling" name="end_selling"
-                                           class="form-control">
-                                    <!-- <has-error :form="form" field="end_selling"></has-error> -->
-                                    <span
-                                        v-if="formatDate(form.end_selling) != '1970:01:1 3:0:0' && formatDate(form.starts_at) != 'NaN:NaN:NaN NaN:NaN:NaN'"><b
-                                        style="color: green;">Текущее значение: {{
-                                            formatDate(form.end_selling)
-                                        }}</b></span>
-                                </div>
+                                    <div class="form-group">
+                                        <label>Изображения / Файлы</label>
+                                        <input class="form-control"
+                                               type="file" name="images" multiple v-on:change="handleImagesUpload"/>
+                                        <!-- <has-error :form="form" field="images"></has-error> -->
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>Собственник (список)</label>
-                                    <model-select
-                                        :options="mappedUsers"
-                                                  v-model="form.seller_id"
-                                                  placeholder="Выберите собственника">
-                                    </model-select>
-                                    <!-- <has-error :form="form" field="seller_id"></has-error> -->
-                                </div>
+                                    <div class="form-group">
+                                        <div v-if="form.gallery"
+                                             style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; cursor: pointer;">
+                                            <div :id="'image_'+im.id" v-on:click="deleteImage(im.id)"
+                                                 v-for="(im, index) in form.gallery" :key="index"
+                                                 style="flex: 1 2 25%;">
+                                                <img style="width: 100%" :src="im.path" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>Собственник (новый)</label>
-                                    <input type="text" v-model="form.seller_custom" name="seller_custom"
-                                           placeholder="Имя Фамилия собственника (необязательно)"
-                                           class="form-control form-seller_custom">
-                                    <!-- <has-error :form="form" field="seller_custom"></has-error> -->
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Контактный номер продавца</label>
-                                    <input type="text" v-model="form.seller_phone" name="seller_phone"
-                                           placeholder="Номер продавца (Пример: +375291234567)"
-                                           class="form-control">
-                                    <!-- <has-error :form="form" field="seller_phone"></has-error> -->
-                                </div>
-
-                                <div class="form-group" v-if="editmode">
-                                    <label>Реквизиты для внесения задатка</label>
-                                    <ckeditor v-model="form.requisites" name="requisites"></ckeditor>
-                                    <!-- <has-error :form="form" field="requisites"></has-error> -->
-                                </div>
-
-                                <div class="form-group" v-if="form.type == 'econom'">
-                                    <label>Антикризисный управляющий</label>
-                                    <input type="text" v-model="form.anticrisis_manager" name="anticrisis_manager"
-                                           placeholder="Антикризисный управляющий"
-                                           class="form-control">
-                                    <!-- <has-error :form="form" field="anticrisis_manager"></has-error> -->
-                                </div>
-
-                                <div class="form-group" v-if="form.type == 'econom'">
-                                    <label>Номер управляющего</label>
-                                    <input type="text" v-model="form.anticrisis_manager_phone"
-                                           name="anticrisis_manager_phone"
-                                           placeholder="Номер управляющего (Пример: +375291234567)"
-                                           class="form-control">
-                                    <!-- <has-error :form="form" field="anticrisis_manager_phone"></has-error> -->
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Как посмотреть имущество</label>
-                                    <ckeditor v-model="form.how_to_view_the_property"
-                                              name="how_to_view_the_property"></ckeditor>
-                                    <!-- <has-error :form="form" field="how_to_view_the_property"></has-error> -->
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Контактное лицо</label>
-                                    <input type="text" v-model="form.contact_person" name="contact_person"
-                                           placeholder="Контактное лицо"
-                                           class="form-control">
-                                    <!-- <has-error :form="form" field="contact_person"></has-error> -->
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Возмещение затрат по аукциону</label>
-                                    <input type="text" v-model="form.compensation" name="compensation"
-                                           placeholder="Возмещение затрат по аукциону"
-                                           class="form-control">
-                                    <!-- <has-error :form="form" field="compensation"></has-error> -->
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Шаг торгов</label>
-                                    <select class="form-control form-step" v-model="form.step">
-                                        <option value="">Выберите шаг</option>
-                                        <option :selected="form.step == '1'" value="1">От начальной цены</option>
-                                        <option :selected="form.step == '2'" value="2">От текущей цены</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Дополнительная информация</label>
-                                    <ckeditor v-model="form.additional_info" name="additional_info"></ckeditor>
-                                    <!-- <has-error :form="form" field="additional_info"></has-error> -->
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Изображения / Файлы</label>
-                                    <input class="form-control"
-                                           type="file" name="images" multiple v-on:change="handleImagesUpload"/>
-                                    <!-- <has-error :form="form" field="images"></has-error> -->
-                                </div>
-
-                                <div class="form-group">
-                                    <div v-if="form.gallery"
-                                         style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; cursor: pointer;">
-                                        <div :id="'image_'+im.id" v-on:click="deleteImage(im.id)"
-                                             v-for="(im, index) in form.gallery" :key="index" style="flex: 1 2 25%;">
-                                            <img style="width: 100%" :src="im.path" alt="">
+                                    <div class="form-group" v-if="form.files">
+                                        <div v-if="form.files" style="cursor: pointer;">
+                                            <div :id="'file_'+im.id" v-for="(im, index) in form.files" :key="index"
+                                                 style="flex: 1 2 25%;">
+                                                <a :href="im.path" target="_blank">{{ im.name }}</a>
+                                                <span v-on:click="deleteFile(im.id)" style="color: red">Удалить</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="form-group" v-if="form.files">
-                                    <div v-if="form.files" style="cursor: pointer;">
-                                        <div :id="'file_'+im.id" v-for="(im, index) in form.files" :key="index"
-                                             style="flex: 1 2 25%;">
-                                            <a :href="im.path" target="_blank">{{ im.name }}</a>
-                                            <span v-on:click="deleteFile(im.id)" style="color: red">Удалить</span>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
                             <div class="modal-footer">
@@ -305,11 +299,20 @@
         </div>
     </section>
 </template>
+<style>
+#addNew .modal-dialog {
+    max-width: 80%;
+}
 
+.ui.dropdown:not(.button) > .default.text {
+    color: #495057;
+}
+</style>
 <script>
 import VueTagsInput from '@johmun/vue-tags-input';
 import 'vue-search-select/dist/VueSearchSelect.css'
 import {ModelSelect} from 'vue-search-select'
+import moment from 'moment';
 
 export default {
     components: {
@@ -360,7 +363,15 @@ export default {
         handleImagesUpload(e) {
             this.files = e.target.files;
         },
-
+        customAppAttributeFunc(item) {
+            if (this.form.seller_id && item.value == this.form.seller_id) {
+                this.users.forEach(user => {
+                    if (user.id == item.value) {
+                        this.form.seller_phone = user.phone;
+                    }
+                })
+            }
+        },
         changeType(e) {
             var value = e.target.value;
             $('.user_info_form').css('display', 'none');
@@ -372,6 +383,10 @@ export default {
                 $('#ip').css('display', 'block');
             } else {
                 $('.user_info_form').css('display', 'none');
+            }
+
+            if(value === 'econom') {
+
             }
         },
         getResults(page = 1) {
@@ -392,15 +407,17 @@ export default {
         formatDate(time) {
             var timestamp = time; //Get the timestamp
             var date = new Date(timestamp * 1000); //If the timestamp is 10 digits, *1000 is required. If the timestamp is 13 digits, it does not need to be multiplied by 1000
-            var Y = date.getFullYear() + ':';
-            var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + ':';
-            var D = date.getDate() + ' ';
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            var D = date.getDate() + '';
             var h = date.getHours() + ':';
             var m = date.getMinutes() + ':';
             var s = date.getSeconds();
             return Y + M + D + h + m + s;
         },
-
+        formatMomentDate(time) {
+            return new Date(time * 1000);
+        },
         loadUsers() {
             axios.get("/admin/api/admin/user/all/list").then(({data}) => {
                 this.users = data.data
@@ -421,6 +438,10 @@ export default {
             this.form.reset();
             $('#addNew').modal('show');
             this.form.fill(auction);
+            this.form.starts_at = moment(this.formatMomentDate(auction.starts_at)).format('YYYY-MM-DDThh:mm');
+            this.form.ends_at = moment(this.formatMomentDate(auction.ends_at)).format('YYYY-MM-DDThh:mm');
+            this.form.start_selling = moment(this.formatMomentDate(auction.start_selling)).format('YYYY-MM-DDThh:mm');
+            this.form.end_selling = moment(this.formatMomentDate(auction.end_selling)).format('YYYY-MM-DDThh:mm');
         },
         newModal() {
             this.editmode = false;
@@ -661,10 +682,6 @@ export default {
         },
         reset() {
             this.form.seller_id = {}
-        },
-        selectFromParentComponent1() {
-            // select option from parent component
-            this.form.seller_id = this.form.options[0]
         },
     },
     mounted() {
