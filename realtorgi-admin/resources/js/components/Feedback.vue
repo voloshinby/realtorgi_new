@@ -17,7 +17,6 @@
                       <th>ID</th>
                       <th>Имя</th>
                       <th>Телефон</th>
-                      <th>Email</th>
                       <th>Действия</th>
                     </tr>
                   </thead>
