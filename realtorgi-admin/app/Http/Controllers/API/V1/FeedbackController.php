@@ -91,4 +91,11 @@ class FeedbackController extends BaseController
 
         return $this->sendResponse($feedback, 'Feedback has been Deleted');
     }
+
+    public function allList()
+    {
+        $users = Feedback::select('name', 'id', 'phone')->get();
+
+        return $this->sendResponse($users, 'Feedbacks list');
+    }
 }

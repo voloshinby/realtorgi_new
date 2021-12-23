@@ -32,6 +32,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     Route::post('admin/change-password', 'ProfileController@changePassword');
     Route::get('admin/user/list', 'UserController@list');
     Route::get('admin/user/all/list', 'UserController@allList');
+    Route::get('admin/feedback/all/list', 'FeedbackController@allList');
     Route::get('admin/tag/list', 'TagController@list');
     Route::get('admin/auction/list', 'AuctionController@list');
     Route::get('admin/category/list', 'CategoryController@list');

@@ -17,17 +17,37 @@ class Auction extends Model
      */
 
     protected $fillable = [
-        'name', 'starts_at', 'ends_at', 'start_selling', 'end_selling',
-        'auction_number', 'organizer_requisites', 'seller_id', 'seller_phone',
-        'requisites', 'anticrisis_manager', 'anticrisis_manager_phone',
-        'how_to_view_the_property', 'contact_person', 'compensation',
-        'step', 'additional_info', 'deleted_at', 'created_at', 'updated_at',
-        'type', 'city_id', 'seller_custom', 'city_name', 'images', 'files',
+        'name',
+        'starts_at',
+        'ends_at',
+        'start_selling',
+        'end_selling',
+        'auction_number',
+        'organizer_requisites',
+        'seller_id',
+        'seller_phone',
+        'requisites',
+        'anticrisis_manager',
+        'anticrisis_manager_phone',
+        'how_to_view_the_property',
+        'contact_person',
+        'compensation',
+        'step',
+        'additional_info',
+        'deleted_at',
+        'created_at',
+        'updated_at',
+        'type',
+        'city_id',
+        'seller_custom',
+        'city_name',
+        'images',
+        'files',
     ];
 
-    public function user_seller()
+    public function feedback_seller()
     {
-        return $this->belongsTo(User::class, 'seller_id');
+        return $this->belongsTo(Feedback::class, 'seller_id');
     }
 
     public function gallery()

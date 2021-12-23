@@ -37,7 +37,7 @@ class AuctionController extends BaseController
      */
     public function index()
     {
-        $auctions = $this->auction->latest()->with(['user_seller', 'gallery', 'files'])->paginate(1000);
+        $auctions = $this->auction->latest()->with(['feedback_seller', 'gallery', 'files'])->paginate(1000);
 
         return $this->sendResponse($auctions, 'Auctions list');
     }
@@ -130,7 +130,7 @@ class AuctionController extends BaseController
      */
     public function show($id)
     {
-        $auction = $this->auction->with(['user_seller', 'gallery', 'files'])->findOrFail($id);
+        $auction = $this->auction->with(['feedback_seller', 'gallery', 'files'])->findOrFail($id);
 
         return $this->sendResponse($auction, 'Auction Details');
     }

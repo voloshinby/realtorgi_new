@@ -40,7 +40,7 @@
                                             formatDate(auction.end_selling)
                                         }}
                                     </td>
-                                    <td v-if="auction.seller_id">{{ auction.user_seller.full_name }}</td>
+                                    <td v-if="auction.seller_id">{{ auction.feedback_seller.name }}</td>
                                     <td v-else>{{ auction.seller_custom }}</td>
                                     <td v-if="auction.step == '1'">От начальной цены</td>
                                     <td v-if="auction.step == '2'">От текущей цены</td>
@@ -73,7 +73,10 @@
                         <div class="modal-header">
                             <h5 class="modal-title" v-show="!editmode">Create New Auction</h5>
                             <h5 class="modal-title" v-show="editmode">Edit Auction</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button v-show="editmode" type="button" class="close" data-dismiss="modal" @click="closeEditModal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <button v-show="!editmode" type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -143,13 +146,13 @@
                                               style="color: green;">Текущее значение: {{
                                                   formatDate(form.starts_at)
                                               }}</b></span>-->
-                                      </div>
+                                    </div>
 
-                                      <div class="form-group">
-                                          <label>Дата и время окончания приема заявок</label>
-                                          <input type="datetime-local" v-model="form.ends_at" name="ends_at"
-                                                 class="form-control">
-                                          <!-- <has-error :form="form" field="ends_at"></has-error> -->
+                                    <div class="form-group">
+                                        <label>Дата и время окончания приема заявок</label>
+                                        <input type="datetime-local" v-model="form.ends_at" name="ends_at"
+                                               class="form-control">
+                                        <!-- <has-error :form="form" field="ends_at"></has-error> -->
                                     </div>
 
                                     <div class="form-group">
@@ -288,7 +291,11 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button v-show="editmode" type="button" class="btn btn-secondary"
+                                        @click="closeEditModal" data-dismiss="modal">Close</button>
+                                <button v-show="!editmode" type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
+                                </button>
                                 <button v-show="editmode" type="submit" class="btn btn-success">Update</button>
                                 <button v-show="!editmode" type="submit" class="btn btn-primary">Create</button>
                             </div>
@@ -384,10 +391,6 @@ export default {
             } else {
                 $('.user_info_form').css('display', 'none');
             }
-
-            if(value === 'econom') {
-
-            }
         },
         getResults(page = 1) {
 
@@ -419,11 +422,11 @@ export default {
             return new Date(time * 1000);
         },
         loadUsers() {
-            axios.get("/admin/api/admin/user/all/list").then(({data}) => {
+            axios.get("/admin/api/admin/feedback/all/list").then(({data}) => {
                 this.users = data.data
 
                 this.users.forEach(user => {
-                    this.mappedUsers.push({value: user.id, text: user.first_name});
+                    this.mappedUsers.push({value: user.id, text: user.name});
                 })
             });
         },
@@ -446,6 +449,9 @@ export default {
         newModal() {
             this.editmode = false;
             $('#addNew').modal('show');
+        },
+        closeEditModal() {
+            this.form.reset();
         },
         createAuction() {
             var error = false;

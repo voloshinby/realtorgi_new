@@ -1,13 +1,13 @@
 <template>
   <div class="lot-card">
-    <!-- <nuxt-link
+     <nuxt-link
       :to="{
         name: 'auctions-id',
         params: {
           id: auction.id,
         },
       }"
-    > -->
+    >
       <div class="lot-card-wrapper">
         <div v-if="auction.status" class="lot-status" :class="{ canceled: (auction.status === 'Отмененные') || (auction.status === 'Несостоявшиеся'), coming: (auction.status === 'Предстоящие' || auction.status === 'Повторные'), current: (auction.status === 'Текущие')}">
           <span>{{ auction.status }}</span>
@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-    <!-- </nuxt-link> -->
+    </nuxt-link>
   </div>
 </template>
 

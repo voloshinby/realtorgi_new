@@ -194,7 +194,9 @@ export default {
           title: 'Заявка на организацию торгов принята.',
           text: `Ваша заявка на организацию торгов была принята. В скором времени администратор площадки с Вами свяжется`
         })
-        this.orginizeAuctionOpen = !this.orginizeAuctionOpen
+        this.orginizeAuctionOpen = !this.orginizeAuctionOpen;
+        this.name = '';
+        this.phone = '';
       }
     }
   },
