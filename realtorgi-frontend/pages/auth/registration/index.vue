@@ -38,7 +38,7 @@
           </p>
         </div>
         <div class="remember-checkbox">
-          <span>adadЗапомнить меня</span>
+          <span>Запомнить меня</span>
           <input type="checkbox" name="remember" v-model="rememberMe">
         </div>
         <div class="policy-agreement">

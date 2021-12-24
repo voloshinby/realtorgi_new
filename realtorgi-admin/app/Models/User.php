@@ -55,6 +55,10 @@ class User extends Authenticatable// implements MustVerifyEmail
         'remember_token',
     ];
 
+    protected $attributes = [
+        'type_user' => 'user',
+    ];
+
     /**
      * The attributes that should be cast to native types.
      *

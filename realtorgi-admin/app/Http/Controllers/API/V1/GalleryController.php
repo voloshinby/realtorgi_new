@@ -23,12 +23,11 @@ class GalleryController extends BaseController
             if($request->file('images')){
                 foreach($request->file('images') as $image){
 
-                    $file_name = time().'_'.$image->getClientOriginalName();
-                    $file_path = $image->storeAs('', $file_name, 'uploads');
+                    $file_path = $image->store("user/{$id}", 'public');
 
                     $data = [
                         'name' => time().'_'.$image->getClientOriginalName(),
-                        'path' => '/public/uploads/'.$file_path,
+                        'path' => '/admin/storage/'.$file_path,
                         'user_id' => $id,
                     ];
 

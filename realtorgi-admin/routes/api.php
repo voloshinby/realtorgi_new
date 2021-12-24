@@ -36,7 +36,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     Route::get('admin/tag/list', 'TagController@list');
     Route::get('admin/auction/list', 'AuctionController@list');
     Route::get('admin/category/list', 'CategoryController@list');
-    Route::post('admin/product/upload', 'ProductController@upload');
+    Route::post('admin/product/destroyFilesupload', 'ProductController@upload');
     Route::get('admin/lot/list', 'LotController@list');
     Route::get('admin/city/list', 'CountryController@list');
     /* Images and Files */
@@ -47,7 +47,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     /* User */
     Route::post('admin/gallery/uploadFiles/{id}', 'GalleryController@upload');
     Route::post('admin/gallery/destroyImages/{id}', 'GalleryController@destroyImage');
-    Route::post('gallery/destroyFiles/{id}', 'GalleryController@destroyFiles');
+    Route::post('admin/gallery/destroyFiles/{id}', 'GalleryController@destroyFiles');
     /* Lot Items */
     Route::post('admin/item/uploadImages/{id}', 'LotItemsGalleryController@upload');
     Route::post('admin/item/destroyImages/{id}', 'LotItemsGalleryController@destroyImage');

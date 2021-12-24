@@ -21,7 +21,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="notification in notifications.data" :key="notification.id"
+                                <tr :id="notification.id" v-for="notification in notifications.data"
+                                    :key="notification.id"
                                     :class="{ 'not-viewed' : notification.is_view_by_admin === 0}">
                                     <td>{{ notification.id }}</td>
                                     <td>{{ notification.text }}</td>
@@ -137,6 +138,7 @@ export default {
             this.form.fill(notification);
             this.$Progress.start();
             this.form.put('/admin/api/admin/notification/' + this.form.id)
+            $('tr#' + this.form.id).removeClass('not-viewed');
             this.loadNotifications();
             this.$Progress.finish();
         },
@@ -163,6 +165,7 @@ export default {
                             'Все увдомления были прочитаны',
                             'success'
                         );
+                        $('tr').removeClass('not-viewed');
                         // Fire.$emit('AfterCreate');
                     }).catch((data) => {
                         Swal.fire("Failed!", data.message, "warning");
