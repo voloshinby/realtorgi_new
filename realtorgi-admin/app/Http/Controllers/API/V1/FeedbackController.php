@@ -45,6 +45,7 @@ class FeedbackController extends BaseController
         $feedback = $this->feedback->create([
             'name' => $request->get('name'),
             'phone' => $request->get('phone'),
+            'user_id' => $request->get('user'),
             'status' => 'new'
         ]);
 

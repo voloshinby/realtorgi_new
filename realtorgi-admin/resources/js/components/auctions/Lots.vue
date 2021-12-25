@@ -52,6 +52,13 @@
                                             <i class="fa fa-trash red"></i>
                                         </a>
                                     </td>
+                                    <td class="text-center">
+                                        <a @click="modalComment(lot);">
+                                            <button class="col-md-8 form-control btn btn-warning" style="height: auto;">
+                                                Оставить Комментарий
+                                            </button>
+                                        </a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -230,6 +237,33 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="addComment" role="dialog" aria-labelledby="addComment"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Send comment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form @submit.prevent="createComment()">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Комментарий</label>
+                                    <textarea v-model="comment" type="datetime-local" name="comment"
+                                              class="form-control">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Отправить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </template>
@@ -276,7 +310,7 @@ export default {
             categories: [],
             auctions: [],
             one_auction: [],
-
+            comment: "",
             autocompleteItems: [],
         }
     },
@@ -599,7 +633,27 @@ export default {
                     });
             }
         },
+        modalComment(auctionConfirm) {
+            this.comment = '';
+            $("#addComment").modal("show");
+            this.form.fill(auctionConfirm);
+        },
+        createComment() {
+            axios.post("/admin/api/admin/lot/comment/" + this.form.id, {
+                comment: this.comment
+            })
+                .then(function (response) {
+                    if (response.data.success) {
+                        Swal.fire("Готово!", "Новый комментарий добавлен", "success");
+                        $("#addComment").modal("hide");
+                        this.comment = '';
+                    }
+                })
+                .catch(function (error) {
 
+                });
+            this.$Progress.finish();
+        },
     },
     mounted() {
 

@@ -72,7 +72,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'login' => uniqid(rand()),
             'password' => Hash::make($data['password']),
-            'type' => 'User',
+            'type' => 'user',
         ]);
 
         // Assigning Role by default user role

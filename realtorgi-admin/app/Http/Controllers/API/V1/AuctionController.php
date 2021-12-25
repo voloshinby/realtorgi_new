@@ -7,8 +7,10 @@ use App\Models\Auction;
 use App\Models\AuctionFiles;
 use App\Models\AuctionGallery;
 use App\Models\Country;
+use App\Models\Feedback;
 use App\Models\Lot;
 use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AuctionController extends BaseController
@@ -142,7 +144,7 @@ class AuctionController extends BaseController
             'gallery',
             'files',
             'category',
-        ])->withCount('users')->paginate(1000);
+        ])->withCount('users')->paginate(8);
 
         return $this->sendResponse($lot, 'Lots List');
 
@@ -228,9 +230,14 @@ class AuctionController extends BaseController
         return $this->sendResponse($auction, 'Auction Information has been updated');
     }
 
-    public function userList($id)
+    public function userList(User $user)
     {
-        $auctions = $this->auction->latest()->where('seller_id', $id)->paginate(1000);
+        $feedback = Feedback::where('user_id', $user->id)->first();
+        $auctions = null;
+
+        if (!empty($feedback)) {
+            $auctions = $this->auction->latest()->where('seller_id', $feedback->id)->paginate(1000);
+        }
 
         return $this->sendResponse($auctions, 'Auctions list');
     }

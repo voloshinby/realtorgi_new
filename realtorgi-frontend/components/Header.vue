@@ -182,7 +182,8 @@ export default {
       if (this.name.length > 1 && this.phone.length > 5) {
         this.$axios.$post(process.env.API_URL + '/admin/api/admin/feedback', {
           name: this.name,
-          phone: this.phone
+          phone: this.phone,
+          user: this.$store.state.auth.userData.id,
         })
         this.$notify({
           'group': 'user-notifications',

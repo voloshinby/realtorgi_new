@@ -63,7 +63,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     Route::post('admin/user/login', 'UserController@login');
     Route::get('admin/bet/list/{id}', 'AuctionBetsController@list');
     Route::get('admin/user/notifications/{id}', 'NotificationsController@userList');
-    Route::get('admin/user/auctions/{id}', 'AuctionController@userList');
+    Route::get('admin/user/auctions/{user}', 'AuctionController@userList');
     Route::get('admin/user/lots/{id}', 'LotController@userList');
     Route::get('admin/lot/confirms/{id}', 'LotController@auctionConfirms');
     Route::get('admin/user/confirms/{id}', 'UserController@auctionConfirms');
@@ -77,6 +77,8 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     Route::get('admin/archive/download/{id}', 'ExportDataController@download');
     Route::post('admin/auctionConfirm/notification/{id}', 'AuctionConfirmController@notificateComment');
     Route::post('admin/notifications/readAll', 'NotificationsController@readAllNotifications');
+    Route::post('admin/lot/comment/{lot}', 'LotController@notificateComment');
+    Route::post('admin/registration/resend/{user}', 'UserController@resendCode');
 
     Route::apiResources([
         'admin/user' => 'UserController',

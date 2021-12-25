@@ -7,7 +7,7 @@
         <label for="email-confirmation-code">Введите код подтверждения:</label>
         <input type="text" id="email-confirmation-code" v-model="confirmationCode" :disabled="confirmationCode.length === 6" :class="{disabled: (confirmationCode.length === 6)}" @input="checkCode">
       </div>
-      <div class="send-again">
+      <div class="send-again" @click="resendCode()">
         Отправить код заново?
       </div>
     </div>
@@ -63,6 +63,17 @@ export default {
           }
         })
       }
+    },
+    resendCode(){
+      this.$axios.post(process.env.API_URL +  `/admin/api/admin/registration/resend/${this.$store.state.auth.userData.id}`)
+        .then((response) =>
+        {
+          this.$notify({
+            'group': 'user-notifications',
+            'title': `<div class='title'>Код подтверждения был отправлен повторно. <div>`,
+            'text': 'Проверьте ваш email',
+          })
+        })
     }
   },
   beforeMount() {

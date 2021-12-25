@@ -14,7 +14,7 @@ class CreateLotsTable extends Migration
     public function up()
     {
         Schema::create('lots', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('lot_number')->nullable();
             $table->integer('auction_id')->unsigned()->nullable();
             $table->integer('category_id')->unsigned()->nullable();

@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\File;
 use App\Models\Gallery;
 use App\Models\Lot;
+use App\Models\LotsComment;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 
@@ -104,6 +105,8 @@ class LotController extends BaseController
             'files',
             'category',
             'confirms',
+            'comments',
+            'comments.user',
         ])->withCount('users')->findOrFail($id);
 
         return $this->sendResponse($lot, 'Lot Details');
@@ -284,4 +287,14 @@ class LotController extends BaseController
 
     }
 
+    public function notificateComment(Lot $lot, Request $request)
+    {
+        $lotComment = LotsComment::create([
+            'user_id' => $request->user('api')->id,
+            'lot_id' => $lot->id,
+            'comment' => $request->get('comment'),
+        ]);
+
+        return $this->sendResponse($lotComment, 'Suggest sell');
+    }
 }

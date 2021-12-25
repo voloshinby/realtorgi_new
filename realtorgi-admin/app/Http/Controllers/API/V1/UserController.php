@@ -4,14 +4,14 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\Users\UserRequest;
 use App\Models\AuctionBets;
-use App\Models\Lot;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use App\Models\Notification;
-use Illuminate\Support\Facades\Mail;
 use App\Models\AuctionConfirm;
+use App\Models\Lot;
+use App\Models\Notification;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends BaseController
 {
@@ -155,8 +155,8 @@ class UserController extends BaseController
 
         $user = User::where('email', $request->get('email'))->with('gallery', 'files')->first();
 
-        if(isset($user) && !is_null($user)){
-            if(Hash::check($request->get('password'), $user->password)){
+        if (isset($user) && !is_null($user)) {
+            if (Hash::check($request->get('password'), $user->password)) {
                 Session::put('email', $user->email);
             } else {
                 return $this->sendResponse('Error', 'Неправильный пароль');
@@ -171,11 +171,11 @@ class UserController extends BaseController
     /**
      * Update the resource in storage
      *
-     * @param  \App\Http\Requests\Users\UserRequest  $request
+     * @param \App\Http\Requests\Users\UserRequest $request
      * @param $id
      *
-     * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
+     * @return \Illuminate\Http\Response
      */
     public function update(UserRequest $request, $id)
     {
@@ -203,7 +203,7 @@ class UserController extends BaseController
             ]);
 
             Mail::send('emails.userChange', $user->toArray(),
-                function($message) use ($user){
+                function ($message) use ($user) {
                     $message->to($user->email, 'Клиент')->subject('Изменения данных пользователя realtorgi.by');
                 }
             );
@@ -229,5 +229,21 @@ class UserController extends BaseController
         $user->delete();
 
         return $this->sendResponse([$user], 'User has been Deleted');
+    }
+
+    public function resendCode(User $user)
+    {
+        $user->registration_code = rand(100000, 999999);
+        $user->save();
+
+        if (isset($user) && !is_null($user)) {
+            Mail::send('emails.registrationCode', $user->toArray(),
+                function ($message) use ($user) {
+                    $message->to($user->email, 'Клиент')->subject('Подтверждение регистрации на realtorgi.by');
+                }
+            );
+        }
+
+        return $this->sendResponse($user, 'User code re-send Successfully');
     }
 }

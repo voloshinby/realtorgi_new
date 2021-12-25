@@ -1,7 +1,10 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 
-Vue.use(Vuex)
+import Tabs from 'vue-tabs-component';
+
+Vue.use(Tabs);
+Vue.use(Vuex);
 
 import state from './state'
 import * as getters from './getters'

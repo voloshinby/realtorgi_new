@@ -1,5 +1,5 @@
 <template>
-  <loading-spinner v-if="$fetchState.pending" />
+  <loading-spinner v-if="$fetchState.pending"/>
   <section v-else>
     <div v-if="openImage" class="open-image" @click="openImage = !openImage">
       <div class="close-button">
@@ -9,13 +9,17 @@
         <div class="image">
           <img :src="'https://realtorgi.by' + auction.gallery[swiperRealIndex].path" alt="">
         </div>
-        <div @click="changeSlide('prev')" v-if="auction.gallery.length > 1 && swiperRealIndex !== 0" class="swiper-button-prev" slot="button-prev"></div>
-        <div @click="changeSlide('next')" v-if="auction.gallery.length > 1 && (swiperRealIndex + 1) !== auction.gallery.length" class="swiper-button-next" slot="button-next"></div>
+        <div @click="changeSlide('prev')" v-if="auction.gallery.length > 1 && swiperRealIndex !== 0"
+             class="swiper-button-prev" slot="button-prev"></div>
+        <div @click="changeSlide('next')"
+             v-if="auction.gallery.length > 1 && (swiperRealIndex + 1) !== auction.gallery.length"
+             class="swiper-button-next" slot="button-next"></div>
       </div>
     </div>
     <div v-if="toggleParticipationPopup" class="participation-popup" @click="openParticipationPopup">
       <div class="participation-popup-form" @click.stop>
-        <div class="participation-popup-form-wrapper" v-if="(this.$store.state.auth.authorized === true) && (this.$store.state.auth.userData.active) && (this.$store.state.auth.userData.profile.type_user)">
+        <div class="participation-popup-form-wrapper"
+             v-if="(this.$store.state.auth.authorized === true) && (this.$store.state.auth.userData.active) && (this.$store.state.auth.userData.profile.type_user)">
           <h1 class="title">Заявка на участие в аукционе</h1>
           <div class="participation-popup-lot">
             <div class="lot-title">{{ auction.name }}</div>
@@ -23,16 +27,16 @@
               <div v-if="auction.gallery.length !== 0" class="popup-lot-body-image"><img :src="'https://realtorgi.by' + auction.gallery[0].path" :alt="auction.name"></div>
               <div class="popup-lot-body-price">
                 <div class="popup-lot-body-price-start">
-                <span class="popup-lot-body-label">Начальная цена</span>
-                <span class="popup-lot-body-value">{{ auction.price_start }} BYN</span>
+                  <span class="popup-lot-body-label">Начальная цена</span>
+                  <span class="popup-lot-body-value">{{ auction.price_start }} BYN</span>
                 </div>
                 <!-- <div class="popup-lot-body-price-buy">
                 <span class="popup-lot-body-label">Предложения о покупке</span>
                 <span class="popup-lot-body-value">{{ auction.price_buy }} BYN</span>
                 </div> -->
                 <div class="popup-lot-body-price-deposit">
-                <span class="popup-lot-body-label">Задаток</span>
-                <span class="popup-lot-body-value">{{ auction.deposit }} BYN</span>
+                  <span class="popup-lot-body-label">Задаток</span>
+                  <span class="popup-lot-body-value">{{ auction.deposit }} BYN</span>
                 </div>
               </div>
             </div>
@@ -51,7 +55,7 @@
             экономической несостоятельности (банкротства), антикризисным управляющим или <br/>
             оператором данной электронной торговой площадки</span>
           </div>
-          <div class="participation-popup-buttons" >
+          <div class="participation-popup-buttons">
             <button class="cancel" @click="openParticipationPopup">Отмена</button>
             <button class="submit" @click="submitParticipation">Отправить заявку</button>
           </div>
@@ -61,18 +65,24 @@
           <div class="subtitle">Для участия в аукционе, Вам нужно пройти регистрацию</div>
           <div class="participation-popup-buttons">
             <button class="cancel" @click="openParticipationPopup">Закрыть</button>
-            <nuxt-link :to="{name: 'auth'}"><button class="submit">Зарегистрироваться</button></nuxt-link>
+            <nuxt-link :to="{name: 'auth'}">
+              <button class="submit">Зарегистрироваться</button>
+            </nuxt-link>
           </div>
         </div>
-        <div class="participation-popup-form-wrapper" v-if="this.$store.state.auth.authorized && !this.$store.state.auth.userData.profile.type_user">
+        <div class="participation-popup-form-wrapper"
+             v-if="this.$store.state.auth.authorized && !this.$store.state.auth.userData.profile.type_user">
           <h1 class="title">Хотите подать заявку?</h1>
           <div class="subtitle">Для участия в аукционе, Вам нужно заполнить свой профиль</div>
           <div class="participation-popup-buttons">
             <button class="cancel" @click="openParticipationPopup">Закрыть</button>
-            <nuxt-link :to="{name: 'account-profiles'}"><button class="submit">Заполнить профиль</button></nuxt-link>
+            <nuxt-link :to="{name: 'account-profiles'}">
+              <button class="submit">Заполнить профиль</button>
+            </nuxt-link>
           </div>
         </div>
-        <div class="participation-popup-form-wrapper" v-if="(this.$store.state.auth.authorized === true) && (!this.$store.state.auth.userData.active)">
+        <div class="participation-popup-form-wrapper"
+             v-if="(this.$store.state.auth.authorized === true) && (!this.$store.state.auth.userData.active)">
           <h1 class="title">Хотите подать заявку?</h1>
           <div class="subtitle">Для участия в аукционе, Вам нужно подтвердить Вашу почту</div>
           <div class="participation-popup-buttons">
@@ -89,20 +99,33 @@
         <h1 class="title">Общие правила</h1>
         <ul class="rules" v-if="auction.auction.type !== 'econom'">
           <li class="rule">1. Электронные торги проходят на увеличение начальной цены.</li>
-          <li class="rule">2.	Начальная цена предмета аукциона в ходе торгов повышается на величину шага аукциона.</li>
-          <li class="rule">3.	Участники делают свои ставки.</li>
-          <li class="rule">4.	Победителем аукциона признаётся тот участник, который предложит максимальную цену за лот.</li>
-          <li class="rule">5.	В случае регистрации на аукцион одного участника и участия в аукциона единственного участника, ему предлагается приобрести лот по начальной цене увеличенной на 5%. </li>
-          <li class="rule">6.	Торги завершаются Оператором ЭТП в автоматическом режиме.</li>
+          <li class="rule">2. Начальная цена предмета аукциона в ходе торгов повышается на величину шага аукциона.</li>
+          <li class="rule">3. Участники делают свои ставки.</li>
+          <li class="rule">4. Победителем аукциона признаётся тот участник, который предложит максимальную цену за
+            лот.
+          </li>
+          <li class="rule">5. В случае регистрации на аукцион одного участника и участия в аукциона единственного
+            участника, ему предлагается приобрести лот по начальной цене увеличенной на 5%.
+          </li>
+          <li class="rule">6. Торги завершаются Оператором ЭТП в автоматическом режиме.</li>
         </ul>
         <ul class="rules" v-else>
-          <li class="rule">1.	Электронные торги проходят на увеличение или понижение начальной цены.</li>
-          <li class="rule">2.	Начальная цена лота ежечасно, начиная со 2-го часа проведения электронных торгов, при отсутствии ставок на повышение начальной цены, снижается равными долями до минимальной цены лота.</li>
-          <li class="rule">3.	В ходе торгов любой участник имеет право сделать ставку, которая отражает его ценовое предложение. Ставка участника должна превысить предыдущую ставку на установленный шаг аукциона.</li>
-          <li class="rule">4.	Победителем торгов признается участник, предложивший максимальную цену за лот.</li>
-          <li class="rule">5.	Срок проведения торгов с 9:00 до 16:00. </li>
-          <li class="rule">6.	Торги завершаются Оператором ЭТП в автоматическом режиме. Если в ходе проведения торгов один из участников торгов сделает ставку менее, чем за 3 минуты до завершения торгов, они продлеваются на время установленное организатором торгов, о чем участники оповещаются Оператором ЭТП.</li>
-          <li class="rule">7.	В случае регистрации на аукцион одного участника и участия в аукционе единственного участника, ему предлагается приобрести лот по начальной цене увеличенной на 5%.</li>
+          <li class="rule">1. Электронные торги проходят на увеличение или понижение начальной цены.</li>
+          <li class="rule">2. Начальная цена лота ежечасно, начиная со 2-го часа проведения электронных торгов, при
+            отсутствии ставок на повышение начальной цены, снижается равными долями до минимальной цены лота.
+          </li>
+          <li class="rule">3. В ходе торгов любой участник имеет право сделать ставку, которая отражает его ценовое
+            предложение. Ставка участника должна превысить предыдущую ставку на установленный шаг аукциона.
+          </li>
+          <li class="rule">4. Победителем торгов признается участник, предложивший максимальную цену за лот.</li>
+          <li class="rule">5. Срок проведения торгов с 9:00 до 16:00.</li>
+          <li class="rule">6. Торги завершаются Оператором ЭТП в автоматическом режиме. Если в ходе проведения торгов
+            один из участников торгов сделает ставку менее, чем за 3 минуты до завершения торгов, они продлеваются на
+            время установленное организатором торгов, о чем участники оповещаются Оператором ЭТП.
+          </li>
+          <li class="rule">7. В случае регистрации на аукцион одного участника и участия в аукционе единственного
+            участника, ему предлагается приобрести лот по начальной цене увеличенной на 5%.
+          </li>
         </ul>
       </div>
     </div>
@@ -115,10 +138,12 @@
         <div class="warning">Внимание</div>
         <div class="text">
           <p>
-            Ваша заявка на участие принята. После проверки указанных данных и оплаты задатка Вы будете допущены к участию в аукционе.
+            Ваша заявка на участие принята. После проверки указанных данных и оплаты задатка Вы будете допущены к
+            участию в аукционе.
           </p>
           <p>
-            Вам следует связаться с организатором аукциона по телефону +375 25 549 86 22  для подтверждения участия  в аукционе и согласования факта оплаты задатка.
+            Вам следует связаться с организатором аукциона по телефону +375 25 549 86 22 для подтверждения участия в
+            аукционе и согласования факта оплаты задатка.
           </p>
         </div>
       </div>
@@ -127,11 +152,13 @@
       <div class="make-bid-popup-form">
         <div class="make-bid-popup-form-wrapper" v-if="this.$store.state.auth.authorized === true">
           <h1 class="title">Сделать ставку</h1>
-          <div class="subtitle">Минимальный размер ставки: <span class="subtitle-bid">{{ currentBid.toFixed(2) }}</span></div>
+          <div class="subtitle">Минимальный размер ставки: <span class="subtitle-bid">{{ currentBid.toFixed(2) }}</span>
+          </div>
           <input class="bid-input" type="text" v-model='inputBid' @input="countUserBid">
           <div class="bid-error"></div>
           <div class="warning">
-            <p>Если поле будет пустым, или введенная ставка будет меньше минимальной, <br>то ставка выставится автоматически и будет равна размеру минимальной ставки.</p>
+            <p>Если поле будет пустым, или введенная ставка будет меньше минимальной, <br>то ставка выставится
+              автоматически и будет равна размеру минимальной ставки.</p>
           </div>
           <div class="make-bid-popup-buttons">
             <button class="cancel" @click="toggleMakeBidPopup = !toggleMakeBidPopup">Отмена</button>
@@ -146,41 +173,73 @@
           <img @click="openImage = !openImage" :src="'https://realtorgi.by' + auction.gallery[swiperRealIndex].path" alt="">
         </div>
         <div v-if="auction.gallery.length !== 0" class="images-wrapper">
-          <swiper @slideChange="slideChanged" ref="swiper" class="images" :options="swiperOption" :class="{'full-screen': sliderOpen}">
+          <swiper @slideChange="slideChanged" ref="swiper" class="images" :options="swiperOption"
+                  :class="{'full-screen': sliderOpen}">
             <swiper-slide v-for="auctionImage in auction.gallery" :key="auctionImage.id">
               <div class="swiper-zoom-container">
                 <img :src="'https://realtorgi.by' + auctionImage.path" :alt="auction.name" @click="sliderOpen = !sliderOpen">
               </div>
             </swiper-slide>
-            <div v-if="auction.gallery.length > 1 && swiperRealIndex !== 0" class="swiper-button-prev" slot="button-prev"></div>
-            <div v-if="auction.gallery.length > 1 && (swiperRealIndex + 1) !== auction.gallery.length" class="swiper-button-next" slot="button-next"></div>
+            <div v-if="auction.gallery.length > 1 && swiperRealIndex !== 0" class="swiper-button-prev"
+                 slot="button-prev"></div>
+            <div v-if="auction.gallery.length > 1 && (swiperRealIndex + 1) !== auction.gallery.length"
+                 class="swiper-button-next" slot="button-next"></div>
           </swiper>
         </div>
-        <div class="users-bids" >
-          <div class="title">Журнал торгов </div>
-          <div class="bid-table" v-if="betHistory.length > 0">
-            <div class="row">
-              <span class="time">Время</span>
-              <span class="username">Событие</span>
-              <span class="price">Текущая цена</span>
-            </div>
-            <div class="row" v-for="event in betHistory" :key="event.id">
-              <span class="time">{{ moment(event.created_at).format('HH:mm:ss') }}</span>
+        <div class="users-bids">
+          <tabs :options="{ useUrlFragment: false }">
+            <tab name="Журнал торгов">
+              <div class="bid-table" v-if="betHistory.length > 0">
+                <div class="row">
+                  <span class="time">Время</span>
+                  <span class="username">Событие</span>
+                  <span class="price">Текущая цена</span>
+                </div>
+                <div class="row" v-for="event in betHistory" :key="event.id">
+                  <span class="time">{{ moment(event.created_at).format('HH:mm:ss') }}</span>
 
-              <span class="username">Пользователь №{{ event.user_id }} сделал ставку</span>
-              <span class="price">{{ event.bet_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
-            </div>
-          </div>
-          <div class="bid-table" v-else>
-            <div class="row">
-              <span class="time">Время</span>
-              <span class="username">Событие</span>
-              <span class="price">Текущая цена</span>
-            </div>
-            <div class="row no-events">
-              <span>Нет событий</span>
-            </div>
-          </div>
+                  <span class="username">Пользователь №{{ event.user_id }} сделал ставку</span>
+                  <span class="price">{{ event.bet_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
+                </div>
+              </div>
+              <div class="bid-table" v-else>
+                <div class="row">
+                  <span class="time">Время</span>
+                  <span class="username">Событие</span>
+                  <span class="price">Текущая цена</span>
+                </div>
+                <div class="row no-events">
+                  <span>Нет событий</span>
+                </div>
+              </div>
+            </tab>
+            <tab name="Журнал событий">
+              <div class="bid-table" v-if="auction.comments.length > 0">
+                <div class="row">
+                  <span class="time">Время</span>
+                  <span class="username">Комментарий</span>
+                  <span class="price">Автор</span>
+                </div>
+
+                <div class="row" v-for="event in auction.comments" :key="event.id">
+                  <span class="time">{{ moment(event.created_at).format('HH:mm:ss') }}</span>
+                  <span class="username">{{ event.comment }}</span>
+                  <span v-if="event.user.type === 'admin'">Администратор</span>
+                  <span v-if="event.user.type === 'user'">Организатор аукциона</span>
+                </div>
+              </div>
+              <div class="bid-table" v-else>
+                <div class="row">
+                  <span class="time">Время</span>
+                  <span class="username">Комментарий</span>
+                  <span class="price">Автор</span>
+                </div>
+                <div class="row no-events">
+                  <span>Нет событий</span>
+                </div>
+              </div>
+            </tab>
+          </tabs>
         </div>
       </div>
       <div class="wrapper-right">
@@ -194,7 +253,11 @@
                     Номер лота
                   </span>
                   <span class="article-value">
-                    {{ auction.lot_number }} <nuxt-link :to="{name: 'auctions-all-id', params: { id: auction.auction.id, auctionNumber: auction.auction.auction_number }}"><span class="auction-number">(<span class="auction-link">Аукцион №{{ auction.auction.auction_number }}</span>)</span></nuxt-link>
+                    {{ auction.lot_number }} <nuxt-link
+                    :to="{name: 'auctions-all-id', params: { id: auction.auction.id, auctionNumber: auction.auction.auction_number }}"><span
+                    class="auction-number">(<span class="auction-link">Аукцион №{{
+                      auction.auction.auction_number
+                    }}</span>)</span></nuxt-link>
                   </span>
                 </div>
                 <div class="article">
@@ -218,7 +281,9 @@
                     Тип
                   </span>
                   <span class="article-value">
-                    {{ auction.auction.type === 'econom' ? 'Торги в результате экономической несостоятельности' : 'Классические торги' }}
+                    {{
+                      auction.auction.type === 'econom' ? 'Торги в результате экономической несостоятельности' : 'Классические торги'
+                    }}
                   </span>
                 </div>
                 <div class="article">
@@ -272,7 +337,11 @@
                     Номер лота
                   </div>
                   <div class="article-value">
-                    {{ auction.lot_number }} <nuxt-link :to="{name: 'auctions-all-id', params: { id: auction.auction.id, auctionNumber: auction.auction.auction_number }}"><span class="auction-number">(<span class="auction-link">Аукцион №{{ auction.auction.auction_number }}</span>)</span></nuxt-link>
+                    {{ auction.lot_number }}
+                    <nuxt-link
+                      :to="{name: 'auctions-all-id', params: { id: auction.auction.id, auctionNumber: auction.auction.auction_number }}">
+                      <span class="auction-number">(<span
+                        class="auction-link">Аукцион №{{ auction.auction.auction_number }}</span>)</span></nuxt-link>
                   </div>
                 </div>
                 <div class="article">
@@ -296,7 +365,9 @@
                     Тип
                   </div>
                   <div class="article-value">
-                    {{ auction.auction.type === 'econom' ? 'Торги в результате экономической несостоятельности' : 'Классические торги' }}
+                    {{
+                      auction.auction.type === 'econom' ? 'Торги в результате экономической несостоятельности' : 'Классические торги'
+                    }}
                   </div>
                 </div>
                 <div class="article">
@@ -345,8 +416,10 @@
             </div>
           </div>
         </div>
-        <div v-if="auction.status === 'Предстоящие' || auction.status === 'Повторные' || auction.status === 'Текущие'" class="timer">
-          <div class="article" v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart > 0">
+        <div v-if="auction.status === 'Предстоящие' || auction.status === 'Повторные' || auction.status === 'Текущие'"
+             class="timer">
+          <div class="article"
+               v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart > 0">
             <div class="article-param">
               До начала приема заявок
             </div>
@@ -541,7 +614,8 @@
               </span>
             </div>
           </div>
-          <div class="article" v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart < 0 && distanceEnd > 0">
+          <div class="article"
+               v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart < 0 && distanceEnd > 0">
             <div class="article-param">
               До конца приема заявок
             </div>
@@ -736,7 +810,8 @@
               </span>
             </div>
           </div>
-          <div class="article" v-if="((auction.status === 'Предстоящие' || auction.status === 'Повторные')) && distanceEnd < 0 && distanceStartSelling > 0">
+          <div class="article"
+               v-if="((auction.status === 'Предстоящие' || auction.status === 'Повторные')) && distanceEnd < 0 && distanceStartSelling > 0">
             <div class="article-param">
               До начала торгов
             </div>
@@ -1131,48 +1206,82 @@
           <h1 class="title">Цена</h1>
           <div class="price-wrapper">
             <div class="price-left">
-              <div v-if="betHistory.length > 0" class="current-price">{{ betHistory[0].bet_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</div>
-              <div v-else class="current-price">{{ auction.price_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</div>
+              <div v-if="betHistory.length > 0" class="current-price">
+                {{ betHistory[0].bet_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN
+              </div>
+              <div v-else class="current-price">{{
+                  auction.price_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+                }} BYN
+              </div>
               <span>Текущая цена аукциона</span>
             </div>
             <div class="price-right">
-              <button v-if="((auction.status === 'Предстоящие' && auction.auction.seller_id !== this.$store.state.auth.userData.id || auction.status === 'Повторные' && auction.auction.seller_id !== this.$store.state.auth.userData.id )) && distanceStart < 0 && distanceEnd > 0 && canSendRequest === true"  @click="openParticipationPopup">Подать заявку</button>
-              <button @click="informationPopupOpen = !informationPopupOpen" v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart < 0 && canSendRequest === false && confirmedRequest === false">Заявка ожидает подтверждения</button>
-              <div v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart < 0 && canSendRequest === false && confirmedRequest === true">Ваша заявка подтверждена</div>
-              <div v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart > 0">Прием заявок скоро откроется</div>
-              <div v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceEnd < 0">Прием заявок закрыт</div>
-              <button v-if="auction.status === 'Текущие' && canSendRequest === false && confirmedRequest === true" @click="[toggleMakeBidPopup = !toggleMakeBidPopup, countBid]">Сделать ставку</button>
-              <button v-if="currentConfirm == 1 && this.currentConfirmCount == 1 && suggest === null && auction.status === 'Несостоявшиеся'" @click="makeSell()">Cогласен приобрести лот</button>
-              <div v-if="auction.status === 'Текущие' && canSendRequest === true && confirmedRequest === false">Вы не подали заявку на участие</div>
-              <div v-if="auction.status === 'Текущие' && canSendRequest === false && confirmedRequest === false">Ваша заявка не была подтверждена</div>
+              <button
+                v-if="((auction.status === 'Предстоящие' && auction.auction.seller_id !== this.$store.state.auth.userData.id || auction.status === 'Повторные' && auction.auction.seller_id !== this.$store.state.auth.userData.id )) && distanceStart < 0 && distanceEnd > 0 && canSendRequest === true"
+                @click="openParticipationPopup">Подать заявку
+              </button>
+              <button @click="informationPopupOpen = !informationPopupOpen"
+                      v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart < 0 && canSendRequest === false && confirmedRequest === false">
+                Заявка ожидает подтверждения
+              </button>
+              <div
+                v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart < 0 && canSendRequest === false && confirmedRequest === true">
+                Ваша заявка подтверждена
+              </div>
+              <div v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceStart > 0">
+                Прием заявок скоро откроется
+              </div>
+              <div v-if="(auction.status === 'Предстоящие' || auction.status === 'Повторные') && distanceEnd < 0">Прием
+                заявок закрыт
+              </div>
+              <button v-if="auction.status === 'Текущие' && canSendRequest === false && confirmedRequest === true"
+                      @click="[toggleMakeBidPopup = !toggleMakeBidPopup, countBid]">Сделать ставку
+              </button>
+              <button
+                v-if="currentConfirm == 1 && this.currentConfirmCount == 1 && suggest === null && auction.status === 'Несостоявшиеся'"
+                @click="makeSell()">Cогласен приобрести лот
+              </button>
+              <div v-if="auction.status === 'Текущие' && canSendRequest === true && confirmedRequest === false">Вы не
+                подали заявку на участие
+              </div>
+              <div v-if="auction.status === 'Текущие' && canSendRequest === false && confirmedRequest === false">Ваша
+                заявка не была подтверждена
+              </div>
             </div>
           </div>
           <div class="price-info">
             <div class="price-top">
               <div class="price-start">
                 <span class="label">Начальная цена</span>
-                <span class="value">{{ auction.price_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
+                <span class="value">{{
+                    auction.price_start.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+                  }} BYN</span>
               </div>
 
               <div class="price-min" v-if="auction.auction.type !== 'classic' && auction.price_min">
                 <span class="label">Минимальная цена</span>
-                <span class="value">{{ auction.price_min.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}} BYN</span>
+                <span class="value">{{ auction.price_min.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
               </div>
 
             </div>
             <div class="price-bottom">
               <div class="price-deposit">
                 <span class="label">Задаток</span>
-                <span class="value">{{ auction.deposit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}} BYN</span>
+                <span class="value">{{ auction.deposit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
               </div>
               <div class="price-step">
                 <span class="label">Шаг торгов</span>
                 <span v-if="this.auction.step === 2 && !auction.price_step" class="value">5 %</span>
-                <span v-if="this.auction.step === 2 && auction.price_step" class="value">{{ auction.price_step.replace(/\D/g,'') }} %</span>
-                <span v-if="this.auction.step === 1 && auction.price_step" class="value">{{ auction.price_step.replace(/\D/g,'').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
-                <span v-if="this.auction.step === 1 && !auction.price_step" class="value">{{ (auction.price_start * 0.05).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
+                <span v-if="this.auction.step === 2 && auction.price_step"
+                      class="value">{{ auction.price_step.replace(/\D/g, '') }} %</span>
+                <span v-if="this.auction.step === 1 && auction.price_step" class="value">{{
+                    auction.price_step.replace(/\D/g, '').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+                  }} BYN</span>
+                <span v-if="this.auction.step === 1 && !auction.price_step" class="value">{{
+                    (auction.price_start * 0.05).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+                  }} BYN</span>
               </div>
-               <div class="price-buy" v-if="currentConfirm == 1 && this.currentConfirmCount == 1">
+              <div class="price-buy" v-if="currentConfirm == 1 && this.currentConfirmCount == 1">
                 <span class="label">Предложения о покупке</span>
                 <span class="value">{{ price_buy }} BYN</span>
               </div>
@@ -1182,18 +1291,23 @@
         <div class="dropout-list">
           <h1 class="title">Подробная информация</h1>
           <div class="dropout" v-if="auction.info">
-            <div @click="toggleDropoutContent(1)" class="dropout-title" >
+            <div @click="toggleDropoutContent(1)" class="dropout-title">
               <span>Описание</span>
               <chevron-down-icon :class="{ rotated: (showDropoutContent === 1) }"/>
             </div>
-            <div :class="{ visible: (showDropoutContent === 1) }" class="content" v-html="auction.info">{{ auction.info }}</div>
+            <div :class="{ visible: (showDropoutContent === 1) }" class="content" v-html="auction.info">{{
+                auction.info
+              }}
+            </div>
           </div>
           <div class="dropout" v-if="auction.additional_info">
             <div @click="toggleDropoutContent(2)" class="dropout-title">
               <span>Дополнительная информация</span>
               <chevron-down-icon :class="{ rotated: (showDropoutContent === 2) }"/>
             </div>
-            <div :class="{ visible: (showDropoutContent === 2) }" class="content" v-html="auction.additional_info">{{ auction.additional_info }}</div>
+            <div :class="{ visible: (showDropoutContent === 2) }" class="content" v-html="auction.additional_info">
+              {{ auction.additional_info }}
+            </div>
           </div>
           <div class="dropout" v-if="auctionItems.length != 0">
             <div @click="toggleDropoutContent(3)" class="dropout-title">
@@ -1225,8 +1339,11 @@
             </div>
             <div :class="{ visible: (showDropoutContent === 4) }" class="content">
               <div class="seller">
-                <span class="seller-name">Собственник: <span class="seller-value">{{ auction.auction.anticrisis_manager }}</span></span>
-                <span class="seller-phone">Номер собственника: <span class="seller-value">{{ auction.auction.anticrisis_manager_phone }}</span></span>
+                <span class="seller-name">Собственник: <span class="seller-value">{{
+                    auction.auction.anticrisis_manager
+                  }}</span></span>
+                <span class="seller-phone">Номер собственника: <span
+                  class="seller-value">{{ auction.auction.anticrisis_manager_phone }}</span></span>
               </div>
             </div>
           </div>
@@ -1237,8 +1354,11 @@
             </div>
             <div :class="{ visible: (showDropoutContent === 5) }" class="content">
               <div class="seller">
-                <span class="seller-name">Собственник: <span class="seller-value">{{ auction.auction.contact_person }}</span></span>
-                <span class="seller-phone">Номер собственника: <span class="seller-value">{{ auction.auction.seller_phone }}</span></span>
+                <span class="seller-name">Собственник: <span class="seller-value">{{
+                    auction.auction.contact_person
+                  }}</span></span>
+                <span class="seller-phone">Номер собственника: <span
+                  class="seller-value">{{ auction.auction.seller_phone }}</span></span>
               </div>
             </div>
           </div>
@@ -1247,7 +1367,9 @@
               <span>Как посмотреть имущество</span>
               <chevron-down-icon :class="{ rotated: (showDropoutContent === 6) }"/>
             </div>
-            <div :class="{ visible: (showDropoutContent === 6) }" class="content" v-html="auction.auction.how_to_view_the_property">{{ auction.auction.how_to_view_the_property }}</div>
+            <div :class="{ visible: (showDropoutContent === 6) }" class="content"
+                 v-html="auction.auction.how_to_view_the_property">{{ auction.auction.how_to_view_the_property }}
+            </div>
           </div>
           <div class="dropout">
             <div @click="toggleDropoutContent(7)" class="dropout-title">
@@ -1336,10 +1458,11 @@
 </template>
 
 <script>
-import { ChevronDownIcon, XIcon} from 'vue-feather-icons'
-import LoadingSpinner from '~/components/LoadingSpinner'
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import moment from 'moment'
+import {ChevronDownIcon, XIcon} from 'vue-feather-icons';
+import LoadingSpinner from '~/components/LoadingSpinner';
+import {Swiper, SwiperSlide} from 'vue-awesome-swiper';
+import moment from 'moment';
+
 
 export default {
   components: {
@@ -1349,7 +1472,6 @@ export default {
     Swiper,
     SwiperSlide
   },
-
   data: () => ({
     // Object and Arrays
     auction: {},
@@ -1363,7 +1485,7 @@ export default {
     rulesAgree: false,
     bidError: true,
     price_buy: {},
-    suggest:{},
+    suggest: {},
 
     // Statuses
     loading: false,
@@ -1429,36 +1551,35 @@ export default {
     hoursEndSelling: null,
     minutesEndSelling: null,
     secondsEndSelling: null
-
   }),
   async fetch() {
-    let data = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/lot/${this.$route.params.id}`);
+    let data = await this.$axios.get(process.env.API_URL + `/admin/api/admin/lot/${this.$route.params.id}`);
     let percentToGet = 5;
     let percent = (percentToGet / 100) * data.data.data.price_start;
     this.price_buy = data.data.data.price_start + percent;
     this.auction = data.data.data;
-    data = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/lot_item/${this.$route.params.id}`);
+    data = await this.$axios.get(process.env.API_URL + `/admin/api/admin/lot_item/${this.$route.params.id}`);
     this.auctionItems = data.data.data.data;
-    data = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/bet/list/${this.$route.params.id}`);
+    data = await this.$axios.get(process.env.API_URL + `/admin/api/admin/bet/list/${this.$route.params.id}`);
     this.betHistory = data.data.data;
-    let suggest = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/user/sells/${this.$route.params.id}`);
+    let suggest = await this.$axios.get(process.env.API_URL + `/admin/api/admin/user/sells/${this.$route.params.id}`);
     this.suggest = suggest.data.data.user_sell_suggest;
     this.auction.currentUser = this.$store.state.auth.userData.id;
     var count = 0;
-    for(let i = 0; i < this.auction.confirms.length; i++){
-      if(this.auction.confirms[i].user_id == this.$store.state.auth.userData.id){
+    for (let i = 0; i < this.auction.confirms.length; i++) {
+      if (this.auction.confirms[i].user_id == this.$store.state.auth.userData.id) {
         this.currentConfirm = this.auction.confirms[i].confirmed_user;
       }
-      if(this.auction.confirms[i].confirmed_user == 1){
+      if (this.auction.confirms[i].confirmed_user == 1) {
         count++
       }
     }
     this.currentConfirmCount = count;
-    this.betHistory.sort(function(a, b) {
+    this.betHistory.sort(function (a, b) {
       return parseFloat(b.bet_amount) - parseFloat(a.bet_amount);
     });
     this.polling = setInterval(() => {
-      this.$axios.get(process.env.API_URL +  `/admin/api/admin/lot/${this.$route.params.id}`).then((response) => {
+      this.$axios.get(process.env.API_URL + `/admin/api/admin/lot/${this.$route.params.id}`).then((response) => {
         this.auction = response.data.data
       })
     }, 7500)
@@ -1484,7 +1605,7 @@ export default {
         if (this.distanceEndSelling <= 0) {
           while (i < 1) {
             this.auction.status = 'Состоявшиеся'
-            this.$axios.$put(process.env.API_URL +  `/admin/api/admin/lot/${this.$route.params.id}`, {
+            this.$axios.$put(process.env.API_URL + `/admin/api/admin/lot/${this.$route.params.id}`, {
               status: 'Состоявшиеся',
             })
             i++;
@@ -1512,7 +1633,7 @@ export default {
           if (this.auction.users_count < 2) {
             while (j <= 1) {
               this.auction.status = 'Несостоявшиеся'
-              this.$axios.$put(process.env.API_URL +  `/admin/api/admin/lot/${this.$route.params.id}`, {
+              this.$axios.$put(process.env.API_URL + `/admin/api/admin/lot/${this.$route.params.id}`, {
                 status: 'Несостоявшиеся',
               })
               j++;
@@ -1557,7 +1678,7 @@ export default {
         if (this.distanceStartSelling <= 0) {
           while (j < 1) {
             this.auction.status = 'Текущие'
-            this.$axios.$put(process.env.API_URL +  `/admin/api/admin/lot/${this.$route.params.id}`, {
+            this.$axios.$put(process.env.API_URL + `/admin/api/admin/lot/${this.$route.params.id}`, {
               status: 'Текущие',
             })
             j++;
@@ -1568,9 +1689,9 @@ export default {
     if (this.auction.status === 'Текущие') {
       setInterval(() => {
         // кнопка сделать ставку
-        this.$axios.get(process.env.API_URL +  `/admin/api/admin/bet/list/${this.$route.params.id}`).then((response) => {
+        this.$axios.get(process.env.API_URL + `/admin/api/admin/bet/list/${this.$route.params.id}`).then((response) => {
           this.betHistory = response.data.data;
-          this.betHistory.sort(function(a, b) {
+          this.betHistory.sort(function (a, b) {
             return parseFloat(b.bet_amount) - parseFloat(a.bet_amount);
           });
         })
@@ -1579,62 +1700,49 @@ export default {
   },
   fetchOnServer: false,
   computed: {
-    countBid () {
+    countBid() {
       if (this.auction.price_step) {
-        if (this.auction.auction.step == 1 && this.auction.step == 2){
-          this.currentBid = (this.auction.price_start * (1 + (this.auction.price_start / 100)) );
-        }
-        else if (this.auction.auction.step == 2 && this.auction.step== 2) {
+        if (this.auction.auction.step == 1 && this.auction.step == 2) {
+          this.currentBid = (this.auction.price_start * (1 + (this.auction.price_start / 100)));
+        } else if (this.auction.auction.step == 2 && this.auction.step == 2) {
           if (this.betHistory.length !== 0) {
-            this.currentBid = (parseFloat(this.betHistory[0].bet_amount.replace(/\D/g,'')) * (1 + (this.auction.price_start / 100)) );
+            this.currentBid = (parseFloat(this.betHistory[0].bet_amount.replace(/\D/g, '')) * (1 + (this.auction.price_start / 100)));
+          } else {
+            this.currentBid = (this.auction.price_start * (1 + (this.auction.price_start / 100)));
           }
-          else {
-            this.currentBid = (this.auction.price_start * (1 + (this.auction.price_start / 100)) );
-          }
-        }
-        else if (this.auction.auction.step == 2 && this.auction.step == 1) {
+        } else if (this.auction.auction.step == 2 && this.auction.step == 1) {
           if (this.betHistory.length !== 0) {
-            this.currentBid = (this.betHistory[0].bet_amount + parseFloat(this.auction.price_step.replace(/\D/g,'')))
-          }
-          else {
-            this.currentBid = (this.auction.price_start + parseFloat(this.auction.price_step.replace(/\D/g,'')))
+            this.currentBid = (this.betHistory[0].bet_amount + parseFloat(this.auction.price_step.replace(/\D/g, '')))
+          } else {
+            this.currentBid = (this.auction.price_start + parseFloat(this.auction.price_step.replace(/\D/g, '')))
           }
 
+        } else {
+          this.currentBid = (this.auction.price_start + parseFloat(this.auction.price_step.replace(/\D/g, '')))
         }
-        else {
-          this.currentBid = (this.auction.price_start + parseFloat(this.auction.price_step.replace(/\D/g,'')))
-        }
-      }
-      else {
-        if (this.auction.auction.step == 1 && this.auction.step == 2){
+      } else {
+        if (this.auction.auction.step == 1 && this.auction.step == 2) {
           if (this.betHistory.length !== 0) {
             this.currentBid = this.betHistory[0].bet_amount + (this.auction.price_start * 0.05);
-          }
-          else {
+          } else {
             this.currentBid = (this.auction.price_start * 1.05);
           }
-        }
-        else if (this.auction.auction.step == 2 && this.auction.step== 2) {
+        } else if (this.auction.auction.step == 2 && this.auction.step == 2) {
           if (this.betHistory.length !== 0) {
             this.currentBid = this.betHistory[0].bet_amount * 1.05;
-          }
-          else {
+          } else {
             this.currentBid = this.auction.price_start * 1.05;
           }
-        }
-        else if (this.auction.auction.step == 1 && this.auction.step == 1) {
+        } else if (this.auction.auction.step == 1 && this.auction.step == 1) {
           if (this.betHistory.length !== 0) {
             this.currentBid = this.betHistory[0].bet_amount + (this.auction.price_start * 1.05);
-          }
-          else {
+          } else {
             this.currentBid = this.auction.price_start + (this.auction.price_start * 1.05);
           }
-        }
-        else {
+        } else {
           if (this.betHistory.length !== 0) {
             this.currentBid = this.betHistory[0].bet_amount + (this.betHistory[0].bet_amount * 1.05);
-          }
-          else {
+          } else {
             this.currentBid = this.auction.price_start + (this.auction.price_start * 1.05);
           }
         }
@@ -1647,8 +1755,7 @@ export default {
       if (this.inputBid !== '') {
         if (parseFloat(this.inputBid) > this.currentBid) {
           this.bidError = false
-        }
-        else {
+        } else {
           this.bidError = true
         }
       }
@@ -1664,18 +1771,18 @@ export default {
     slideChanged() {
       this.swiperRealIndex = this.$refs.swiper.$swiper.realIndex
     },
-    openParticipationPopup () {
+    openParticipationPopup() {
       this.toggleParticipationPopup = !this.toggleParticipationPopup
       // document.body.classList.toggle("stop-scrolling");
     },
-    submitParticipation () {
-      if (this.auction.auction.type !== 'classic' ) {
+    submitParticipation() {
+      if (this.auction.auction.type !== 'classic') {
         if (this.policyAgree === true && this.rulesAgree === true && this.reglamentAgree === true && this.auction.auction.seller_id != this.$store.state.auth.userData.id) {
-            this.$axios.$post(process.env.API_URL + '/admin/api/admin/auctionConfirm', {
+          this.$axios.$post(process.env.API_URL + '/admin/api/admin/auctionConfirm', {
             user_id: this.$store.state.auth.userData.id,
             lot_id: this.auction.id,
             current_auction: this.auction.auction.seller_id,
-            });
+          });
           // this.$notify({
           //   'group': 'user-notifications',
           //   'title': `<div class='title'>Невозможно подать заявку.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
@@ -1693,24 +1800,22 @@ export default {
             title: `Заявка на участие в лоте №${this.auction.lot_number}.`,
             text: 'Ваша заявка на участие была принята. В скором времени администратор площадки её рассмотрит.'
           })
-          this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
-          .then((response) => {
-            this.$store.dispatch('getNotifications', {
-              notifications: response.data.data
+          this.$axios.$get(process.env.API_URL + `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+            .then((response) => {
+              this.$store.dispatch('getNotifications', {
+                notifications: response.data.data
+              })
+              this.$store.dispatch('countUnreadNotifications')
             })
-            this.$store.dispatch('countUnreadNotifications')
-          })
           this.informationPopupOpen = true
-        }
-        else {
+        } else {
           this.$notify({
             'group': 'user-notifications',
             'title': `<div class='title'>Невозможно подать заявку.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
             'text': 'Вы не подтвердили согласие с Регламентом, с Публичной афертой, а также не подтвердили, что вы не являетесь должником, АУ, организатором и оператором данной площадки.',
           })
         }
-      }
-      else {
+      } else {
         if (this.policyAgree === true && this.reglamentAgree === true) {
           this.$axios.$post(process.env.API_URL + '/admin/api/admin/auctionConfirm', {
             user_id: this.$store.state.auth.userData.id,
@@ -1728,16 +1833,15 @@ export default {
             title: `Заявка на участие в лоте №${this.auction.lot_number}.`,
             text: 'Ваша заявка на участие была принята. В скором времени администратор площадки её рассмотрит.'
           })
-          this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
-          .then((response) => {
-            this.$store.dispatch('getNotifications', {
-              notifications: response.data.data
+          this.$axios.$get(process.env.API_URL + `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+            .then((response) => {
+              this.$store.dispatch('getNotifications', {
+                notifications: response.data.data
+              })
+              this.$store.dispatch('countUnreadNotifications')
             })
-            this.$store.dispatch('countUnreadNotifications')
-          })
           this.informationPopupOpen = true
-        }
-        else {
+        } else {
           this.$notify({
             'group': 'user-notifications',
             'title': `<div class='title'>Невозможно подать заявку.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
@@ -1746,86 +1850,83 @@ export default {
         }
       }
     },
-    makeBid () {
+    makeBid() {
       // действие кнопки ставить ставку
       if (this.betHistory.length !== 0 && this.betHistory[0].user_id === this.$store.state.auth.userData.id) {
         this.$notify({
-            'group': 'user-notifications',
-            'title': `<div class='title'>Невозможно сделать ставку.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
-            'text': 'Вы не можете сделать ставку 2 раза подряд.',
+          'group': 'user-notifications',
+          'title': `<div class='title'>Невозможно сделать ставку.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
+          'text': 'Вы не можете сделать ставку 2 раза подряд.',
+        })
+      } else {
+        if (this.bidError === true) {
+          this.$axios.$post(process.env.API_URL + '/admin/api/admin/bet', {
+            user_id: this.$store.state.auth.userData.id,
+            lot_id: this.auction.id,
           })
-      }
-      else {
-          if (this.bidError === true) {
-            this.$axios.$post(process.env.API_URL + '/admin/api/admin/bet', {
-              user_id: this.$store.state.auth.userData.id,
-              lot_id: this.auction.id,
-            })
-          }
-          else {
-            this.$axios.$post(process.env.API_URL + '/admin/api/admin/bet', {
-              user_id: this.$store.state.auth.userData.id,
-              lot_id: this.auction.id,
-              bet: this.inputBid
-            })
-          }
-          this.toggleMakeBidPopup = false;
-          this.$axios.get(process.env.API_URL +  `/admin/api/admin/bet/list/${this.$route.params.id}`)
+        } else {
+          this.$axios.$post(process.env.API_URL + '/admin/api/admin/bet', {
+            user_id: this.$store.state.auth.userData.id,
+            lot_id: this.auction.id,
+            bet: this.inputBid
+          })
+        }
+        this.toggleMakeBidPopup = false;
+        this.$axios.get(process.env.API_URL + `/admin/api/admin/bet/list/${this.$route.params.id}`)
           .then((response) => {
             this.betHistory = response.data.data
-            this.betHistory.sort(function(a, b) {
+            this.betHistory.sort(function (a, b) {
               return parseFloat(b.bet_amount) - parseFloat(a.bet_amount);
             });
           })
-          this.$notify({
-            'group': 'user-notifications',
-            'title': `<div class='title'>Ставка принята.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
-            'text': `Ваша ставка на лот №${this.auction.lot_number} была принята.`,
-          })
-          this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
-            user_id: this.$store.state.auth.userData.id,
-            title: 'Ставка принята.',
-            text: `Ваша ставка на лот №${this.auction.lot_number} была принята.`
-          })
-          this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+        this.$notify({
+          'group': 'user-notifications',
+          'title': `<div class='title'>Ставка принята.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
+          'text': `Ваша ставка на лот №${this.auction.lot_number} была принята.`,
+        })
+        this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
+          user_id: this.$store.state.auth.userData.id,
+          title: 'Ставка принята.',
+          text: `Ваша ставка на лот №${this.auction.lot_number} была принята.`
+        })
+        this.$axios.$get(process.env.API_URL + `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
           .then((response) => {
             this.$store.dispatch('getNotifications', {
               notifications: response.data.data
             })
             this.$store.dispatch('countUnreadNotifications')
           })
-        }
+      }
 
     },
-    makeSell () {
+    makeSell() {
       // действие кнопки покупка
       if (this.currentConfirm == 1 && this.currentConfirmCount == 1) {
         this.$axios.$post(process.env.API_URL + '/admin/api/admin/user/sells', {
-              user_sell_suggest: this.$store.state.auth.userData.id,
-              lot_id: this.$route.params.id,
-              price_sell_suggest: this.price_buy
-            })
-          this.$fetch();
+          user_sell_suggest: this.$store.state.auth.userData.id,
+          lot_id: this.$route.params.id,
+          price_sell_suggest: this.price_buy
+        })
+        this.$fetch();
         this.$notify({
-            'group': 'user-notifications',
-            'title': `<div class='title'>Успешная покупка.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
-            'text': 'Покупка успешно реализовано',
-          });
+          'group': 'user-notifications',
+          'title': `<div class='title'>Успешная покупка.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
+          'text': 'Покупка успешно реализовано',
+        });
 
       }
     },
     toggleDropoutContent(index) {
       if (this.showDropoutContent === index) {
         this.showDropoutContent = null
-      }
-      else {
+      } else {
         this.showDropoutContent = index
       }
     },
   },
   mounted() {
     let userId = this.$store.state.auth.userData.id
-    this.$axios.get(process.env.API_URL +  `/admin/api/admin/lot/confirms/${this.$route.params.id}`).then((response) => {
+    this.$axios.get(process.env.API_URL + `/admin/api/admin/lot/confirms/${this.$route.params.id}`).then((response) => {
       this.lotRequests = response.data.data
       this.lotRequests.find((request) => {
         if (request.user_id == userId) {
@@ -1837,7 +1938,7 @@ export default {
       })
     })
   },
-  beforeDestroy () {
+  beforeDestroy() {
     clearInterval(this.polling)
   },
   head() {
@@ -1855,6 +1956,38 @@ export default {
   margin-bottom: 3rem;
   font-size: 2rem;
 }
+
+.tabs-component {
+  width: 100%;
+  text-align: center;
+
+  .tabs-component-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    .tabs-component-tab {
+      width:100%;
+      padding: 10px 0;
+
+      .tabs-component-tab-a {
+        flex: 1 0 auto;
+        margin: 0 0 30px;
+        padding: 1rem;
+        font-weight: bold;
+        transition: 100ms linear all;
+        cursor: pointer;
+      }
+    }
+
+    .tabs-component-tab.is-active {
+      color: #1279e0;
+      border-bottom: 3px solid #1279e0;
+    }
+  }
+}
+
 .stop-scrolling {
   height: 100%;
   overflow: hidden;
@@ -1872,16 +2005,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+
   .close-button {
     position: absolute;
     right: 2rem;
     top: 2rem;
     cursor: pointer;
   }
+
   .open-image-wrapper {
     .swiper-button-prev {
       margin-left: 3rem;
     }
+
     .swiper-button-next {
       margin-right: 3rem;
     }
@@ -1894,68 +2030,84 @@ export default {
   padding: 0 1rem;
   margin: 0 auto;
   margin-bottom: 3rem;
+
   &-left {
     width: 48%;
     display: flex;
     flex-direction: column;
     position: relative;
+
     .choosen-image {
       height: 20rem;
       width: 100%;
       margin-bottom: 1rem;
       cursor: pointer;
+
       img {
         height: 100%;
         width: 100%;
         object-fit: cover;
       }
     }
+
     .images-wrapper {
       overflow: hidden;
       margin-bottom: 1rem;
       background-color: #fff;
       border-radius: 10px;
-      box-shadow:
-        0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-        0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-        0 12.5px 10px rgba(0, 0, 0, 0.06),
-        0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-        0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-        0 100px 80px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+      0 12.5px 10px rgba(0, 0, 0, 0.06),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+      0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+      0 100px 80px rgba(0, 0, 0, 0.12);
+
       .images {
         width: 100%;
         overflow: visible;
+
         .swiper-wrapper {
           width: 100%;
+          transform: translate3d(0px, 0, 0) !important;
+
           .swiper-slide {
             opacity: 0.5;
             transition: .2s ease-in-out;
+            flex: 1;
+            margin-right: 10px !important;
+
             img {
               object-fit: cover;
               height: 8rem;
               cursor: pointer;
             }
           }
+
           .swiper-slide-active {
             opacity: 1;
           }
         }
       }
+
       .swiper-button-next {
         opacity: 0.75;
         transform: translateY(-50%);
       }
+
       .swiper-button-prev {
         opacity: 0.75;
         transform: translateY(-50%);
       }
+
       .swiper-button-next::after {
         font-size: 2rem;
       }
+
       .swiper-button-prev::after {
         font-size: 2rem;
       }
     }
+
     .users-bids {
       width: 100%;
       display: flex;
@@ -1964,24 +2116,27 @@ export default {
       background-color: #fff;
       padding: 1rem 1rem;
       border-radius: 10px;
-      box-shadow:
-        0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-        0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-        0 12.5px 10px rgba(0, 0, 0, 0.06),
-        0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-        0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-        0 100px 80px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+      0 12.5px 10px rgba(0, 0, 0, 0.06),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+      0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+      0 100px 80px rgba(0, 0, 0, 0.12);
+
       .title {
         font-size: 1.5rem;
         font-weight: 500;
         text-align: center;
         margin-bottom: 1rem;
       }
+
       .bid-table {
-        width: 90%;
+        width: 100%;
         max-height: 35rem;
         overflow-y: scroll;
         padding: 0.5rem 0;
+        padding-right: 10px;
+
         .no-events {
           width: 100%;
           display: flex;
@@ -1989,12 +2144,15 @@ export default {
           align-items: center;
           text-align: center;
         }
+
         .row:first-child {
           border-top: none;
+
           span {
             opacity: 0.6;
           }
         }
+
         .row {
           display: flex;
           justify-content: space-between;
@@ -2002,12 +2160,15 @@ export default {
           align-items: center;
           padding: 0.75rem 0;
           border-top: 1px solid #dddddd;
+
           .time {
             width: 5rem;
           }
+
           .username {
             width: 8rem;
           }
+
           .price {
             width: 8rem;
           }
@@ -2015,57 +2176,67 @@ export default {
       }
     }
   }
+
   &-right {
     width: 50%;
+
     .lot-title {
       background-color: #fff;
       border-radius: 10px;
       padding: 1.5rem;
       margin-bottom: 2rem;
-      box-shadow:
-        0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-        0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-        0 12.5px 10px rgba(0, 0, 0, 0.06),
-        0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-        0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-        0 100px 80px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+      0 12.5px 10px rgba(0, 0, 0, 0.06),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+      0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+      0 100px 80px rgba(0, 0, 0, 0.12);
     }
+
     .title {
       line-height: 1.25;
       padding-bottom: 1rem;
       border-bottom: 1px solid $border-color;
     }
+
     .subtitle {
       display: flex;
       border-bottom: 1px solid $border-color;
       padding-bottom: 1rem;
+
       .participants-count {
         margin-left: 2rem;
         display: flex;
         align-items: center;
         user-select: none;
+
         span {
           margin-left: 0.5rem;
         }
       }
+
       .starts-at {
         margin-left: 2rem;
         display: flex;
         align-items: center;
         user-select: none;
+
         span {
           margin-left: 0.5rem;
         }
       }
     }
+
     .info {
       &-wrapper {
         display: flex;
         padding-top: 0.25rem;
+
         .articles {
           display: flex;
           flex-direction: column;
           width: 100%;
+
           .article {
             display: flex;
             align-items: center;
@@ -2073,19 +2244,23 @@ export default {
             margin-bottom: 0.25rem;
             padding-bottom: 0.25rem;
             border-bottom: 1px solid $border-color;
+
             &-param {
               font-weight: 400;
               color: $text-color-2;
               margin-right: 2rem;
               width: 40%;
             }
+
             &-value {
               width: 50%;
+
               .auction-link {
                 color: $link-color;
               }
             }
           }
+
           .rules {
             color: $link-color;
             display: flex;
@@ -2093,6 +2268,7 @@ export default {
             border-bottom: none;
             margin-top: 0.5rem;
             cursor: pointer;
+
             .article-param {
               text-align: center;
               width: 100%;
@@ -2101,10 +2277,12 @@ export default {
           }
         }
       }
+
       &-wrapper-mobile {
         display: none;
       }
     }
+
     .timer {
       background-color: $link-color;
       width: fit-content;
@@ -2115,47 +2293,53 @@ export default {
       margin: 0 auto 2rem auto;
       text-align: center;
       width: 100%;
-      box-shadow:
-        0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-        0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-        0 12.5px 10px rgba(0, 0, 0, 0.06),
-        0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-        0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-        0 100px 80px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+      0 12.5px 10px rgba(0, 0, 0, 0.06),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+      0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+      0 100px 80px rgba(0, 0, 0, 0.12);
+
       .article {
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
+
         &-param {
           font-size: 1.2rem;
           font-weight: 600;
           margin-bottom: 0.5rem;
         }
+
         &-value {
           padding: 1rem 0;
           border: 2px solid #fff;
           display: flex;
           justify-content: center;
           width: fit-content;
+
           .timer-element {
             display: flex;
             flex-direction: column;
             justify-content: center;
             width: 5.5rem;
             border-right: 1px dashed #fff;
+
             .number {
               font-size: 2.4rem;
               font-weight: 800;
             }
           }
+
           .timer-element:last-child {
             border-right: none;
           }
         }
       }
     }
+
     .price {
       display: flex;
       flex-direction: column;
@@ -2163,33 +2347,38 @@ export default {
       padding: 1.5rem;
       border-radius: 10px;
       margin-bottom: 2rem;
-      box-shadow:
-        0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-        0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-        0 12.5px 10px rgba(0, 0, 0, 0.06),
-        0 22.3px 17.9px rgba(0, 0, 0, 0.072),
-        0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-        0 100px 80px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+      0 12.5px 10px rgba(0, 0, 0, 0.06),
+      0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+      0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+      0 100px 80px rgba(0, 0, 0, 0.12);
+
       .price-wrapper {
         display: flex;
         align-items: center;
         margin-bottom: 2rem;
         margin-top: 1rem;
+
         .price-left {
           width: 50%;
+
           .current-price {
             font-size: 1.75rem;
             font-weight: 500;
           }
+
           span {
             margin-top: 2rem;
             font-size: .75rem;
             opacity: 0.5;
           }
         }
+
         .price-right {
           width: 50%;
           text-align: center;
+
           button {
             margin-top: 1rem;
             padding: 0.45rem 1rem;
@@ -2202,14 +2391,14 @@ export default {
             outline: none;
             margin-bottom: 0.5rem;
             transition: .2s ease-in-out;
-            box-shadow:
-            0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+            box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
             0 6.7px 5.3px rgba(0, 0, 0, 0.048),
             0 12.5px 10px rgba(0, 0, 0, 0.06),
             0 22.3px 17.9px rgba(0, 0, 0, 0.072),
             0 41.8px 33.4px rgba(0, 0, 0, 0.086),
             0 100px 80px rgba(0, 0, 0, 0.12);
           }
+
           button:hover {
             box-shadow: none;
             color: #191919;
@@ -2217,12 +2406,15 @@ export default {
           }
         }
       }
+
       .price-info {
         display: flex;
         justify-content: space-between;
+
         .price-top {
           display: flex;
           margin-bottom: 1rem;
+
           .price-start {
             display: flex;
             flex-direction: column;
@@ -2236,6 +2428,7 @@ export default {
             justify-content: center;
             align-items: center;
           }
+
           .value {
             width: fit-content;
             background-color: #777777;
@@ -2244,33 +2437,39 @@ export default {
             font-weight: 500;
             padding: 0.3rem 0.8rem;
           }
+
           .label {
             font-size: 0.9rem;
             opacity: 0.9;
             margin-bottom: 0.2rem;
           }
         }
+
         .price-bottom {
           display: flex;
           justify-content: center;
           width: 50%;
           margin-right: 22px;
+
           .price-deposit {
             display: flex;
             flex-direction: column;
             align-items: center;
           }
+
           .price-step {
             display: flex;
             flex-direction: column;
             margin-left: 1rem;
             align-items: center;
           }
+
           .price-buy {
             display: flex;
             flex-direction: column;
             margin-left: 1rem;
           }
+
           .value {
             background-color: #777777;
             width: fit-content;
@@ -2279,6 +2478,7 @@ export default {
             font-weight: 500;
             padding: 0.3rem 0.8rem;
           }
+
           .label {
             font-size: 0.9rem;
             opacity: 0.9;
@@ -2288,20 +2488,22 @@ export default {
         }
       }
     }
+
     .dropout-list {
       background-color: #fff;
       padding: 1.5rem;
       border-radius: 10px;
-      box-shadow:
-      0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
       0 6.7px 5.3px rgba(0, 0, 0, 0.048),
       0 12.5px 10px rgba(0, 0, 0, 0.06),
       0 22.3px 17.9px rgba(0, 0, 0, 0.072),
       0 41.8px 33.4px rgba(0, 0, 0, 0.086),
       0 100px 80px rgba(0, 0, 0, 0.12);
+
       .title {
         border: none;
       }
+
       .dropout {
         .dropout-title {
           display: flex;
@@ -2312,47 +2514,58 @@ export default {
           cursor: pointer;
           padding: 0 1rem;
           user-select: none;
+
           span {
             padding: 1.5rem 0;
             max-width: 85%;
           }
+
           svg {
             height: 2rem;
             width: 2rem;
             transition: .25s ease-in-out;
           }
+
           .rotated {
             transform: rotate(180deg);
           }
         }
+
         .content {
           padding: 0 1rem;
           overflow: hidden;
           display: none;
           transition: all .25s ease-in-out;
+
           p {
             opacity: 0.6;
           }
+
           .seller {
-            color:  $text-color-2;
+            color: $text-color-2;
             display: flex;
             flex-direction: column;
+
             .seller-value {
               color: $text-color-1;
             }
           }
+
           .lot-item {
             margin-bottom: 1rem;
             border-bottom: 1px solid $border-color;
             padding-bottom: 1rem;
+
             &-title {
               font-size: 1.1rem;
               font-weight: 600;
               margin-bottom: 1rem;
             }
+
             &-description {
               margin-bottom: 1rem;
             }
+
             .images {
               .swiper-wrapper {
                 .swiper-slide {
@@ -2364,28 +2577,34 @@ export default {
               }
             }
           }
+
           .lot-item:last-child {
             border-bottom: none;
             margin-bottom: 0;
             padding-bottom: 0;
           }
+
           .list {
             list-style: disc;
+
             li {
               margin-left: 2rem;
               color: $link-color;
+
               &:hover {
                 text-decoration: underline;
               }
             }
           }
         }
+
         .visible {
           padding: 0 1rem 1rem 1rem;
           transition: all .25s ease-in-out;
           display: block;
         }
       }
+
       .dropout:first-child {
         .dropout-title {
           border-top: none;
@@ -2394,237 +2613,273 @@ export default {
     }
   }
 }
+
 .participation-popup {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 50;
-    height: 100vh;
-    width: 100vw;
-    left: 0;
-    top: 0;
-    .participation-popup-form {
-      padding: 2rem;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow:
-        0 2.8px 2.2px rgba(0, 0, 0, 0.024),
-        0 6.7px 5.3px rgba(0, 0, 0, 0.038),
-        0 12.5px 10px rgba(0, 0, 0, 0.05),
-        0 22.3px 17.9px rgba(0, 0, 0, 0.062),
-        0 41.8px 33.4px rgba(0, 0, 0, 0.066),
-        0 100px 80px rgba(0, 0, 0, 0.08);
-      .title {
-        margin-bottom: 1rem;
-      }
-      .subtitle {
-        font-size: 0.9rem;
-        margin-bottom: 2rem;
-        opacity: 0.8;
-      }
-      .lot-title {
-        margin-bottom: 1rem;
-        border-top: 1px solid $border-color;
-        padding-top: 0.5rem;
-      }
-      .popup-lot-body {
-        display: flex;
-        margin-bottom: 1rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid $border-color;
-        &-image {
-          width: 10rem;
-          height: 5rem;
-          margin-right: 1rem;
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-        &-price {
-          display: flex;
-          align-items: center;
-          &-start {
-            display: flex;
-            flex-direction: column;
-            margin-right: 1rem;
-            .popup-lot-body-value {
-              width: fit-content;
-              background-color: #777777;
-              color: #fff;
-              font-size: 1.2rem;
-              font-weight: 500;
-              padding: 0.3rem 0.8rem;
-            }
-            .popup-lot-body-label {
-              font-size: 0.9rem;
-              opacity: 0.9;
-              margin-bottom: 0.2rem;
-            }
-          }
-          &-deposit {
-            display: flex;
-            flex-direction: column;
-            .popup-lot-body-value {
-              width: fit-content;
-              background-color: #777777;
-              color: #fff;
-              font-size: 1.2rem;
-              font-weight: 500;
-              padding: 0.3rem 0.8rem;
-            }
-            .popup-lot-body-label {
-              font-size: 0.9rem;
-              opacity: 0.9;
-              margin-bottom: 0.2rem;
-            }
-          }
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 50;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+
+  .participation-popup-form {
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.024),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.038),
+    0 12.5px 10px rgba(0, 0, 0, 0.05),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.062),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.066),
+    0 100px 80px rgba(0, 0, 0, 0.08);
+
+    .title {
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+    }
+
+    .lot-title {
+      margin-bottom: 1rem;
+      border-top: 1px solid $border-color;
+      padding-top: 0.5rem;
+    }
+
+    .popup-lot-body {
+      display: flex;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid $border-color;
+
+      &-image {
+        width: 10rem;
+        height: 5rem;
+        margin-right: 1rem;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
       }
-      .remember-checkbox {
+
+      &-price {
         display: flex;
         align-items: center;
-        margin-bottom: 1rem;
-        input {
-          margin-right: 0.5rem;
-          background-color: $background-color-1;
-          border: 1px solid $border-color;
-          width: 1rem;
-          margin-top: 1px;
-          cursor: pointer;
-        }
-        .link {
-          color: $link-color;
-        }
-        .link:hover {
-          text-decoration: underline;
-        }
-      }
-      .participation-popup-buttons {
-        display: flex;
-        justify-content: flex-end;
-        .cancel {
+
+        &-start {
+          display: flex;
+          flex-direction: column;
           margin-right: 1rem;
-          outline: none;
-        }
-        .submit {
-          @include button-active;
-        }
-        .submit:hover {
-          @include button-rounded;
-        }
-      }
-    }
-  }
-.make-bid-popup {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 50;
-    height: 100vh;
-    width: 100vw;
-    left: 0;
-    top: 0;
-    .make-bid-popup-form {
-      padding: 2rem;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow:
-        0 2.8px 2.2px rgba(0, 0, 0, 0.024),
-        0 6.7px 5.3px rgba(0, 0, 0, 0.038),
-        0 12.5px 10px rgba(0, 0, 0, 0.05),
-        0 22.3px 17.9px rgba(0, 0, 0, 0.062),
-        0 41.8px 33.4px rgba(0, 0, 0, 0.066),
-        0 100px 80px rgba(0, 0, 0, 0.08);
-      .title {
-        margin-bottom:0.25rem;
-      }
-      .subtitle {
-        font-size: 0.9rem;
-        margin-bottom: 1rem;
-        color: $text-color-2;
-        .subtitle-bid {
-          color: $text-color-1;
-          font-weight: 600;
-        }
-      }
-      .bid-input {
-        width: 10rem;
-        margin-bottom: 1rem;
-      }
-      .warning {
-          p {
-            font-size: 0.75rem;
-            margin-bottom: 0.5rem;
+
+          .popup-lot-body-value {
+            width: fit-content;
+            background-color: #777777;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 0.3rem 0.8rem;
+          }
+
+          .popup-lot-body-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.2rem;
           }
         }
-      .make-bid-popup-buttons {
-        display: flex;
-        justify-content: flex-end;
-        .cancel {
-          margin-right: 1rem;
-          outline: none;
-        }
-        .submit {
-          @include button-active;
-        }
-        .submit:hover {
-          @include button-rounded;
+
+        &-deposit {
+          display: flex;
+          flex-direction: column;
+
+          .popup-lot-body-value {
+            width: fit-content;
+            background-color: #777777;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 0.3rem 0.8rem;
+          }
+
+          .popup-lot-body-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.2rem;
+          }
         }
       }
     }
-  }
 
-  .common-rules-popup {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 50;
-    height: 100vh;
-    width: 100vw;
-    left: 0;
-    top: 0;
-    color: #000;
-    .common-rules-wrapper {
-      position: relative;
-      max-width: 60rem;
-      padding: 2rem;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow:
-        0 2.8px 2.2px rgba(0, 0, 0, 0.024),
-        0 6.7px 5.3px rgba(0, 0, 0, 0.038),
-        0 12.5px 10px rgba(0, 0, 0, 0.05),
-        0 22.3px 17.9px rgba(0, 0, 0, 0.062),
-        0 41.8px 33.4px rgba(0, 0, 0, 0.066),
-        0 100px 80px rgba(0, 0, 0, 0.08);
-      .button-close {
-        position: absolute;
-        right: 1rem;
-        top: 1rem;
+    .remember-checkbox {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      input {
+        margin-right: 0.5rem;
+        background-color: $background-color-1;
+        border: 1px solid $border-color;
+        width: 1rem;
+        margin-top: 1px;
         cursor: pointer;
+      }
 
+      .link {
+        color: $link-color;
       }
-      .title {
-        margin-bottom: 2rem;
-        font-size: 2rem;
-        text-align: center;
+
+      .link:hover {
+        text-decoration: underline;
       }
-      .rules {
-        .rule {
-          margin-bottom: 0.5rem;
-          opacity: 0.9;
-        }
+    }
+
+    .participation-popup-buttons {
+      display: flex;
+      justify-content: flex-end;
+
+      .cancel {
+        margin-right: 1rem;
+        outline: none;
+      }
+
+      .submit {
+        @include button-active;
+      }
+
+      .submit:hover {
+        @include button-rounded;
       }
     }
   }
+}
+
+.make-bid-popup {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 50;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+
+  .make-bid-popup-form {
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.024),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.038),
+    0 12.5px 10px rgba(0, 0, 0, 0.05),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.062),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.066),
+    0 100px 80px rgba(0, 0, 0, 0.08);
+
+    .title {
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      color: $text-color-2;
+
+      .subtitle-bid {
+        color: $text-color-1;
+        font-weight: 600;
+      }
+    }
+
+    .bid-input {
+      width: 10rem;
+      margin-bottom: 1rem;
+    }
+
+    .warning {
+      p {
+        font-size: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .make-bid-popup-buttons {
+      display: flex;
+      justify-content: flex-end;
+
+      .cancel {
+        margin-right: 1rem;
+        outline: none;
+      }
+
+      .submit {
+        @include button-active;
+      }
+
+      .submit:hover {
+        @include button-rounded;
+      }
+    }
+  }
+}
+
+.common-rules-popup {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 50;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  color: #000;
+
+  .common-rules-wrapper {
+    position: relative;
+    max-width: 60rem;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.024),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.038),
+    0 12.5px 10px rgba(0, 0, 0, 0.05),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.062),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.066),
+    0 100px 80px rgba(0, 0, 0, 0.08);
+
+    .button-close {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      cursor: pointer;
+
+    }
+
+    .title {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .rules {
+      .rule {
+        margin-bottom: 0.5rem;
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
 .information-popup {
   position: fixed;
   display: flex;
@@ -2637,25 +2892,27 @@ export default {
   left: 0;
   top: 0;
   color: #000;
+
   .information-wrapper {
     position: relative;
     max-width: 50rem;
     padding: 2rem;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow:
-      0 2.8px 2.2px rgba(0, 0, 0, 0.024),
-      0 6.7px 5.3px rgba(0, 0, 0, 0.038),
-      0 12.5px 10px rgba(0, 0, 0, 0.05),
-      0 22.3px 17.9px rgba(0, 0, 0, 0.062),
-      0 41.8px 33.4px rgba(0, 0, 0, 0.066),
-      0 100px 80px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.024),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.038),
+    0 12.5px 10px rgba(0, 0, 0, 0.05),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.062),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.066),
+    0 100px 80px rgba(0, 0, 0, 0.08);
+
     .button-close {
       position: absolute;
       right: 1rem;
       top: 1rem;
       cursor: pointer;
     }
+
     .title {
       margin-bottom: 1rem;
       font-size: 2rem;
@@ -2663,10 +2920,12 @@ export default {
       padding-bottom: 1rem;
       border-bottom: 1px solid $border-color;
     }
+
     .warning {
       font-size: 2rem;
       font-weight: 700;
     }
+
     .text {
       p {
         margin: 0.5rem 0;
@@ -2674,19 +2933,24 @@ export default {
     }
   }
 }
+
 @media (max-width: 1024px) {
   .wrapper {
     flex-direction: column;
+
     &-left {
       width: 100%;
       padding-right: 0;
+
       .choosen-image {
         height: 26rem;
       }
+
       .users-bids {
         margin-bottom: 2rem;
       }
     }
+
     &-right {
       width: 100%;
       z-index: 5;
@@ -2697,27 +2961,34 @@ export default {
 @media (max-width: 534px) {
   .wrapper {
     padding: 0;
+
     &-left {
       width: 100%;
       padding-right: 0;
+
       .users-bids {
         margin-bottom: 2rem;
       }
+
       .choosen-image {
-        height:  20rem;
+        height: 20rem;
       }
     }
+
     &-right {
       width: 100%;
       z-index: 5;
+
       .lot-title {
         .info-wrapper {
           display: none;
         }
+
         .info-wrapper-mobile {
           display: flex;
           flex-direction: column;
           margin-top: 1rem;
+
           .article {
             display: flex;
             flex-direction: column;
@@ -2725,15 +2996,18 @@ export default {
             margin-bottom: 1rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid $border-color;
+
             .article-title {
               color: $text-color-2;
               font-size: 0.9rem;
             }
           }
+
           .rules {
             padding: 0;
             margin: 0;
             border: none;
+
             span {
               color: $link-color !important;
               font-size: 1rem !important;
@@ -2741,19 +3015,23 @@ export default {
           }
         }
       }
+
       .price {
         .price-wrapper {
           flex-direction: column;
+
           .price-left {
             width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             text-align: center;
+
             span {
               margin-top: 0;
             }
           }
+
           .price-right {
             width: 100%;
             margin-top: 1rem;
@@ -2761,11 +3039,14 @@ export default {
             justify-content: center;
           }
         }
+
         &-info {
           flex-direction: column;
+
           .price-top {
             justify-content: center;
             text-align: center;
+
             .price-start {
               align-items: center;
             }
@@ -2774,16 +3055,20 @@ export default {
               align-items: center;
             }
           }
+
           .price-bottom {
             justify-content: center;
             text-align: center;
             margin-left: 96px;
+
             .price-deposit {
               align-items: center;
             }
+
             .price-step {
               align-items: center;
             }
+
             .price-buy {
               align-items: center;
             }

@@ -141,7 +141,8 @@
         </div>
       </div>
       <div class="auctions-list" v-if="filteredByStatusAuctions.length > 0">
-        <div v-for="(auction, index) in paginatedData" :key="index" @click="checkParticipation(auction)">
+        <div v-for="(auction, index) in paginatedData" :key="index" @click="checkParticipation(auction)"
+             class="lot-item">
           <lot-card :auction="auction"/>
         </div>
       </div>
@@ -273,7 +274,7 @@ export default {
         this.cities = response.data.data.data
       })
     } else {
-      const data = await this.$axios.get(process.env.API_URL +  `/admin/api/admin/auction/lots/${this.$route.params.id}`)
+      const data = await this.$axios.get(process.env.API_URL + `/admin/api/admin/auction/lots/${this.$route.params.id}`)
       this.auctions = data.data.data
       this.filteredByStatusAuctions = this.auctions
       this.pageCount
@@ -345,7 +346,7 @@ export default {
 
     },
     submitParticipation() {
-      this.$axios.put(process.env.API_URL +  `/admin/api/admin/auctionConfirm/${this.choosenRequest.id}`, {
+      this.$axios.put(process.env.API_URL + `/admin/api/admin/auctionConfirm/${this.choosenRequest.id}`, {
         user_id: this.$store.state.auth.userData.id
       }).then(() => {
         this.openParticipationPopup = !this.openParticipationPopup
@@ -485,6 +486,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "~/assets/scss/common.scss";
+
+.lot-item {
+  flex: 30%;
+  max-width: 400px;
+  margin-bottom: 30px;
+}
 
 .participation-popup {
   position: fixed;
@@ -865,12 +872,11 @@ section {
     }
 
     .auctions-list {
-      display: grid;
+      display: flex;
       justify-content: center;
-      grid-template-columns: repeat(auto-fit, minmax(19rem, 19rem));
-      grid-column-gap: 1rem;
-      grid-row-gap: 2rem;
+      flex-wrap: wrap;
       margin-bottom: 2rem;
+      align-items: flex-start;
     }
 
     .auctions-pagination {

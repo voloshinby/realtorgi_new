@@ -67,6 +67,11 @@ class Lot extends Model
         return $this->hasMany('App\Models\File', 'lot_id', 'id');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(LotsComment::class, 'lot_id', 'id');
+    }
+
     public function auction_files()
     {
         return $this->hasManyThrough(
