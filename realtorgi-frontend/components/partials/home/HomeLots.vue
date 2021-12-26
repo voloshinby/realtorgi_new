@@ -99,7 +99,7 @@
         Предстоящие торги
       </h1>
       <h1 class="title" v-if="this.$route.name === 'auctions-all-id'">
-         Список лотов в аукционе №{{ this.$route.params.auctionNumber }}
+        Список лотов в аукционе №{{ this.$route.params.auctionNumber }}
       </h1>
       <div class="auction-filters" v-if="this.$route.name === 'auctions'">
         <div class="status-filters">
@@ -275,7 +275,7 @@ export default {
       })
     } else {
       const data = await this.$axios.get(process.env.API_URL + `/admin/api/admin/auction/lots/${this.$route.params.id}`)
-      this.auctions = data.data.data
+      this.auctions = data.data.data.data
       this.filteredByStatusAuctions = this.auctions
       this.pageCount
     }

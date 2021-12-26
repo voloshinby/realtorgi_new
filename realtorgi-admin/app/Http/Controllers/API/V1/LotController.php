@@ -248,7 +248,6 @@ class LotController extends BaseController
 
     public function categoryFilter(Request $request)
     {
-
         $category = Category::where('name', $request->get('category'))->first();
 
         $lots = $this->lot->where('category_id', $category->id)->with([
@@ -290,7 +289,7 @@ class LotController extends BaseController
     public function notificateComment(Lot $lot, Request $request)
     {
         $lotComment = LotsComment::create([
-            'user_id' => $request->user('api')->id,
+            'user_id' => $request->user('api')->id ?? $request->user ,
             'lot_id' => $lot->id,
             'comment' => $request->get('comment'),
         ]);

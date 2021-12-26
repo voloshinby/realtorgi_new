@@ -144,10 +144,9 @@ class AuctionController extends BaseController
             'gallery',
             'files',
             'category',
-        ])->withCount('users')->paginate(8);
+        ])->withCount('users')->paginate(9);
 
         return $this->sendResponse($lot, 'Lots List');
-
     }
 
     public function list()

@@ -1325,7 +1325,7 @@
                 <swiper class="images" :options="swiperOption" :class="{'full-screen': sliderOpen}">
                   <swiper-slide v-for="image in item.gallery" :key="image.id">
                     <div class="swiper-zoom-container">
-                      <img :src="'http://realtorgi.loc' + image.path" :alt="item.name">
+                      <img :src="'https://realtorgi.by' + image.path" :alt="item.name">
                     </div>
                   </swiper-slide>
                 </swiper>
@@ -1378,7 +1378,10 @@
             </div>
             <div :class="{ visible: (showDropoutContent === 7) }" class="content">
               <ul v-if="auction.files.length !== 0" class="list">
-                <li v-for="file in auction.files" :key="file.id"><a target="_blank" :href="'http://realtorgi.loc' + file.path">{{ file.name }}</a></li>
+                <li v-for="file in auction.files" :key="file.id"><a target="_blank"
+                                                                    :href="'https://realtorgi.by' + file.path">{{
+                    file.name
+                  }}</a></li>
               </ul>
               <p v-else>Нет документов</p>
             </div>
@@ -1390,7 +1393,10 @@
             </div>
             <div :class="{ visible: (showDropoutContent === 8) }" class="content">
               <ul v-if="auction.auction_files.length !== 0" class="list">
-                <li v-for="file in auction.auction_files" :key="file.id"><a target="_blank" :href="'http://realtorgi.loc' + file.path">{{ file.name }}</a></li>
+                <li v-for="file in auction.auction_files" :key="file.id"><a target="_blank"
+                                                                            :href="'https://realtorgi.by' + file.path">{{
+                    file.name
+                  }}</a></li>
               </ul>
               <p v-else>Нет документов</p>
             </div>
@@ -2068,13 +2074,13 @@ export default {
 
         .swiper-wrapper {
           width: 100%;
-          transform: translate3d(0px, 0, 0) !important;
+          margin-left: -269px;
 
           .swiper-slide {
             opacity: 0.5;
             transition: .2s ease-in-out;
-            flex: 1;
             margin-right: 10px !important;
+            max-width: 225px;
 
             img {
               object-fit: cover;

@@ -1,159 +1,160 @@
 <template>
-  <loading-spinner v-if="$fetchState.pending"/>
-  <section v-else>
-    <div v-show="orginizeAuctionOpen" class="orginize-auction" @click="orginizeAuctionOpen = !orginizeAuctionOpen">
+  <div>
+    <div class="orginize-comment" id="addComment" role="dialog" aria-labelledby="addComment"
+         aria-hidden="true" v-show="sendCommentModal" @click="sendCommentModal = !sendCommentModal">>
       <div class="orginize-auction-form" @click.stop>
         <form class="orginize-auction-form-wrapper" onsubmit="return false">
-          <h1 class="title">Создать аукцион</h1>
+          <h1 class="title">Отправьте комментарий</h1>
+          <div class="input-wrapper">
 
-          <div class="subtitle">Чтобы Связаться с представителем площадки позвоните на номер +375172566135, либо
-            оставьте ваши контактные данные и организатор свяжется с Вами!
+            <select name="type_lot" v-model="lot" id="type_lot" class="form-control">
+              <option>Выберите лот</option>
+              <option v-for="(lot, index) in lots" :key="index" :value="lot.id">{{ lot.name }}</option>
+            </select>
           </div>
-          <div class="orginize-auction-forms">
-            <div class="name-input input">
-              <div class="input-wrapper">
-                <label for="name">Имя:</label>
-                <input id="name" type="text" v-model="name" required minlength="2">
-              </div>
-            </div>
-            <div class="email-input input">
-              <div class="input-wrapper">
-                <label for="email">Email:</label>
-                <input id="email" type="text" v-model="email" required minlength="6" maxlength="22">
-              </div>
-            </div>
-            <div class="phone-input input">
-              <div class="input-wrapper">
-                <label for="phone">Телефон:</label>
-                <input id="phone" type="text" v-model="phone" required minlength="6" maxlength="22">
-              </div>
-            </div>
+          <div class="input-wrapper">
+            <label>Комментарий</label>
+            <textarea v-model="comment" type="datetime-local" name="comment" class="form-control">
+            </textarea>
           </div>
           <div class="orginize-auction-buttons">
-            <button class="cancel" @click="orginizeAuctionOpen = !orginizeAuctionOpen">Отмена</button>
-            <button class="submit" @click="submit">Отправить</button>
+            <button class="cancel" @click="sendCommentModal = !sendCommentModal">Отмена</button>
+            <button class="submit" @click="submitComment">Отправить</button>
           </div>
         </form>
       </div>
     </div>
-    <div class="warning">
-      <div class="warning-wrapper">
-        <div v-if="this.$store.state.auth.userData.profile.type_user === 'jur'" class="title">Юридическое лицо.</div>
-        <div v-else-if="this.$store.state.auth.userData.profile.type_user === 'ip'" class="title">Индивидуальный
-          предприниматель.
-        </div>
-        <div v-else-if="this.$store.state.auth.userData.profile.type_user === 'phys'" class="title">Физическое лицо.
-        </div>
-        <div v-else class="title">Для создания аукциона добавьте профиль.</div>
-        <div class="add-profile">
-          <nuxt-link v-if="
-            this.$store.state.auth.userData.profile.type_user === 'jur' ||
-            this.$store.state.auth.userData.profile.type_user === 'ip' ||
-            this.$store.state.auth.userData.profile.type_user === 'phys'
-            " :to="{ name: 'account-profiles-new' }">
-            <button class="add-profile-button">
-              <plus-icon/>
-              Изменить профиль
-            </button>
-          </nuxt-link>
-          <nuxt-link v-else :to="{ name: 'account-profiles-new' }">
-            <button class="add-profile-button">
-              <plus-icon/>
-              Добавить профиль
-            </button>
-          </nuxt-link>
-        </div>
-      </div>
-    </div>
-    <div class="seller-auctions">
-      <div class="seller-auctions-wrapper">
-        <div class="title">
-          <h1>Мои аукционы</h1>
-        </div>
-        <div v-if="requestedAuctions.length > 0" class="auctions-table">
-          <div class="auctions-table-wrapper">
-            <div class="table-row first">
-              <span class="number">№</span>
-              <span class="name">Название аукциона</span>
-              <span class="starts-at">Дата проведения торгов</span>
-              <span class="contact-person">Контактное лицо</span>
-              <span class="auction-type">Тип аукциона</span>
-              <span class="auction">Действия</span>
-            </div>
-            <div class="table-row" v-for="auction in requestedAuctions" :key="auction.auction_number">
-              <span class="number">{{ auction.auction_number }}</span>
-              <span class="name">{{ auction.name }} </span>
-              <span class="starts-at">{{
-                  moment((parseInt(auction.starts_at)) * 1000).format('Do MMMM YYYY, HH:mm')
-                }}</span>
-              <span class="contact-person"><p>{{ auction.contact_person }}</p><p>{{ auction.seller_phone }}</p></span>
-              <span v-if="auction.type === 'econom'" class="auction-type">Торги в результате экономической несостоятельности</span>
-              <span v-if="auction.type === 'classic'" class="auction-type">Классические электронные торги</span>
-              <span class="contact-person">
-                <a @click="modalComment();">
-                  <button class="col-md-8 form-control btn btn-warning">
-                     Оставить Комментарий
-                  </button>
-                </a></span>
-            </div>
-          </div>
-        </div>
-        <div v-else class="no-orginized-auctions">Не найдено аукционов, организованных Вами.</div>
-        <div class="find-more">
-          <div class="actions">
-            <div @click="orginizeAuctionOpen = !orginizeAuctionOpen" class="auction-button">
-              <plus-icon/>
-              Создать аукцион
-            </div>
-            <!-- <div class="user-avatar" v-if="this.$store.state.auth.authorized === true" @click="openProfileNavbar = !openProfileNavbar">
-              <img v-if="this.$store.state.auth.userData.image !== ''" :src="this.$store.state.auth.userData.image" />
-              <img v-if="this.$store.state.auth.userData.image === ''" src="~/assets/img/user-avatar.png" />
-              <the-navbar-profile v-show="openProfileNavbar" class="header-profile-menu" @click.stop/>
-              <div v-if="this.$store.state.auth.userData.unreadNotifications > 0" class="notification-status"><span>{{ this.$store.state.auth.userData.unreadNotifications }}</span></div>
-            </div> -->
-          </div>
-          <nuxt-link :to="{ name: 'auctions' }">
-            <button class="find-more-button">Все аукционы
-              <arrow-right-icon/>
-            </button>
-          </nuxt-link>
+    <loading-spinner v-if="$fetchState.pending"/>
+    <section v-else>
+      <div v-show="orginizeAuctionOpen" class="orginize-auction" @click="orginizeAuctionOpen = !orginizeAuctionOpen">
+        <div class="orginize-auction-form" @click.stop>
+          <form class="orginize-auction-form-wrapper" onsubmit="return false">
+            <h1 class="title">Создать аукцион</h1>
 
-        </div>
-        <!-- <div @click="orginizeAuctionOpen = !orginizeAuctionOpen" class="make-auction-button">
-            <plus-icon/>
-            Организовать торги
-        </div> -->
-
-      </div>
-    </div>
-
-    <div class="modal fade" id="addComment" role="dialog" aria-labelledby="addComment"
-         aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Отправить комментарий</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <form @submit.prevent="createComment()">
-            <div class="modal-body">
-              <div class="form-group">
-                <label>Комментарий</label>
-                <textarea v-model="comment" type="datetime-local" name="comment"
-                          class="form-control">
-                                    </textarea>
+            <div class="subtitle">Чтобы Связаться с представителем площадки позвоните на номер +375172566135, либо
+              оставьте ваши контактные данные и организатор свяжется с Вами!
+            </div>
+            <div class="orginize-auction-forms">
+              <div class="name-input input">
+                <div class="input-wrapper">
+                  <label for="name">Имя:</label>
+                  <input id="name" type="text" v-model="name" required minlength="2">
+                </div>
+              </div>
+              <div class="email-input input">
+                <div class="input-wrapper">
+                  <label for="email">Email:</label>
+                  <input id="email" type="text" v-model="email" required minlength="6" maxlength="22">
+                </div>
+              </div>
+              <div class="phone-input input">
+                <div class="input-wrapper">
+                  <label for="phone">Телефон:</label>
+                  <input id="phone" type="text" v-model="phone" required minlength="6" maxlength="22">
+                </div>
               </div>
             </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Отправить</button>
+            <div class="orginize-auction-buttons">
+              <button class="cancel" @click="orginizeAuctionOpen = !orginizeAuctionOpen">Отмена</button>
+              <button class="submit" @click="submit">Отправить</button>
             </div>
           </form>
         </div>
       </div>
-    </div>
-  </section>
+      <div class="warning">
+        <div class="warning-wrapper">
+          <div v-if="this.$store.state.auth.userData.profile.type_user === 'jur'" class="title">Юридическое лицо.</div>
+          <div v-else-if="this.$store.state.auth.userData.profile.type_user === 'ip'" class="title">Индивидуальный
+            предприниматель.
+          </div>
+          <div v-else-if="this.$store.state.auth.userData.profile.type_user === 'phys'" class="title">Физическое лицо.
+          </div>
+          <div v-else class="title">Для создания аукциона добавьте профиль.</div>
+          <div class="add-profile">
+            <nuxt-link v-if="
+            this.$store.state.auth.userData.profile.type_user === 'jur' ||
+            this.$store.state.auth.userData.profile.type_user === 'ip' ||
+            this.$store.state.auth.userData.profile.type_user === 'phys'
+            " :to="{ name: 'account-profiles-new' }">
+              <button class="add-profile-button">
+                <plus-icon/>
+                Изменить профиль
+              </button>
+            </nuxt-link>
+            <nuxt-link v-else :to="{ name: 'account-profiles-new' }">
+              <button class="add-profile-button">
+                <plus-icon/>
+                Добавить профиль
+              </button>
+            </nuxt-link>
+          </div>
+        </div>
+      </div>
+      <div class="seller-auctions">
+        <div class="seller-auctions-wrapper">
+          <div class="title">
+            <h1>Мои аукционы</h1>
+          </div>
+          <div v-if="requestedAuctions.length > 0" class="auctions-table">
+            <div class="auctions-table-wrapper">
+              <div class="table-row first">
+                <span class="number">№</span>
+                <span class="name">Название аукциона</span>
+                <span class="starts-at">Дата проведения торгов</span>
+                <span class="contact-person">Контактное лицо</span>
+                <span class="auction-type">Тип аукциона</span>
+                <span class="auction">Действия</span>
+              </div>
+              <div class="table-row" v-for="auction in requestedAuctions" :key="auction.auction_number">
+                <span class="number">{{ auction.auction_number }}</span>
+                <span class="name">{{ auction.name }} </span>
+                <span class="starts-at">{{
+                    moment((parseInt(auction.starts_at)) * 1000).format('Do MMMM YYYY, HH:mm')
+                  }}</span>
+                <span class="contact-person"><p>{{ auction.contact_person }}</p><p>{{ auction.seller_phone }}</p></span>
+                <span v-if="auction.type === 'econom'" class="auction-type">Торги в результате экономической несостоятельности</span>
+                <span v-if="auction.type === 'classic'" class="auction-type">Классические электронные торги</span>
+                <span class="contact-person">
+                <a @click="openCommentModal(auction.id)">
+                  <button class="col-md-8 form-control btn btn-warning">
+                     Оставить Комментарий
+                  </button>
+                </a></span>
+              </div>
+            </div>
+          </div>
+          <div v-else class="no-orginized-auctions">Не найдено аукционов, организованных Вами.</div>
+          <div class="find-more">
+            <div class="actions">
+              <div @click="orginizeAuctionOpen = !orginizeAuctionOpen" class="auction-button">
+                <plus-icon/>
+                Создать аукцион
+              </div>
+              <!-- <div class="user-avatar" v-if="this.$store.state.auth.authorized === true" @click="openProfileNavbar = !openProfileNavbar">
+                <img v-if="this.$store.state.auth.userData.image !== ''" :src="this.$store.state.auth.userData.image" />
+                <img v-if="this.$store.state.auth.userData.image === ''" src="~/assets/img/user-avatar.png" />
+                <the-navbar-profile v-show="openProfileNavbar" class="header-profile-menu" @click.stop/>
+                <div v-if="this.$store.state.auth.userData.unreadNotifications > 0" class="notification-status"><span>{{ this.$store.state.auth.userData.unreadNotifications }}</span></div>
+              </div> -->
+            </div>
+            <nuxt-link :to="{ name: 'auctions' }">
+              <button class="find-more-button">Все аукционы
+                <arrow-right-icon/>
+              </button>
+            </nuxt-link>
+
+          </div>
+          <!-- <div @click="orginizeAuctionOpen = !orginizeAuctionOpen" class="make-auction-button">
+              <plus-icon/>
+              Организовать торги
+          </div> -->
+
+        </div>
+      </div>
+
+    </section>
+  </div>
+
 </template>
 
 <script>
@@ -175,14 +176,32 @@ export default {
     orginizeAuctionOpen: false,
     moment: moment,
     comment: '',
+    lots: [],
+    lot: 'Выберите лот',
+    sendCommentModal: false,
   }),
   methods: {
-    modalComment() {
-      this.comment = '';
-      $("#addComment").modal("show");
+    openCommentModal(id) {
+      this.sendCommentModal = !this.sendCommentModal;
+      this.$axios.get(process.env.API_URL + '/admin/api/admin/auction/lots/' + id).then((response) => {
+        this.lots = response.data.data.data
+      });
     },
-    createComment(){
-
+    submitComment() {
+      if (this.comment.length > 1 && this.lot !== 'Выберите лот') {
+        this.$axios.$post(process.env.API_URL + '/admin/api/admin/lot/comment/' + this.lot, {
+          comment: this.comment,
+          lot: this.lot,
+          user: this.$store.state.auth.userData.id,
+        })
+        this.$notify({
+          'group': 'user-notifications',
+          'title': `<div class='title'>Новый комментарий добавлен</div>`,
+          'text': ``,
+        })
+        this.sendCommentModal = !this.sendCommentModal;
+        this.comment = '';
+      }
     },
     submit(e) {
       if (this.name.length > 1 && this.phone.length > 5 && this.email.length > 6) {
@@ -245,6 +264,13 @@ export default {
 <style lang="scss" scoped>
 @import "~/assets/scss/common.scss";
 
+select {
+  width: 100%;
+  padding: 5px;
+  margin: 20px 0;
+  border: 1px solid #E9E9E9;
+}
+
 .btn-warning {
   color: #212529;
   background-color: #ffed4a;
@@ -304,6 +330,86 @@ export default {
   }
 }
 
+.orginize-comment {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 50;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+
+  .orginize-auction-form {
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.024),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.038),
+    0 12.5px 10px rgba(0, 0, 0, 0.05),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.062),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.066),
+    0 100px 80px rgba(0, 0, 0, 0.08);
+
+    .title {
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      margin-bottom: 1rem;
+      max-width: 25rem;
+      color: $text-color-2;
+    }
+
+    .orginize-auction-forms {
+      margin-bottom: 2rem;
+
+      .input {
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+
+        .input-wrapper {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+
+          label {
+            margin-right: 1rem;
+            width: 10rem;
+            text-align: right;
+          }
+
+          input {
+            max-width: 18rem;
+            margin-right: 3rem;
+          }
+        }
+      }
+    }
+
+    .orginize-auction-buttons {
+      display: flex;
+      justify-content: flex-end;
+
+      .cancel {
+        margin-right: 1rem;
+        outline: none;
+      }
+
+      .submit {
+        @include button-active;
+      }
+
+      .submit:hover {
+        @include button-rounded;
+      }
+    }
+  }
+}
+
 .seller-auctions {
   background-color: #fff;
   margin: 0 1rem 3rem 1rem;
@@ -344,26 +450,6 @@ export default {
 
           .number {
             width: 5rem;
-          }
-
-          .name {
-            width: 15rem;
-          }
-
-          .participants {
-            width: 10rem;
-          }
-
-          .starts-at {
-            width: 12rem;
-          }
-
-          .contact-person {
-            width: 15rem;
-          }
-
-          .auction-type {
-            width: 15rem;
           }
         }
       }

@@ -84,6 +84,7 @@ export default {
   border-radius: 10px;
   overflow: hidden;
   width: 19rem;
+  margin: 0 auto;
   border: 1px solid $border-color;
   height: fit-content;
   transition: .2s ease-in-out;

@@ -17,7 +17,7 @@ class CountryController extends BaseController
      */
     public function __construct(Country $country)
     {
-        $this->middleware('auth:api');
+        //$this->middleware('auth:api');
         $this->country = $country;
     }
 
