@@ -19,6 +19,7 @@ export default {
         'group': 'user-notifications',
         'title': `<div class='title'>Изменения данных.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
         'text': 'Вы успешно сменили данные своего аккаунта.',
+        'duration': 5000
       })
     }
   }

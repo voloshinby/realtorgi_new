@@ -181,6 +181,7 @@ export default {
         'group': 'user-notifications',
         'title': `<div class='title'>Ошибка.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
         'text': 'Вы уже авторизованы в системе.',
+        'duration': 5000
       })
       this.$router.push('/')
     }

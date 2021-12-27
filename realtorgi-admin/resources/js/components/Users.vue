@@ -455,11 +455,14 @@
                             <has-error :form="form" field="images"></has-error>
                         </div>
 
-                        <div class="form-group">
-                            <div v-if="form.gallery" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; cursor: pointer;">
-                                <div :id="'image_'+im.id" v-on:click="deleteImage(im.id)" v-for="(im, index) in form.gallery" :key="index" style="flex: 1 2 25%;">
+                        <div class="form-group" style="display: flex;">
+                            <div :id="'image_'+im.id"
+                                 v-for="(im, index) in form.gallery" :key="index" style="flex: 1 2 25%;"
+                                 class="image-item">
+                                <a :href="im.path" target="_blank">
                                     <img style="width: 100%" :src="im.path" alt="">
-                                </div>
+                                </a>
+                                <a v-on:click="deleteImage(im.id)" style="color:blue">Удалить</a>
                             </div>
                         </div>
 
@@ -484,7 +487,12 @@
     </div>
   </section>
 </template>
-
+<style>
+.image-item {
+    max-width: 200px;
+    margin: 0 10px;
+}
+</style>
 <script>
     export default {
         data () {

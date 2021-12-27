@@ -25,7 +25,7 @@
                                     :key="notification.id"
                                     :class="{ 'not-viewed' : notification.is_view_by_admin === 0}">
                                     <td>{{ notification.id }}</td>
-                                    <td>{{ notification.text }}</td>
+                                    <td v-html="notification.text">{{ notification.text }}</td>
                                     <td>
                                         <a @click="editModal(notification)">
                                             <button type="button" class="btn btn-primary">Прочитать</button>
@@ -185,7 +185,7 @@ export default {
 
                 // Send request to the server
                 if (result.value) {
-                    this.form.delete('/api/notification/' + id).then(() => {
+                    this.form.delete('/admin/api/admin/notification/' + id).then(() => {
                         Swal.fire(
                             'Deleted!',
                             'Your file has been deleted.',

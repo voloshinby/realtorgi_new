@@ -35,6 +35,7 @@ export default {
               'group': 'user-notifications',
               'title': `<div class='title'>Неверный код подтверждения.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
               'text': 'Вы ввели неверный код подтверждения. Попробуйте, пожалуйста, еще раз.',
+              'duration': 5000
             })
             this.animated = true
           }
@@ -48,6 +49,7 @@ export default {
               'group': 'user-notifications',
               'title': `<div class='title'>Электронный адрес вашей почты был подтвержден.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
               'text': 'Подтверждие электронного адреса вашей почты прошло успешно.',
+              'duration': 5000
             })
             this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
               .then((response) => {
@@ -72,6 +74,7 @@ export default {
             'group': 'user-notifications',
             'title': `<div class='title'>Код подтверждения был отправлен повторно. <div>`,
             'text': 'Проверьте ваш email',
+            'duration': 5000
           })
         })
     }
@@ -82,6 +85,7 @@ export default {
         'group': 'user-notifications',
         'title': `<div class='title'>Ошибка.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
         'text': 'Электронный адрес Вашей почты уже подтвержден.',
+        'duration': 5000
       })
       this.$router.push('/')
     }

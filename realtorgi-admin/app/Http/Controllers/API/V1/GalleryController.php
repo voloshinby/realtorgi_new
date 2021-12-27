@@ -36,7 +36,7 @@ class GalleryController extends BaseController
 
                         Notification::create([
                             'user_id' => 0,
-                            'text' => 'Пользователь под номером '.$id.' загрузил новое изображение',
+                            'text' => "Пользователь под номером <a href='users'>{$id}</a> загрузил новое изображение",
                             'status' => 'new'
                         ]);
 
@@ -45,7 +45,7 @@ class GalleryController extends BaseController
 
                         Notification::create([
                             'user_id' => 0,
-                            'text' => 'Пользователь под номером '.$id.' загрузил новый файл',
+                            'text' => "Пользователь под номером <a href='users'>{$id}</a> загрузил новый файл",
                             'status' => 'new'
                         ]);
                     }

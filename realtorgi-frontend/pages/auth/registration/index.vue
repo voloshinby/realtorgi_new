@@ -113,6 +113,7 @@ export default {
               'group': 'user-notifications',
               'title': `<div class='title'>Ваш аккаунт был создан.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
               'text': 'На Вашу почту было отправлено письмо с подтверждением почты.',
+              'duration': 5000
             })
             this.$axios.$get(`https://realtorgi.by/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
               .then((response) => {
@@ -260,6 +261,7 @@ export default {
         'group': 'user-notifications',
         'title': `<div class='title'>Ошибка.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
         'text': 'Вы уже авторизованы в системе.',
+        'duration': 5000
       })
       this.$router.push('/')
     }

@@ -81,6 +81,7 @@ export default ({
         'group': 'user-notifications',
         'title': `<div class='title'>Нет доступа.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
         'text': 'Только авторизованные пользователи могут просматривать данный раздел.',
+        'duration': 5000
       })
       this.$router.push('/auth')
     }

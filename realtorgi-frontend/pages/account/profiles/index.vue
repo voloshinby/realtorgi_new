@@ -56,6 +56,7 @@ export default {
         'group': 'user-notifications',
         'title': `<div class='title'>Нет доступа.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
         'text': 'Только авторизованные пользователи могут просматривать данный раздел.',
+        'duration': 5000
       })
       this.$router.push('/auth')
     }
@@ -64,6 +65,7 @@ export default {
         'group': 'user-notifications',
         'title': `<div class='title'>Электронный адрес вашей почты не подтвержден.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
         'text': 'Вы не можете расматривать страницы личного кабинета, пока не подтвердите адрес электронной почты.',
+        'duration': 5000
       })
       this.$router.push('/auth/registration/confirm')
     }
@@ -113,6 +115,7 @@ export default {
                 'group': 'user-notifications',
                 'title': `<div class='title'>Заявка на изменение профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
+                'duration': 5000
               })
               this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
@@ -132,6 +135,7 @@ export default {
                 'group': 'user-notifications',
                 'title': `<div class='title'>Заявка на добавление профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
+                'duration': 5000
               })
               this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
@@ -188,6 +192,7 @@ export default {
                 'group': 'user-notifications',
                 'title': `<div class='title'>Заявка на изменение профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
+                'duration': 5000
               })
               this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
@@ -207,6 +212,7 @@ export default {
                 'group': 'user-notifications',
                 'title': `<div class='title'>Заявка на добавление профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
+                'duration': 5000
               })
               this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
@@ -259,6 +265,7 @@ export default {
                 'group': 'user-notifications',
                 'title': `<div class='title'>Заявка на изменение профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
+                'duration': 5000
               })
               this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
@@ -271,6 +278,7 @@ export default {
                 'group': 'user-notifications',
                 'title': `<div class='title'>Заявка на добавление профиля.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': 'Ваша заявка была принята. В скором времени администратор площадки её рассмотрит.',
+                'duration': 5000
               })
               this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,

@@ -197,8 +197,8 @@
                 </div>
                 <div class="row" v-for="event in betHistory" :key="event.id">
                   <span class="time">{{ moment(event.created_at).format('HH:mm:ss') }}</span>
-
-                  <span class="username">Пользователь №{{ event.user_id }} сделал ставку</span>
+                  <span class="" v-if="!isCurrentuser(event)">Пользователь №{{ event.user_id }} сделал ставку</span>
+                  <span class="current-username" v-if="isCurrentuser(event)">Пользователь №{{ event.user_id }} сделал ставку</span>
                   <span class="price">{{ event.bet_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
                 </div>
               </div>
@@ -1662,6 +1662,7 @@ export default {
                 'title': `<div class='title'>Подтверждение заявки на участие.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
                 'text': `Уважаемый пользователь, для подтверждения своего участия в торгах, Вам требуется перейти в аукционный зал текущих торгов.
                 Аукционный зал находится в разделе "Покупателю".`,
+                'duration': 5000
               })
               this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
                 user_id: this.$store.state.auth.userData.id,
@@ -1800,6 +1801,7 @@ export default {
             'group': 'user-notifications',
             'title': `<div class='title'>Заявка на участие в лоте №${this.auction.lot_number}.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
             'text': 'Ваша заявка на участие была принята. В скором времени администратор площадки её рассмотрит.',
+            'duration': 5000
           })
           this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
             user_id: this.$store.state.auth.userData.id,
@@ -1819,6 +1821,7 @@ export default {
             'group': 'user-notifications',
             'title': `<div class='title'>Невозможно подать заявку.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
             'text': 'Вы не подтвердили согласие с Регламентом, с Публичной афертой, а также не подтвердили, что вы не являетесь должником, АУ, организатором и оператором данной площадки.',
+            'duration': 5000
           })
         }
       } else {
@@ -1833,6 +1836,7 @@ export default {
             'group': 'user-notifications',
             'title': `<div class='title'>Заявка на участие в лоте №${this.auction.lot_number}.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
             'text': 'Ваша заявка на участие была принята. В скором времени администратор площадки её рассмотрит.',
+            'duration': 5000
           })
           this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
             user_id: this.$store.state.auth.userData.id,
@@ -1852,6 +1856,7 @@ export default {
             'group': 'user-notifications',
             'title': `<div class='title'>Невозможно подать заявку.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
             'text': 'Вы не подтвердили согласие с Регламентом и с Публичной афертой.',
+            'duration': 5000
           })
         }
       }
@@ -1863,6 +1868,7 @@ export default {
           'group': 'user-notifications',
           'title': `<div class='title'>Невозможно сделать ставку.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
           'text': 'Вы не можете сделать ставку 2 раза подряд.',
+          'duration': 5000
         })
       } else {
         if (this.bidError === true) {
@@ -1889,10 +1895,11 @@ export default {
           'group': 'user-notifications',
           'title': `<div class='title'>Ставка принята.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
           'text': `Ваша ставка на лот №${this.auction.lot_number} была принята.`,
+          'duration': 5000
         })
         this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
           user_id: this.$store.state.auth.userData.id,
-          title: 'Ставка принята.',
+          title: 'Ставка ' + this.inputBid + ' - принята.',
           text: `Ваша ставка на лот №${this.auction.lot_number} была принята.`
         })
         this.$axios.$get(process.env.API_URL + `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
@@ -1918,6 +1925,7 @@ export default {
           'group': 'user-notifications',
           'title': `<div class='title'>Успешная покупка.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
           'text': 'Покупка успешно реализовано',
+          'duration': 5000
         });
 
       }
@@ -1928,6 +1936,9 @@ export default {
       } else {
         this.showDropoutContent = index
       }
+    },
+    isCurrentuser(event) {
+      return event.user_id === this.$store.state.auth.userData.id;
     },
   },
   mounted() {
@@ -2171,8 +2182,8 @@ export default {
             width: 5rem;
           }
 
-          .username {
-            width: 8rem;
+          .current-username {
+            font-weight: bold;
           }
 
           .price {

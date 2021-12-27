@@ -80,6 +80,7 @@ export default {
             'group': 'user-notifications',
             'title': `<div class='title'>Ваше письмо отправлено.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
             'text': 'В скором времени администратор площадки свяжется с Вами и ответит на любой Ваш вопрос.',
+            'duration': 5000
           })
           this.name = ''
           this.email = ''

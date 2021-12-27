@@ -189,6 +189,7 @@ export default {
           'group': 'user-notifications',
           'title': `<div class='title'>Заявка на организацию торгов принята.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
           'text': `Ваша заявка на организацию торгов была принята. В скором времени администратор площадки с Вами свяжется`,
+          'duration': 5000
         })
         this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
           user_id: this.$store.state.auth.userData.id,
