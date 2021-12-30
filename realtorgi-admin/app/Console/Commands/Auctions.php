@@ -45,7 +45,6 @@ class Auctions extends Command
      */
     public function handle()
     {
-
         $curr = Carbon::now()->timestamp;
         $auctions = Auction::get();
 
@@ -75,11 +74,13 @@ class Auctions extends Command
                 //     }
 
                 // }
+
                 if ($start_selling <= (int)$curr && $end_selling >= (int)$curr) {
                     $lots = Lot::where('auction_id', $auction['id'])->get();
 
                     foreach ($lots as $lot) {
-                        $countUsers = AuctionConfirm::where('confirmed_user', 1)->where('confirmed_admin', 1)->where('lot_id', $lot['id'])->count();
+                        $countUsers = AuctionConfirm::where('confirmed_user', 1)->where('confirmed_admin',
+                            1)->where('lot_id', $lot['id'])->count();
 
                         if ($countUsers > 1) {
                             Lot::where('id', $lot['id'])->update([
@@ -111,23 +112,34 @@ class Auctions extends Command
 
                                 $bet = AuctionBets::where('lot_id', $lot['id'])->where('bet_amount', $maxBet)->first();
 
-                                $user = User::where('id', $bet['user_id'])->first();
+                                $user = User::where('id', $bet->user_id)->first();
 
-                                $lot = Lot::where('id', $bet['lot_id'])->first();
+                                $lot = Lot::where('id', $bet->lot_id)->first();
 
-                                if ($bet['winner'] == null) {
-                                    $bet->update([
-                                        'winner' => 1,
-                                    ]);
+                                if ($bet->winner == null) {
+                                    $bet->winner = 1;
+                                    $bet->save();
 
                                     Notification::create([
                                         'title' => 'Победа в аукционе',
-                                        'text' => 'Пользователь ' . $user['first_name'] . ' ' . $user['last_name'] . ' победил в лоте под номером ' . $lot['lot_number'],
+                                        'text' => 'Пользователь ' . $user->first_name . ' ' . $user->last_name . ' победил в лоте под номером ' . $lot->lot_number,
                                         'user_id' => 0,
                                         'status' => 'new',
                                     ]);
 
-                                    Mail::send('emails.auctionWinner', $lot->toArray(),
+                                    Notification::create([
+                                        'title' => 'Участие в аукционе',
+                                        'text' => 'Пользователь ' . $user->first_name . ' ' . $user->last_name . ' победил в лоте под номером ' . $lot->lot_number,
+                                        'user_id' => $bet->user_id,
+                                        'status' => 'new',
+                                    ]);
+
+                                    $data = [];
+                                    $data['lot_id'] = $bet->lot_id;
+                                    $data['created_at'] = $bet->created_at;
+                                    $data['bet_amount'] = $bet->bet_amount;
+
+                                    Mail::send('emails.auctionWinner', $data,
                                         function ($message) use ($user) {
                                             $message->to($user['email'])->subject('Победа в аукционе');
                                         }
@@ -135,7 +147,7 @@ class Auctions extends Command
                                 }
 
                             } else {
-                                Lot::where('id', $lot['id'])->update([
+                                Lot::where('id', $lot->id)->update([
                                     'status' => 'Несостоявшиеся',
                                 ]);
                             }
@@ -153,8 +165,6 @@ class Auctions extends Command
                                     ]);
                                 }
                             }
-                        } else {
-                            continue;
                         }
                     }
                 }

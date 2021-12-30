@@ -212,6 +212,9 @@
                   <span>Нет событий</span>
                 </div>
               </div>
+              <div class="row" v-for="event in betHistory" :key="event.id">
+                <div v-if="event.winner == 1" class="winner-lot"> Победитель лота - пользователь №{{ event.user_id }}</div>
+              </div>
             </tab>
             <tab name="Журнал событий">
               <div class="bid-table" v-if="auction.comments.length > 0">
@@ -1899,7 +1902,7 @@ export default {
         })
         this.$axios.$post(process.env.API_URL + '/admin/api/admin/notification', {
           user_id: this.$store.state.auth.userData.id,
-          title: 'Ставка ' + this.inputBid + ' - принята.',
+          title: 'Ставка ' + this.inputBid + 'бел. р. - принята.',
           text: `Ваша ставка на лот №${this.auction.lot_number} была принята.`
         })
         this.$axios.$get(process.env.API_URL + `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
@@ -1972,6 +1975,12 @@ export default {
   text-align: center;
   margin-bottom: 3rem;
   font-size: 2rem;
+}
+
+.winner-lot {
+  border-top: 1px solid;
+  padding: 10px;
+  font-size: 19px;
 }
 
 .tabs-component {
