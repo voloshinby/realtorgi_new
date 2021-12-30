@@ -13,7 +13,7 @@
           <span>{{ auction.status }}</span>
         </div>
         <div v-if="auction.gallery.length !== 0" class="image">
-          <img :src="'http://realtorgi.loc' + auction.gallery[0].path" :alt="auction.name">
+          <img :src="'https://realtorgi.by' + auction.gallery[0].path" :alt="auction.name">
         </div>
         <div class="card-body">
           <div class="title">
