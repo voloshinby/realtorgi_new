@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use Illuminate\Http\Request;
-use App\Models\UserNotifications;
-use App\Models\User;
-use Illuminate\Support\Facades\Mail;
 use App\Models\Notification;
+use App\Models\User;
+use App\Models\UserNotifications;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class UserNotificationsController extends BaseController
 {
@@ -32,7 +32,10 @@ class UserNotificationsController extends BaseController
      */
     public function index()
     {
-        $notifications = $this->notification->latest()->with('user', 'gallery', 'files')->where('confirmed', 0)->paginate(1000);
+        $notifications = $this->notification
+            ->latest()
+            ->with('user', 'gallery', 'files')->where('confirmed', 0)
+            ->paginate(1000);
 
         return $this->sendResponse($notifications, 'Notifications list');
     }
@@ -40,7 +43,7 @@ class UserNotificationsController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -69,7 +72,7 @@ class UserNotificationsController extends BaseController
 
         $user = $this->user->where('id', $notification->user_id)->first();
 
-        if(isset($user) && !is_null($user)){
+        if (isset($user) && !is_null($user)) {
             // Mail::send('emails.userProfileCreated', $user->toArray(),
             //     function($message) use ($user){
             //         $message->to($user->email, 'Клиент')->subject('Создание профиля realtorgi.by');
@@ -83,61 +86,59 @@ class UserNotificationsController extends BaseController
     public function update(Request $request, $id)
     {
         $notification = $this->notification->findOrFail($id);
+        $user = $this->user->where('id', $notification->user_id)->first();
 
-        if(!empty($request->get('comment')) && !is_null($request->get('comment'))){
+        if (!empty($request->get('comment')) && !is_null($request->get('comment'))) {
             Notification::create([
-                'user_id' => $notification->id,
+                'user_id' => $user->id,
                 'title' => 'Запрос документов для профиля.',
                 'text' => $request->get('comment'),
-                'status' => 'new'
+                'status' => 'new',
             ]);
-            $notification->delete();
-        } else {
 
-            $notificationUpdate = $notification->update($request->all());
+        }
 
-            if($notificationUpdate){
+        $notificationUpdate = $notification->update($request->all());
 
-                $userConfirm = $this->user->where('id', $notification->user_id)->first();
+        if ($notificationUpdate) {
 
-                $userConfirm->update([
-                    'type_user' => $request->get('type_user'),
-                    'full_name' => $request->get('full_name'),
-                    'passport_number' => $request->get('passport_number'),
-                    'passport_issuer' => $request->get('passport_issuer'),
-                    'passportDate' => $request->get('passportDate'),
-                    'passport_personal' => $request->get('passport_personal'),
-                    'registration_address' => $request->get('registration_address'),
-                    'residence_address' => $request->get('residence_address'),
-                    'phone' => $request->get('phone'),
-                    'inn' => $request->get('inn'),
-                    'short_name' => $request->get('short_name'),
-                    'egr_date' => $request->get('egr_date'),
-                    'manager_data' => $request->get('manager_data'),
-                    'place_of_residence' => $request->get('place_of_residence'),
-                    'bank_details' => $request->get('bank_details'),
-                    'legal_entity' => $request->get('legal_entity'),
+            $userConfirm = $this->user->where('id', $notification->user_id)->first();
+
+            $userConfirm->update([
+                'type_user' => $request->get('type_user'),
+                'full_name' => $request->get('full_name'),
+                'passport_number' => $request->get('passport_number'),
+                'passport_issuer' => $request->get('passport_issuer'),
+                'passportDate' => $request->get('passportDate'),
+                'passport_personal' => $request->get('passport_personal'),
+                'registration_address' => $request->get('registration_address'),
+                'residence_address' => $request->get('residence_address'),
+                'phone' => $request->get('phone'),
+                'inn' => $request->get('inn'),
+                'short_name' => $request->get('short_name'),
+                'egr_date' => $request->get('egr_date'),
+                'manager_data' => $request->get('manager_data'),
+                'place_of_residence' => $request->get('place_of_residence'),
+                'bank_details' => $request->get('bank_details'),
+                'legal_entity' => $request->get('legal_entity'),
+            ]);
+
+            if ($userConfirm) {
+
+                Notification::create([
+                    'user_id' => $user->id,
+                    'title' => 'Изменения данных.',
+                    'text' => 'Вы успешно сменили данные своего аккаунта.',
+                    'status' => 'new',
                 ]);
 
-                if($userConfirm){
+                Mail::send('emails.userInfoConfirm', $user->toArray(),
+                    function ($message) use ($user) {
+                        $message->to($user->email, 'Клиент')->subject('Успешная смена профиля realtorgi.by');
+                    }
+                );
 
-                    $confirm = $this->user->where('id', $notification->user_id)->first();
-
-                    Notification::create([
-                        'user_id' => $confirm->id,
-                        'title' => 'Изменения данных.',
-                        'text' => 'Вы успешно сменили данные своего аккаунта.',
-                        'status' => 'new'
-                    ]);
-
-                    Mail::send('emails.userInfoConfirm', $confirm->toArray(),
-                        function($message) use ($confirm){
-                            $message->to($confirm->email, 'Клиент')->subject('Успешная смена профиля realtorgi.by');
-                        }
-                    );
-
-                    $notification->delete();
-                }
+                $notification->delete();
             }
         }
 
@@ -147,7 +148,7 @@ class UserNotificationsController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -160,7 +161,7 @@ class UserNotificationsController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -173,13 +174,13 @@ class UserNotificationsController extends BaseController
 
         $notification->delete();
 
-        if($user){
+        if ($user) {
 
             Notification::create([
                 'user_id' => $user->id,
                 'title' => 'Изменения данных профиля.',
                 'text' => 'Администратор не одобрил изменения данных профиля.',
-                'status' => 'new'
+                'status' => 'new',
             ]);
 
             // Mail::send('emails.userProfileDelete', $user->toArray(),

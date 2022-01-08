@@ -4,9 +4,6 @@
       <div class="title">
         Основные данные
       </div>
-      <div class="subtitle">
-        Юридические данные вашего аккаунта
-      </div>
     </div>
     <div class="counterparty-inputs">
       <div class="counterparty-input">
@@ -53,7 +50,7 @@
         <label for="phone">Номер телефона:</label>
         <input disabled type="text" id="phone" v-model="phone">
       </div>
-      <div class="counterparty-input counterparty-file-input">
+     <!-- <div class="counterparty-input counterparty-file-input">
         <label class="label">Документы:</label>
         <ul v-if="this.$store.state.auth.userData.profile.files">
           <li v-for="(file, index) in this.$store.state.auth.userData.profile.files" :key="index">{{ file.name }}</li>
@@ -61,7 +58,7 @@
         <ul v-else>
           <li>Нет файлов</li>
         </ul>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>

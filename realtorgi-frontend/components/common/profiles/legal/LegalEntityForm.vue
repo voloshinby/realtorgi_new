@@ -11,61 +11,61 @@
     <div class="counterparty-inputs">
       <div class="counterparty-input">
         <label for="inn">УНП:</label>
-        <input disabled type="text" id="inn" v-model="inn">
+        <input type="text" id="inn" v-model="inn">
       </div>
       <div class="counterparty-input">
         <label for="inn">Короткое название организации:</label>
-        <input disabled type="text" id="short_name" v-model="short_name">
+        <input type="text" id="short_name" v-model="short_name">
       </div>
       <div class="counterparty-input">
         <label for="full_name">Полное название организации:</label>
-        <input disabled type="text" id="full_name" v-model="full_name">
+        <input type="text" id="full_name" v-model="full_name">
       </div>
       <div class="counterparty-input">
         <label for="egr_date">Дата регистрации ЕГР:</label>
-        <input disabled type="text" id="egr_date" v-model="egr_date">
+        <input type="text" id="egr_date" v-model="egr_date">
       </div>
       <div class="counterparty-input">
         <label for="manager_data">Данные по руководителю<br>(Должность, ФИО, Действует на основании):</label>
-        <input disabled type="text" id="manager_data" v-model="manager_data">
+        <input type="text" id="manager_data" v-model="manager_data">
       </div>
       <div class="counterparty-input">
         <label for="legal_address">Юридический адрес:</label>
         <input disabled type="text" id="legal_address" v-model="legal_address">
       </div>
-      <div class="counterparty-input"> 
+      <div class="counterparty-input">
         <label for="mail_address" >Почтовый адрес:</label>
-        <input disabled type="text" id="mail_address" v-model="mail_address">
+        <input type="text" id="mail_address" v-model="mail_address">
       </div>
       <div class="counterparty-input">
         <label for="bank_details">Банковские реквизиты <br>(Банк, Код банка (BIC), УНП банка, р/счёт (IBAN)):</label>
-        <input disabled type="text" id="bank_details" v-model="bank_details">
+        <input type="text" id="bank_details" v-model="bank_details">
       </div>
       <div class="counterparty-input">
         <label for="legal_person">ФИО лица, участвующего от имени юридического лица:</label>
-        <input disabled type="text" id="legal_person" v-model="legal_person">
+        <input type="text" id="legal_person" v-model="legal_person">
       </div>
       <div class="counterparty-input">
         <label for="passport_number">Серия и номер паспорта:</label>
-        <input disabled type="text" id="passport_nubmer" v-model="passport_number">
+        <input type="text" id="passport_nubmer" v-model="passport_number">
       </div>
       <div class="counterparty-input">
         <label for="passport_issuer">Кем выдан паспорт:</label>
-        <input disabled type="text" id="passport_issuer" v-model="passport_issuer">
+        <input type="text" id="passport_issuer" v-model="passport_issuer">
       </div>
       <div class="counterparty-input">
         <label for="passport_date">Когда выдан паспорт:</label>
-        <input disabled type="text" id="passport_date" v-model="passport_date">
+        <input type="text" id="passport_date" v-model="passport_date">
       </div>
       <div class="counterparty-input">
         <label for="passport_personal">Личный номер паспорта:</label>
-        <input disabled type="text" id="passport_personal" v-model="passport_personal">
+        <input type="text" id="passport_personal" v-model="passport_personal">
       </div>
       <div class="counterparty-input">
         <label for="phone">Номер телефона:</label>
-        <input disabled type="text" id="phone" v-model="phone">
+        <input type="text" id="phone" v-model="phone">
       </div>
-      <div class="counterparty-input counterparty-file-input">
+     <!-- <div class="counterparty-input counterparty-file-input">
         <label class="label">Документы:</label>
         <ul v-if="this.$store.state.auth.userData.profile.files">
           <li v-for="(file, index) in this.$store.state.auth.userData.profile.files" :key="index">{{ file.name }}</li>
@@ -73,7 +73,7 @@
         <ul v-else>
           <li>Нет файлов</li>
         </ul>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -186,7 +186,7 @@ export default {
       font-size: 0.9rem;
     }
   }
-  
+
   .personal {
     font-size: 0.9rem;
     .link {

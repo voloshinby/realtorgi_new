@@ -4,44 +4,41 @@
       <div class="title">
         Основные данные
       </div>
-      <div class="subtitle">
-        Юридические данные вашего аккаунта
-      </div>
     </div>
     <div class="counterparty-inputs">
       <div class="counterparty-input">
         <label for="full_name">ФИО:</label>
-        <input disabled type="text" id="full_name" v-model="full_name">
+        <input type="text" id="full_name" v-model="full_name">
       </div>
       <div class="counterparty-input">
         <label for="registration_address">Адрес прописки:</label>
-        <input disabled type="text" id="registration_address" v-model="registration_address">
+        <input type="text" id="registration_address" v-model="registration_address">
       </div>
       <div class="counterparty-input">
         <label for="living_address">Адрес проживания:</label>
-        <input disabled type="text" id="living_address" v-model="living_address">
+        <input type="text" id="living_address" v-model="living_address">
       </div>
       <div class="counterparty-input">
         <label for="passport_number">Серия и номер пасспорта:</label>
-        <input disabled type="text" id="passport_number" v-model="passport_number">
+        <input type="text" id="passport_number" v-model="passport_number">
       </div>
       <div class="counterparty-input">
         <label for="passport_issuer">Кем выдан пасспорт:</label>
-        <input disabled type="text" id="passport_issuer" v-model="passport_issuer">
+        <input type="text" id="passport_issuer" v-model="passport_issuer">
       </div>
       <div class="counterparty-input">
         <label for="passport_date">Когда выдан пасспорт:</label>
-        <input disabled type="text" id="passport_date" v-model="passport_date">
+        <input type="text" id="passport_date" v-model="passport_date">
       </div>
       <div class="counterparty-input">
         <label for="passport_personal">Личный номер пасспорта:</label>
-        <input disabled type="text" id="passport_personal" v-model="passport_personal">
+        <input type="text" id="passport_personal" v-model="passport_personal">
       </div>
       <div class="counterparty-input">
         <label for="phone">Номер телефона:</label>
-        <input disabled type="text" id="phone" v-model="phone">
+        <input type="text" id="phone" v-model="phone">
       </div>
-       <div class="counterparty-input counterparty-file-input">
+      <!-- <div class="counterparty-input counterparty-file-input">
         <label class="label">Документы:</label>
         <ul v-if="this.$store.state.auth.userData.profile.files">
           <li v-for="(file, index) in this.$store.state.auth.userData.profile.files" :key="index">{{ file.name }}</li>
@@ -49,7 +46,7 @@
         <ul v-else>
           <li>Нет файлов</li>
         </ul>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
