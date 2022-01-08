@@ -59,7 +59,9 @@
             v-if="this.$store.state.auth.userData.profile.type_user === 'jur' || this.$store.state.auth.userData.profile.type_user === 'ip' || this.$store.state.auth.userData.profile.type_user === 'phys'"
             class="new-profile-submit" @click="addProfile">Обновить профиль
           </button>
-          <button v-else class="new-profile-submit" @click="addProfile">Добавить профиль</button>
+          <nuxt-link :to="{ name: 'account-profiles-new' }">
+            <button v-else class="new-profile-submit" @click="addProfile">Добавить профиль</button>
+          </nuxt-link>
         </div>
       </div>
     </div>
