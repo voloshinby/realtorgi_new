@@ -128,10 +128,11 @@
                                         <!-- <has-error :form="form" field="auction_number"></has-error> -->
                                     </div>
 
-                                    <div class="form-group" v-if="editmode">
+                                    <div class="form-group">
                                         <label>Организатор аукциона</label>
-                                        <ckeditor v-model="form.organizer_requisites"
-                                                  name="organizer_requisites"></ckeditor>
+                                        <input v-model="form.organizer_requisites" type="text" name="organizer_requisites"
+                                               placeholder="Организатор аукциона"
+                                               class="form-control">
                                         <!-- <has-error :form="form" field="organizer_requisites"></has-error> -->
                                     </div>
 
@@ -198,7 +199,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group" v-if="editmode">
+                                    <div class="form-group">
                                         <label>Реквизиты для внесения задатка</label>
                                         <ckeditor v-model="form.requisites" name="requisites"></ckeditor>
                                         <!-- <has-error :form="form" field="requisites"></has-error> -->
@@ -269,10 +270,13 @@
                                     <div class="form-group">
                                         <div v-if="form.gallery"
                                              style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; cursor: pointer;">
-                                            <div :id="'image_'+im.id" v-on:click="deleteImage(im.id)"
-                                                 v-for="(im, index) in form.gallery" :key="index"
-                                                 style="flex: 1 2 25%;">
-                                                <img style="width: 100%" :src="im.path" alt="">
+                                            <div :id="'image_'+im.id"
+                                                 v-for="(im, index) in form.gallery" :key="index" style="flex: 1 2 25%;"
+                                                 class="image-item">
+                                                <a :href="im.path" target="_blank">
+                                                    <img style="width: 100%" :src="im.path" alt="">
+                                                </a>
+                                                <a v-on:click="deleteImage(im.id)" style="color:blue">Удалить</a>
                                             </div>
                                         </div>
                                     </div>
@@ -314,6 +318,10 @@
 .ui.dropdown:not(.button) > .default.text {
     color: #495057;
 }
+ .image-item {
+     max-width: 200px;
+     margin: 0 10px;
+ }
 </style>
 <script>
 import VueTagsInput from '@johmun/vue-tags-input';
@@ -509,7 +517,7 @@ export default {
                                     let file = this.files[i];
                                     formData.append('images[' + i + ']', file);
                                 }
-                                axios.post('/api/auction/admin/uploadImages/' + data.data.data.id,
+                                axios.post('/admin/api/admin/auction/uploadImages/' + data.data.data.id,
                                     formData,
                                     {
                                         headers: {
@@ -525,6 +533,7 @@ export default {
                             }
 
                             this.$Progress.finish();
+                            this.form.reset();
                             this.loadAuctions();
 
                         } else {
@@ -545,7 +554,6 @@ export default {
                     })
             }
 
-            this.form.reset();
         },
         updateAuction() {
             var error = false;

@@ -248,8 +248,7 @@ class AuctionController extends BaseController
      */
     public function destroy($id)
     {
-
-        $this->authorize('isAdmin');
+     //   $this->authorize('isAdmin');
 
         $auction = $this->auction->findOrFail($id);
 
