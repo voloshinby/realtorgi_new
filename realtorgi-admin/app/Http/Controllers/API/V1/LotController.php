@@ -289,7 +289,7 @@ class LotController extends BaseController
     public function notificateComment(Lot $lot, Request $request)
     {
         $lotComment = LotsComment::create([
-            'user_id' => $request->user('api')->id ?? $request->user ,
+            'user_id' => $request->user('api')->id ?? $request->user,
             'lot_id' => $lot->id,
             'comment' => $request->get('comment'),
         ]);

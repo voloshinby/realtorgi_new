@@ -279,6 +279,7 @@ export default {
       this.filteredByStatusAuctions = this.auctions
       this.pageCount
     }
+    this.updateAuctions(this.auctions);
   },
   fetchOnServer: false,
   computed: {
@@ -295,6 +296,81 @@ export default {
     }
   },
   methods: {
+    updateAuctions(auctionsList) {
+      auctionsList.forEach(auction => {
+        let now = new Date().getTime();
+
+        var distanceEndSelling = parseInt(auction.auction.end_selling) * 1000 - now;
+        var distanceStartSelling = parseInt(auction.auction.start_selling) * 1000 - now;
+        var distanceStart = parseInt(auction.auction.starts_at) * 1000 - now;
+        var distanceEnd = parseInt(auction.auction.ends_at) * 1000 - now;
+        let i = 0
+        let j = 0
+        let z = 0
+
+        var daysEndSelling,
+          hoursEndSelling,
+          minutesEndSelling,
+          secondsEndSelling,
+          daysStart,
+          hoursStart,
+          minutesStart,
+          secondsStart,
+          daysEnd,
+          hoursEnd,
+          minutesEnd,
+          secondsEnd
+        ;
+
+        if (auction.status === 'Текущие') {
+          if (this.distanceEndSelling > 0) {
+            distanceEndSelling = parseInt(auction.auction.end_selling) * 1000 - now;
+            daysEndSelling = Math.floor(distanceEndSelling / (1000 * 60 * 60 * 24));
+            hoursEndSelling = Math.floor((distanceEndSelling % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            minutesEndSelling = Math.floor((distanceEndSelling % (1000 * 60 * 60)) / (1000 * 60));
+            secondsEndSelling = Math.floor((distanceEndSelling % (1000 * 60)) / 1000);
+          }
+          if (this.distanceEndSelling <= 0) {
+            while (i < 1) {
+              auction.status = 'Состоявшиеся'
+              this.$axios.$put(process.env.API_URL + `/admin/api/admin/lot/${this.$route.params.id}`, {
+                status: 'Состоявшиеся',
+              })
+              i++;
+            }
+          }
+        }
+        if (auction.status === 'Предстоящие' || auction.status === 'Повторные') {
+          if (distanceStart > 0) {
+            now = new Date().getTime()
+            distanceStart = parseInt(auction.auction.starts_at) * 1000 - now;
+            daysStart = Math.floor(distanceStart / (1000 * 60 * 60 * 24));
+            hoursStart = Math.floor((distanceStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            minutesStart = Math.floor((distanceStart % (1000 * 60 * 60)) / (1000 * 60));
+            secondsStart = Math.floor((distanceStart % (1000 * 60)) / 1000);
+          }
+          if (distanceEnd > 0) {
+            now = new Date().getTime()
+            distanceEnd = parseInt(auction.auction.ends_at) * 1000 - now;
+            daysEnd = Math.floor(distanceEnd / (1000 * 60 * 60 * 24));
+            hoursEnd = Math.floor((distanceEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            minutesEnd = Math.floor((distanceEnd % (1000 * 60 * 60)) / (1000 * 60));
+            secondsEnd = Math.floor((distanceEnd % (1000 * 60)) / 1000);
+          }
+          if (distanceStartSelling <= 0) {
+            if (auction.users_count < 2) {
+              while (j <= 1) {
+                auction.status = 'Несостоявшиеся'
+                this.$axios.$put(process.env.API_URL + `/admin/api/admin/lot/${auction.id}`, {
+                  status: 'Несостоявшиеся',
+                })
+                j++;
+              }
+            }
+          }
+        }
+      })
+    },
     nextPage() {
       if (this.pageNumber !== (this.pageCount - 1)) {
         this.pageNumber++;
@@ -397,7 +473,6 @@ export default {
       } else {
         this.$axios.get(process.env.API_URL + '/admin/api/admin/lot').then((response) => {
           this.auctions = response.data.data
-          console.log(response.data, 'rsponse')
           this.filteredByStatusAuctions = this.auctions
           if (this.choosenStatuses.name !== 'Все') {
             this.filteredByStatusAuctions = this.auctions.filter(item => (item.status === this.choosenStatuses.name));

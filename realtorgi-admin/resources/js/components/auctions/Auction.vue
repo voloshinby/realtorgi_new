@@ -325,8 +325,9 @@
 </style>
 <script>
 import VueTagsInput from '@johmun/vue-tags-input';
-import 'vue-search-select/dist/VueSearchSelect.css'
-import {ModelSelect} from 'vue-search-select'
+import 'vue-search-select/dist/VueSearchSelect.css';
+import {ModelSelect} from 'vue-search-select';
+
 import moment from 'moment';
 
 export default {
@@ -420,7 +421,7 @@ export default {
             var date = new Date(timestamp * 1000); //If the timestamp is 10 digits, *1000 is required. If the timestamp is 13 digits, it does not need to be multiplied by 1000
             var Y = date.getFullYear() + '-';
             var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-            var D = date.getDate() + '';
+            var D = date.getDate() + ' ';
             var h = date.getHours() + ':';
             var m = date.getMinutes() + ':';
             var s = date.getSeconds();
@@ -449,10 +450,11 @@ export default {
             this.form.reset();
             $('#addNew').modal('show');
             this.form.fill(auction);
-            this.form.starts_at = moment(this.formatMomentDate(auction.starts_at)).format('YYYY-MM-DDThh:mm');
-            this.form.ends_at = moment(this.formatMomentDate(auction.ends_at)).format('YYYY-MM-DDThh:mm');
-            this.form.start_selling = moment(this.formatMomentDate(auction.start_selling)).format('YYYY-MM-DDThh:mm');
-            this.form.end_selling = moment(this.formatMomentDate(auction.end_selling)).format('YYYY-MM-DDThh:mm');
+
+            this.form.starts_at = moment.unix(auction.starts_at).format('YYYY-MM-DDTHH:mm');
+            this.form.ends_at = moment.unix(auction.ends_at).format('YYYY-MM-DDTHH:mm');
+            this.form.start_selling = moment.unix(auction.start_selling).format('YYYY-MM-DDTHH:mm');
+            this.form.end_selling = moment.unix(auction.end_selling).format('YYYY-MM-DDTHH:mm');
         },
         newModal() {
             this.editmode = false;
