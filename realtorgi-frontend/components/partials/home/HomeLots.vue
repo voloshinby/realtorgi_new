@@ -472,7 +472,7 @@ export default {
         })
       } else {
         this.$axios.get(process.env.API_URL + '/admin/api/admin/lot').then((response) => {
-          this.auctions = response.data.data
+          this.auctions = response.data.data.data;
           this.filteredByStatusAuctions = this.auctions
           if (this.choosenStatuses.name !== 'Все') {
             this.filteredByStatusAuctions = this.auctions.filter(item => (item.status === this.choosenStatuses.name));

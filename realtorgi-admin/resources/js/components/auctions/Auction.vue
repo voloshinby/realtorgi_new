@@ -40,7 +40,7 @@
                                             formatDate(auction.end_selling)
                                         }}
                                     </td>
-                                    <td v-if="auction.seller_id">{{ auction.feedback_seller.name }}</td>
+                                    <td v-if="auction.seller_id">{{ auction.feedback_seller ? auction.feedback_seller.name : '' }}</td>
                                     <td v-else>{{ auction.seller_custom }}</td>
                                     <td v-if="auction.step == '1'">От начальной цены</td>
                                     <td v-if="auction.step == '2'">От текущей цены</td>
