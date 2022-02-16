@@ -477,7 +477,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button v-show="editmode" type="submit" class="btn btn-success">Update</button>
+                        <button id="btn_update" v-show="editmode" type="submit" class="btn btn-success">Update</button>
                         <button v-show="!editmode" type="submit" class="btn btn-primary">Create</button>
                     </div>
                   </form>
@@ -535,6 +535,7 @@
             changeType(e){
                 var value = e.target.value;
                 $('.user_info_form').css('display', 'none');
+                $('#btn_update').show();
                 if(value == 'phys'){
                     $('#phys').css('display', 'block');
                 } else if (value == 'jur') {
@@ -543,6 +544,7 @@
                     $('#ip').css('display', 'block');
                 } else {
                     $('.user_info_form').css('display', 'none');
+                    $('#btn_update').hide();
                 }
             },
 
@@ -628,6 +630,7 @@
                     $('#ip').css('display', 'block');
                 } else {
                     $('.user_info_form').css('display', 'none');
+                    $('#btn_update').hide();
                 }
 
             },

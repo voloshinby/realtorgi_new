@@ -143,7 +143,7 @@
                     email: '',
                      password: '',
                      login: '',
-                    created_at: '',
+                     created_at: '',
                      type_user : '',
                      phone : '',
                      inn : '',

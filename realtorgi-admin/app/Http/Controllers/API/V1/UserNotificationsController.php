@@ -95,7 +95,9 @@ class UserNotificationsController extends BaseController
                 'text' => $request->get('comment'),
                 'status' => 'new',
             ]);
+            $notification->delete();
 
+            return $this->sendResponse([], 'Category Information has been updated');
         }
 
         $notificationUpdate = $notification->update($request->all());
