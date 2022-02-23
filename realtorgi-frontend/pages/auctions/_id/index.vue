@@ -24,7 +24,8 @@
           <div class="participation-popup-lot">
             <div class="lot-title">{{ auction.name }}</div>
             <div class="popup-lot-body">
-              <div v-if="auction.gallery.length !== 0" class="popup-lot-body-image"><img :src="'https://realtorgi.by' + auction.gallery[0].path" :alt="auction.name"></div>
+              <div v-if="auction.gallery.length !== 0" class="popup-lot-body-image"><img
+                :src="'https://realtorgi.by' + auction.gallery[0].path" :alt="auction.name"></div>
               <div class="popup-lot-body-price">
                 <div class="popup-lot-body-price-start">
                   <span class="popup-lot-body-label">Начальная цена</span>
@@ -43,7 +44,7 @@
           </div>
           <div class="remember-checkbox">
             <input type="checkbox" name="remember" v-model="policyAgree">
-            <span>Я согласен с условиями <a href="https://realtorgi.by/policy" target="_blank" class="link" >Публичной оферты.</a></span>
+            <span>Я согласен с условиями <a href="https://realtorgi.by/policy" target="_blank" class="link">Публичной оферты.</a></span>
           </div>
           <div class="remember-checkbox">
             <input type="checkbox" name="reglament" v-model="reglamentAgree">
@@ -71,7 +72,7 @@
           </div>
         </div>
         <div class="participation-popup-form-wrapper"
-             v-if="this.$store.state.auth.authorized && !this.$store.state.auth.userData.profile.type_user">
+             v-if="this.$store.state.auth.authorized === true && !this.$store.state.auth.userData.profile.type_user">
           <h1 class="title">Хотите подать заявку?</h1>
           <div class="subtitle">Для участия в аукционе, Вам нужно заполнить свой профиль</div>
           <div class="participation-popup-buttons">
@@ -92,41 +93,44 @@
       </div>
     </div>
     <div v-if="commonRulesOpen" class="common-rules-popup" @click="commonRulesOpen = !commonRulesOpen">
-      <div class="common-rules-wrapper" @click.stop>
-        <div class="button-close" @click="commonRulesOpen = !commonRulesOpen">
-          <x-icon/>
+      <div class="popup-pre-wrapper">
+        <div class="common-rules-wrapper" @click.stop>
+          <div class="button-close" @click="commonRulesOpen = !commonRulesOpen">
+            <x-icon/>
+          </div>
+          <h1 class="title">Общие правила</h1>
+          <ul class="rules" v-if="auction.auction.type !== 'econom'">
+            <li class="rule">1. Электронные торги проходят на увеличение начальной цены.</li>
+            <li class="rule">2. Начальная цена предмета аукциона в ходе торгов повышается на величину шага аукциона.
+            </li>
+            <li class="rule">3. Участники делают свои ставки.</li>
+            <li class="rule">4. Победителем аукциона признаётся тот участник, который предложит максимальную цену за
+              лот.
+            </li>
+            <li class="rule">5. В случае регистрации на аукцион одного участника и участия в аукциона единственного
+              участника, ему предлагается приобрести лот по начальной цене увеличенной на 5%.
+            </li>
+            <li class="rule">6. Торги завершаются Оператором ЭТП в автоматическом режиме.</li>
+          </ul>
+          <ul class="rules" v-else>
+            <li class="rule">1. Электронные торги проходят на увеличение или понижение начальной цены.</li>
+            <li class="rule">2. Начальная цена лота ежечасно, начиная со 2-го часа проведения электронных торгов, при
+              отсутствии ставок на повышение начальной цены, снижается равными долями до минимальной цены лота.
+            </li>
+            <li class="rule">3. В ходе торгов любой участник имеет право сделать ставку, которая отражает его ценовое
+              предложение. Ставка участника должна превысить предыдущую ставку на установленный шаг аукциона.
+            </li>
+            <li class="rule">4. Победителем торгов признается участник, предложивший максимальную цену за лот.</li>
+            <li class="rule">5. Срок проведения торгов с 9:00 до 16:00.</li>
+            <li class="rule">6. Торги завершаются Оператором ЭТП в автоматическом режиме. Если в ходе проведения торгов
+              один из участников торгов сделает ставку менее, чем за 3 минуты до завершения торгов, они продлеваются на
+              время установленное организатором торгов, о чем участники оповещаются Оператором ЭТП.
+            </li>
+            <li class="rule">7. В случае регистрации на аукцион одного участника и участия в аукционе единственного
+              участника, ему предлагается приобрести лот по начальной цене увеличенной на 5%.
+            </li>
+          </ul>
         </div>
-        <h1 class="title">Общие правила</h1>
-        <ul class="rules" v-if="auction.auction.type !== 'econom'">
-          <li class="rule">1. Электронные торги проходят на увеличение начальной цены.</li>
-          <li class="rule">2. Начальная цена предмета аукциона в ходе торгов повышается на величину шага аукциона.</li>
-          <li class="rule">3. Участники делают свои ставки.</li>
-          <li class="rule">4. Победителем аукциона признаётся тот участник, который предложит максимальную цену за
-            лот.
-          </li>
-          <li class="rule">5. В случае регистрации на аукцион одного участника и участия в аукциона единственного
-            участника, ему предлагается приобрести лот по начальной цене увеличенной на 5%.
-          </li>
-          <li class="rule">6. Торги завершаются Оператором ЭТП в автоматическом режиме.</li>
-        </ul>
-        <ul class="rules" v-else>
-          <li class="rule">1. Электронные торги проходят на увеличение или понижение начальной цены.</li>
-          <li class="rule">2. Начальная цена лота ежечасно, начиная со 2-го часа проведения электронных торгов, при
-            отсутствии ставок на повышение начальной цены, снижается равными долями до минимальной цены лота.
-          </li>
-          <li class="rule">3. В ходе торгов любой участник имеет право сделать ставку, которая отражает его ценовое
-            предложение. Ставка участника должна превысить предыдущую ставку на установленный шаг аукциона.
-          </li>
-          <li class="rule">4. Победителем торгов признается участник, предложивший максимальную цену за лот.</li>
-          <li class="rule">5. Срок проведения торгов с 9:00 до 16:00.</li>
-          <li class="rule">6. Торги завершаются Оператором ЭТП в автоматическом режиме. Если в ходе проведения торгов
-            один из участников торгов сделает ставку менее, чем за 3 минуты до завершения торгов, они продлеваются на
-            время установленное организатором торгов, о чем участники оповещаются Оператором ЭТП.
-          </li>
-          <li class="rule">7. В случае регистрации на аукцион одного участника и участия в аукционе единственного
-            участника, ему предлагается приобрести лот по начальной цене увеличенной на 5%.
-          </li>
-        </ul>
       </div>
     </div>
     <div v-if="informationPopupOpen" class="information-popup" @click="informationPopupOpen = !informationPopupOpen">
@@ -170,14 +174,16 @@
     <div class="wrapper">
       <div class="wrapper-left">
         <div class="choosen-image" v-if="auction.gallery.length !== 0">
-          <img @click="openImage = !openImage" :src="'https://realtorgi.by' + auction.gallery[swiperRealIndex].path" alt="">
+          <img @click="openImage = !openImage" :src="'https://realtorgi.by' + auction.gallery[swiperRealIndex].path"
+               alt="">
         </div>
         <div v-if="auction.gallery.length !== 0" class="images-wrapper">
           <swiper @slideChange="slideChanged" ref="swiper" class="images" :options="swiperOption"
                   :class="{'full-screen': sliderOpen}">
             <swiper-slide v-for="auctionImage in auction.gallery" :key="auctionImage.id">
               <div class="swiper-zoom-container">
-                <img :src="'https://realtorgi.by' + auctionImage.path" :alt="auction.name" @click="sliderOpen = !sliderOpen">
+                <img :src="'https://realtorgi.by' + auctionImage.path" :alt="auction.name"
+                     @click="sliderOpen = !sliderOpen">
               </div>
             </swiper-slide>
             <div v-if="auction.gallery.length > 1 && swiperRealIndex !== 0" class="swiper-button-prev"
@@ -213,7 +219,10 @@
                 </div>
               </div>
               <div class="row" v-for="event in betHistory" :key="event.id">
-                <div v-if="event.winner == 1" class="winner-lot"> Победитель лота - пользователь №{{ event.user_id }}</div>
+                <div v-if="event.winner == 1" class="winner-lot"> Победитель лота - пользователь №{{
+                    event.user_id
+                  }}
+                </div>
               </div>
             </tab>
             <tab name="Журнал событий">
@@ -1994,7 +2003,7 @@ export default {
     margin-bottom: 20px;
 
     .tabs-component-tab {
-      width:100%;
+      width: 100%;
       padding: 10px 0;
 
       .tabs-component-tab-a {
@@ -2511,6 +2520,10 @@ export default {
             margin-bottom: 0.2rem;
           }
 
+          @media (max-width: 476px) {
+            width: 100%;
+            margin: 0;
+          }
         }
       }
     }
@@ -3102,6 +3115,26 @@ export default {
         }
       }
     }
+  }
+}
+
+.popup-pre-wrapper {
+  @media (max-width: 500px) {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+}
+
+.common-rules-popup {
+  @media (max-width: 500px) {
+    overflow-y: scroll;
+    display: block;
+  }
+}
+
+.wrapper-left .images-wrapper .images .swiper-wrapper {
+  @media (max-width: 500px) {
+    margin-left: 10px;
   }
 }
 </style>

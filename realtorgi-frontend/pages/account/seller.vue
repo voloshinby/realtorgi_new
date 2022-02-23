@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="warning">
-        <div class="warning-wrapper">
+        <div class="warning-wrapper warning-wrapper-mobile">
           <div v-if="this.$store.state.auth.userData.profile.type_user === 'jur'" class="title">Юридическое лицо.</div>
           <div v-else-if="this.$store.state.auth.userData.profile.type_user === 'ip'" class="title">Индивидуальный
             предприниматель.
@@ -808,6 +808,15 @@ main {
     .sign-in-button-mobile {
       display: flex;
       color: $link-color;
+    }
+  }
+
+  .warning-wrapper-mobile {
+    display: block;
+
+    .title {
+      font-size: 16px;
+      margin-bottom: 1rem;
     }
   }
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="warning">
-      <div class="warning-wrapper">
+      <div class="warning-wrapper warning-wrapper-mobile">
         <div v-if="this.$store.state.auth.userData.profile.type_user === 'jur'" class="title">Юридическое лицо.</div>
         <div v-else-if="this.$store.state.auth.userData.profile.type_user === 'ip'" class="title">Индивидуальный
           предприниматель.
@@ -477,6 +477,19 @@ export default {
 @media (max-width: 593px) {
   .profile-types {
     flex-direction: column;
+  }
+
+  .warning-wrapper-mobile {
+    display: block;
+
+    .title {
+      font-size: 16px;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .warning {
+    margin: 20px 0;
   }
 }
 </style>

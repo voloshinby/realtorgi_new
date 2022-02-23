@@ -8,7 +8,7 @@
       <div class="user-data">
         <span class="user-name">{{ this.$store.state.auth.userData.firstName }} {{ this.$store.state.auth.userData.lastName }} <span class="user-id">(id: {{ this.$store.state.auth.userData.id }})</span></span>
         <span class="user-email">{{ this.$store.state.auth.userData.email }}</span>
-        
+
       </div>
     </div>
     <div class="profile-menu">
@@ -187,10 +187,10 @@ export default {
         }
       }
     }
-    
+
     .profile-menu-link:last-child {
       margin-bottom: 0;
-      
+
     }
     .profile-menu-link:hover {
       transform: translateX(0.5rem);
@@ -230,9 +230,13 @@ export default {
         display: flex;
         align-items: center;
         justify-content: flex-end;
+
+        @media (max-width: 500px) {
+          justify-content: flex-start;
+        }
       }
       .profile-menu-link:last-child {
-        margin-bottom: 0;  
+        margin-bottom: 0;
       }
       .profile-menu-link:hover {
         transform: translateX(-0.5rem);

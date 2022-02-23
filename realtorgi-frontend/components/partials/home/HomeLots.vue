@@ -906,6 +906,10 @@ section {
           outline: none;
           margin-bottom: 0.5rem;
           transition: .2s ease-in-out;
+
+          @media (max-width: 500px) {
+            display: flex;
+          }
         }
 
         .status-filter:hover {
