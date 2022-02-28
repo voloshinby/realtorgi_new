@@ -5,7 +5,7 @@
         <notification class="hidden-notification" v-for="(notification, index) in this.$store.state.auth.userData.notifications" :key="index" :notification="notification"/>
       </div>
     </div> -->
-    <div v-show="orginizeAuctionOpen" class="orginize-auction"  @click="orginizeAuctionOpen = !orginizeAuctionOpen">
+    <div v-show="orginizeAuctionOpen" class="orginize-auction" @click="orginizeAuctionOpen = !orginizeAuctionOpen">
       <div class="orginize-auction-form" @click.stop>
         <form class="orginize-auction-form-wrapper" onsubmit="return false">
           <h1 class="title">Организуйте торги</h1>

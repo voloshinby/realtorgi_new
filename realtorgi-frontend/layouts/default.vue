@@ -1,12 +1,12 @@
 <template>
   <loading-spinner v-if="!loaded"/>
-  <div v-else class="app-wrapper">
-    <notifications group="user-notifications" :duration='10000' />
-    <the-header />
+  <div v-else class="app-wrapper" @click="eventClickOnSubProfileManu">
+    <notifications group="user-notifications" :duration='10000'/>
+    <the-header/>
     <main>
-      <nuxt />
+      <nuxt/>
     </main>
-    <the-footer />
+    <the-footer/>
   </div>
 </template>
 
@@ -24,7 +24,7 @@
 html {
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
-  font-family: system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji';
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
   -moz-tab-size: 4;
   tab-size: 4;
   font-size: 16px;
@@ -123,7 +123,7 @@ button, input, optgroup, select, textarea {
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
-  background :url('~/assets/img/icons/chevron-down.svg') 95% no-repeat;
+  background: url('~/assets/img/icons/chevron-down.svg') 95% no-repeat;
   background-color: none;
   background-position: right;
   background-size: 14px;
@@ -133,7 +133,7 @@ select {
 }
 
 [type=button], [type=submit], button {
-    -webkit-appearance: button;
+  -webkit-appearance: button;
 }
 
 button {
@@ -200,6 +200,17 @@ export default {
   data: () => ({
     loaded: false,
   }),
+  methods: {
+    eventClickOnSubProfileManu(e) {
+      let profileWrapper = document.querySelector(".mobile-navigation .profile-wrapper.header-profile-menu");
+
+      if (!e.target.closest(".actions") || e.target.closest(".profile-menu-link")) {
+        profileWrapper.style.display = "none";
+      } else  {
+        profileWrapper.style.display = "block"
+      }
+    },
+  },
   mounted() {
     if (localStorage.getItem('AUTH_TOKEN')) {
       var decodedData = (localStorage.getItem('AUTH_TOKEN')).split('9c1eEB325C3Cf308A61eE5B5D6f699BCb668E608')
@@ -241,17 +252,16 @@ export default {
           }
 
         })
-        this.$axios.$get(process.env.API_URL +  `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
+        this.$axios.$get(process.env.API_URL + `/admin/api/admin/user/notifications/${this.$store.state.auth.userData.id}`)
           .then((response) => {
-          this.$store.dispatch('getNotifications', {
-            notifications: response.data.data
+            this.$store.dispatch('getNotifications', {
+              notifications: response.data.data
+            })
+            this.$store.dispatch('countUnreadNotifications')
+            this.loaded = true
           })
-          this.$store.dispatch('countUnreadNotifications')
-          this.loaded = true
-        })
       })
-    }
-    else {
+    } else {
       this.loaded = true
     }
   }

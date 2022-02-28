@@ -72,7 +72,7 @@
           </div>
         </div>
         <div class="participation-popup-form-wrapper"
-             v-if="this.$store.state.auth.authorized === true && !this.$store.state.auth.userData.profile.type_user">
+             v-if="this.$store.state.auth.authorized === true && !this.$store.state.auth.userData.profile.type_user && this.$store.state.auth.userData.active">
           <h1 class="title">Хотите подать заявку?</h1>
           <div class="subtitle">Для участия в аукционе, Вам нужно заполнить свой профиль</div>
           <div class="participation-popup-buttons">

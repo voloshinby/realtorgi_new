@@ -101,7 +101,8 @@ class Lot extends Model
         return $this->hasOne('App\Models\AuctionConfirm', 'lot_id', 'id')->where('confirmed_user', 1);
     }
 
-    public function confirms(){
+    public function confirms()
+    {
         return $this->hasMany('App\Models\AuctionConfirm', 'lot_id', 'id');
     }
 }
