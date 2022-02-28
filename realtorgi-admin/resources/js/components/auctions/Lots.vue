@@ -393,7 +393,7 @@ export default {
                 error = true;
                 Toast.fire({
                     icon: 'error',
-                    title: 'Начальная цена должна быть числом'
+                    title: 'Начальная цена должна указываться с помошью символа .'
                 });
                 $('.form-control').removeClass('is-invalid');
                 $('.form-price_start').addClass('is-invalid');
@@ -409,7 +409,7 @@ export default {
                 error = true;
                 Toast.fire({
                     icon: 'error',
-                    title: 'Сумма задатка должна быть заполнена и должна быть числом'
+                    title: 'Сумма задатка должна быть заполнена и должна указываться с помошью символа .'
                 });
                 $('.form-control').removeClass('is-invalid');
                 $('.form-deposit').addClass('is-invalid');
@@ -508,7 +508,7 @@ export default {
                 error = true;
                 Toast.fire({
                     icon: 'error',
-                    title: 'Начальная цена должна быть числом'
+                    title: 'Начальная цена должна указываться с помошью символа .'
                 });
                 $('.form-control').removeClass('is-invalid');
                 $('.form-price_start').addClass('is-invalid');
@@ -524,7 +524,7 @@ export default {
                 error = true;
                 Toast.fire({
                     icon: 'error',
-                    title: 'Сумма задатка должна быть заполнена и должна быть числом'
+                    title: 'Сумма задатка должна быть заполнена и должна указываться с помошью символа .'
                 });
                 $('.form-control').removeClass('is-invalid');
                 $('.form-deposit').addClass('is-invalid');

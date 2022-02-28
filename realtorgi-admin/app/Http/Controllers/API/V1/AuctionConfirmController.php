@@ -174,7 +174,7 @@ class AuctionConfirmController extends BaseController
 
         Notification::create([
             'user_id' => $user['id'],
-            'text' => 'Администратор отклонил вашу заявку на участие в торгах №'.$lot['lot_number'],
+            'text' => 'Администратор отклонил вашу заявку на участие в торгах по лоту №'.$lot['lot_number'],
             'status' => 'new',
         ]);
 
