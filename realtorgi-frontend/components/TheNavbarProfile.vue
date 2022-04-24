@@ -33,6 +33,16 @@
           </p>
         </div>
       </nuxt-link>
+      <nuxt-link
+        :to="{ name: 'account-files' }"
+        class="profile-menu-link"
+      >
+        <div class="link-title">
+          <p class="link-header">
+            Управление документами
+          </p>
+        </div>
+      </nuxt-link>
     </div>
     <div class="profile-menu">
       <nuxt-link

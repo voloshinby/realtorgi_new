@@ -12,6 +12,8 @@ class Lot extends Model
 
     public const COMING_STATUS = 'Предстоящие';
 
+    protected $table = 'lots';
+
     /**
      * The attributes that are mass assignable.
      *

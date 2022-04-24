@@ -34,13 +34,22 @@ class AuctionConfirmController extends BaseController
      */
     public function index()
     {
-        $auctionConfirms = $this->auctionConfirm->latest()->with(['user' , 'lot', 'auction'])->where('confirmed_admin' , false)->paginate(1000);
+        $auctionConfirms = $this->auctionConfirm
+            ->latest()
+            ->with(['user', 'lot', 'auction'])
+            ->where('confirmed_admin', false)
+            ->paginate(1000);
 
         return $this->sendResponse($auctionConfirms, 'AuctionConfirms list');
     }
 
-    public function allApplications($id){
-        $auctionConfirms = $this->auctionConfirm->latest()->with(['user' , 'lot', 'auction'])->where('user_id' , $id)->paginate(1000);
+    public function allApplications(User $user)
+    {
+        $auctionConfirms = $this->auctionConfirm
+            ->latest()
+            ->where('user_id', $user->id)
+            ->with(['user', 'lot', 'auction'])
+            ->paginate(1000);
 
         return $this->sendResponse($auctionConfirms, 'AuctionConfirms list');
     }
@@ -48,7 +57,7 @@ class AuctionConfirmController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -63,30 +72,30 @@ class AuctionConfirmController extends BaseController
         $lot = Lot::where('id', $request->get('lot_id'))->first();
         $user = User::where('id', $request->get('user_id'))->first();
 
-        if($request->get('user_id') != 0){
+        if ($request->get('user_id') != 0) {
             Notification::create([
                 'user_id' => $request->get('user_id'),
                 'title' => 'Отправлена заявка на участие',
-                'text' => 'Вы успешно отправили заявку на участие в аукционе под номером '.$lot['lot_number'],
+                'text' => 'Вы успешно отправили заявку на участие в аукционе под номером ' . $lot['lot_number'],
                 'status' => 'new',
             ]);
 
             Notification::create([
                 'user_id' => '0',
-                'text' => 'Пользователь с именем '.$user['first_name'].' '.$user['last_name'].' подал заявку на участие в лоте под номером '.$lot['lot_number'],
+                'text' => 'Пользователь с именем ' . $user['first_name'] . ' ' . $user['last_name'] . ' подал заявку на участие в лоте под номером ' . $lot['lot_number'],
                 'status' => 'new',
             ]);
         } else {
 
             Notification::create([
                 'user_id' => '0',
-                'text' => 'Пользователь с именем '.$user['first_name'].' '.$user['last_name'].' подал заявку на участие в лоте под номером '.$lot['lot_number'],
+                'text' => 'Пользователь с именем ' . $user['first_name'] . ' ' . $user['last_name'] . ' подал заявку на участие в лоте под номером ' . $lot['lot_number'],
                 'status' => 'new',
             ]);
 
         }
 
-        return $this->sendResponse($auctionConfirm , 'AuctionConfirm Created Successfully');
+        return $this->sendResponse($auctionConfirm, 'AuctionConfirm Created Successfully');
     }
 
     /**
@@ -97,7 +106,7 @@ class AuctionConfirmController extends BaseController
      */
     public function show($id)
     {
-        $auctionConfirm = $this->auctionConfirm->with(['user' , 'lot', 'auction'])->findOrFail($id);
+        $auctionConfirm = $this->auctionConfirm->with(['user', 'lot', 'auction'])->findOrFail($id);
 
         return $this->sendResponse($auctionConfirm, 'AuctionConfirm Details');
     }
@@ -106,8 +115,8 @@ class AuctionConfirmController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AuctionConfirm  $auctionConfirm
+     * @param \Illuminate\Http\Request $request
+     * @param \App\AuctionConfirm $auctionConfirm
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -116,7 +125,7 @@ class AuctionConfirmController extends BaseController
         $user = User::where('id', $auctionConfirm->user_id)->first();
         $lot = Lot::where('id', $auctionConfirm->lot_id)->first();
 
-        if($auctionConfirm->confirmed_admin == 0){
+        if ($auctionConfirm->confirmed_admin == 0) {
             $auctionConfirm->update([
                 'confirmed_admin' => true,
             ]);
@@ -124,12 +133,12 @@ class AuctionConfirmController extends BaseController
             Notification::create([
                 'user_id' => $user['id'],
                 'title' => 'Ваша заявка была одобрена',
-                'text' => 'Заявка на участие в аукционе под номером '.$lot->lot_number.' была одобрена.',
+                'text' => 'Заявка на участие в аукционе под номером ' . $lot->lot_number . ' была одобрена.',
                 'status' => 'new',
             ]);
 
             Mail::send('emails.auctionConfirm', $lot->toArray(),
-                function($message) use ($user){
+                function ($message) use ($user) {
                     $message->to($user['email'])->subject('Заявка на участие в торгах одобрена');
                 }
             );
@@ -147,7 +156,7 @@ class AuctionConfirmController extends BaseController
 
             Notification::create([
                 'user_id' => '0',
-                'text' => 'Пользователь с именем '.$user['first_name'].' '.$user['last_name'].' подтвердил участие в лоте под номером '.$lot['lot_number'],
+                'text' => 'Пользователь с именем ' . $user['first_name'] . ' ' . $user['last_name'] . ' подтвердил участие в лоте под номером ' . $lot['lot_number'],
                 'status' => 'new',
             ]);
         }
@@ -162,19 +171,31 @@ class AuctionConfirmController extends BaseController
      */
     public function destroy($id)
     {
-
         // $this->authorize('isAdmin');
 
         $auctionConfirm = $this->auctionConfirm->findOrFail($id);
-
         $user = User::where('id', $auctionConfirm->user_id)->first();
         $lot = Lot::where('id', $auctionConfirm->lot_id)->first();
+
+        if (!$auctionConfirm->isUserRequestedToDelete) {
+            $auctionConfirm->isUserRequestedToDelete = true;
+            $auctionConfirm->save();
+
+            Notification::create([
+                'user_id' => $user['id'],
+                'title' => 'Заявка на удаление участия в торгах',
+                'text' => 'Ваша заявка на удаления участия в лоте №' . $lot['lot_number'] . ' успешно добавлена',
+                'status' => 'new',
+            ]);
+
+            return $this->sendResponse($auctionConfirm, 'Auction has been updated');
+        }
 
         $auctionConfirm->delete();
 
         Notification::create([
             'user_id' => $user['id'],
-            'text' => 'Администратор отклонил вашу заявку на участие в торгах по лоту №'.$lot['lot_number'],
+            'text' => 'Администратор отклонил вашу заявку на участие в торгах по лоту №' . $lot['lot_number'],
             'status' => 'new',
         ]);
 
@@ -205,5 +226,16 @@ class AuctionConfirmController extends BaseController
         }
 
         return response()->json(['success' => false]);
+    }
+
+    public function listRequestedToDelete()
+    {
+        $auctionConfirms = $this->auctionConfirm
+            ->latest()
+            ->with(['user', 'lot', 'auction'])
+            ->where('isUserRequestedToDelete', true)
+            ->paginate(1000);
+
+        return $this->sendResponse($auctionConfirms, 'AuctionConfirms list');
     }
 }

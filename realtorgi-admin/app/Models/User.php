@@ -123,4 +123,8 @@ class User extends Authenticatable// implements MustVerifyEmail
         return $this->hasMany('App\Models\UserImages', 'user_id', 'id');
     }
 
+    public function auctionConfirms()
+    {
+        return $this->hasMany(AuctionConfirm::class, 'user_id', 'id');
+    }
 }

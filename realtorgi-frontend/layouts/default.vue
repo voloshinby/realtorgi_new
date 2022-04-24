@@ -204,9 +204,13 @@ export default {
     eventClickOnSubProfileManu(e) {
       let profileWrapper = document.querySelector(".mobile-navigation .profile-wrapper.header-profile-menu");
 
+      if (!profileWrapper) {
+        return;
+      }
+
       if (!e.target.closest(".actions") || e.target.closest(".profile-menu-link")) {
         profileWrapper.style.display = "none";
-      } else  {
+      } else {
         profileWrapper.style.display = "block"
       }
     },

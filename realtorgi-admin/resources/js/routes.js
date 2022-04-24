@@ -8,6 +8,7 @@ export default [
     { path: '/admin/categories', component: require('./components/auctions/Category.vue').default },
     { path: '/admin/auctions', component: require('./components/auctions/Auction.vue').default },
     { path: '/admin/auctionConfirms', component: require('./components/auctionConfirms/AuctionConfirm.vue').default },
+    { path: '/admin/listRequestedToDelete', component: require('./components/auctionConfirms/AuctionConfirmForDelete.vue').default },
     { path: '/admin/bets', component: require('./components/auctions/AuctionBets.vue').default },
     { path: '/admin/lots', component: require('./components/auctions/Lots.vue').default },
     { path: '/admin/lots/:id', component: require('./components/auctions/LotItems.vue').default },

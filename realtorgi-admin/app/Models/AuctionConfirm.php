@@ -9,8 +9,16 @@ class AuctionConfirm extends Model
 {
     use HasFactory;
 
+    protected $table = 'auction_confirms';
+
     protected $fillable = [
-        'user_id', 'lot_id', 'confirmed_admin' , 'confirmed_user' ,  'created_at', 'updated_at'
+        'user_id',
+        'lot_id',
+        'confirmed_admin',
+        'confirmed_user',
+        'isUserRequestedToDelete',
+        'created_at',
+        'updated_at',
     ];
 
     public function user()
@@ -28,6 +36,11 @@ class AuctionConfirm extends Model
         return $this->hasMany('App\Models\Gallery', 'lot_id', 'lot_id');
     }
 
+    public function getIsUserRequestedToDelete($value)
+    {
+        return (bool)$value;
+    }
+
     public function auction()
     {
         return $this->hasOneThrough(
@@ -39,5 +52,4 @@ class AuctionConfirm extends Model
             'auction_id',
         );
     }
-
 }

@@ -6,7 +6,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                Список заявок на участие в лотах
+                                Список заявок на удаление
                             </h3>
                         </div>
                         <!-- /.card-header -->
@@ -19,7 +19,6 @@
                                     <th>Лот</th>
                                     <th>Статус подтверждения</th>
                                     <th class="text-center">Действия</th>
-                                    <th class="text-center">Комментарий</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -43,7 +42,8 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a v-if="auctionConfirm.lot !== null" style="cursor: pointer; color: rgb(6 103 249);"
+                                        <a v-if="auctionConfirm.lot !== null"
+                                           style="cursor: pointer; color: rgb(6 103 249);"
                                            @click="modalLot(auctionConfirm)">
                                             <b>{{ auctionConfirm.lot.name }}</b>
                                         </a>
@@ -59,17 +59,6 @@
                                         <a @click="updateAuctionConfirm(auctionConfirm.id)">
                                             <button :disabled="isActive" class="col-md-8 form-control btn btn-primary">
                                                 Подтвердить
-                                            </button>
-                                        </a>
-                                        /
-                                        <a @click="deleteAuctionConfirm(auctionConfirm.id)">
-                                            <i class="fa fa-trash red"></i>
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a @click="modalComment(auctionConfirm);">
-                                            <button class="col-md-12 form-control btn btn-warning">
-                                                Оставить Комментарий
                                             </button>
                                         </a>
                                     </td>
@@ -233,32 +222,6 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="addComment" role="dialog" aria-labelledby="addComment"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Send comment</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form @submit.prevent="createComment()">
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Комментарий</label>
-                                    <textarea v-model="comment" type="datetime-local" name="comment"
-                                              class="form-control">
-                                    </textarea>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Отправить</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 </template>
@@ -299,7 +262,7 @@ export default {
         loadAuctionConfirms() {
             // if(this.$gate.isAdmin()){
             axios
-                .get("/admin/api/admin/auctionConfirm")
+                .get("/admin/api/admin/auctionConfirm/listRequestedToDelete")
                 .then(({data}) => (this.auctionConfirms = data.data));
             // }
         },
@@ -324,7 +287,7 @@ export default {
             this.$Progress.start();
 
             axios
-                .get("/admin/api/admin/auctionConfirm?page=" + page)
+                .get("/admin/api/admin/auctionConfirm/listRequestedToDelete?page=" + page)
                 .then(({data}) => (this.auctionConfirms = data.data));
 
             this.$Progress.finish();
@@ -345,7 +308,8 @@ export default {
                 });
             this.$Progress.finish();
         },
-        deleteAuctionConfirm(id) {
+        updateAuctionConfirm(id) {
+            this.isActive = true;
             Swal.fire({
                 title: "Вы уверены?",
                 text: "You won't be able to revert this!",
@@ -367,25 +331,9 @@ export default {
                             Swal.fire("Failed!", data.message, "warning");
                         });
                 }
+                location.reload();
                 this.loadAuctionConfirms();
             });
-        },
-        updateAuctionConfirm(id) {
-            this.isActive = true;
-            // this.$Progress.start();
-            axios.put("/admin/api/admin/auctionConfirm/" + id)
-                .then(function (response) {
-                    // handle success
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    // handle error
-                    console.log(error);
-                })
-                .then(function () {
-                    location.reload();
-                });
-            // this.$Progress.finish();
         },
     },
     mounted() {

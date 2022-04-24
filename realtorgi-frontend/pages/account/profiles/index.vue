@@ -188,6 +188,13 @@ export default {
                 })
             }
             location.reload();
+          } else {
+            this.$notify({
+              'group': 'user-notifications',
+              'title': `<div class='title'>Произошла ошибка валидации формы.</div>`,
+              'text': 'Проверьте корректность ваших данных.',
+              'duration': 5000
+            })
           }
         })
       }

@@ -70,7 +70,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     Route::post('admin/notifications/update_all', 'NotificationsController@updateAll');
     Route::get('admin/auction/lots/{id}', 'AuctionController@lots');
     Route::post('admin/registration/confirm/{id}', 'UserController@confirm_user');
-    Route::get('admin/user_applications/{id}', 'AuctionConfirmController@allApplications');
+    Route::get('admin/user_applications/{user}', 'AuctionConfirmController@allApplications');
     Route::post('admin/user/sells', 'LotController@userSells');
     Route::get('admin/user/sells/{id}', 'LotController@userSellsInfo');
     /* Архив */
@@ -79,6 +79,8 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     Route::post('admin/notifications/readAll', 'NotificationsController@readAllNotifications');
     Route::post('admin/lot/comment/{lot}', 'LotController@notificateComment');
     Route::post('admin/registration/resend/{user}', 'UserController@resendCode');
+    Route::get('admin/user/{user}/files', 'UserController@getAllfiles');
+    Route::get('admin/auctionConfirm/listRequestedToDelete', 'AuctionConfirmController@listRequestedToDelete');
 
     Route::apiResources([
         'admin/user' => 'UserController',

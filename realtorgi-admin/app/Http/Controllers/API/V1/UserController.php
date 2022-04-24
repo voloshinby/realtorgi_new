@@ -8,6 +8,7 @@ use App\Models\AuctionConfirm;
 use App\Models\Lot;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\UserFiles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -245,5 +246,10 @@ class UserController extends BaseController
         }
 
         return $this->sendResponse($user, 'User code re-send Successfully');
+    }
+
+    public function getAllfiles(User $user)
+    {
+        return $this->sendResponse(UserFiles::where('user_id', $user->id)->get(), 'User files getting Successfully');
     }
 }

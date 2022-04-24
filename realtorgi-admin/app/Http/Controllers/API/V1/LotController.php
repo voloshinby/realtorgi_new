@@ -104,7 +104,9 @@ class LotController extends BaseController
             'gallery',
             'files',
             'category',
-            'confirms',
+            'confirms' => static function ($query) {
+                return $query->where('confirmed_user', 1);
+            },
             'comments',
             'comments.user',
         ])->withCount('users')->findOrFail($id);
