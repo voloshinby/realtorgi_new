@@ -74,7 +74,7 @@ class AuctionBetsController extends BaseController
 
         $unix_minutes = date('U', strtotime("3 minutes")); // текущее время по юниксу + 3 минуты
 
-       $bet = $this->bet->create([
+        $bet = $this->bet->create([
             'user_id' => $request->get('user_id'),
             'lot_id' => $request->get('lot_id'),
             'bet_amount' => $user_bet,
@@ -116,12 +116,12 @@ class AuctionBetsController extends BaseController
 
                     $bet = ($lot->price_start * $user_bet) + $one_bet->bet_amount;
 
-                   /* $bet = $this->bet->create([
-                        'user_id' => $request->get('user_id'),
-                        'lot_id' => $request->get('lot_id'),
-                        'bet_amount' => $bet,
-                        //'bet_amount' => $user_bet,
-                    ]);*/
+                    /* $bet = $this->bet->create([
+                         'user_id' => $request->get('user_id'),
+                         'lot_id' => $request->get('lot_id'),
+                         'bet_amount' => $bet,
+                         //'bet_amount' => $user_bet,
+                     ]);*/
 
                     if ($auction->end_selling <= $unix_minutes) {
                         $auction->update([
@@ -131,12 +131,12 @@ class AuctionBetsController extends BaseController
 
                 } else {
 
-                  /*  $bet = $this->bet->create([
-                        'user_id' => $request->get('user_id'),
-                        'lot_id' => $request->get('lot_id'),
-                        'bet_amount' => $bet_step_one,
-                        //'bet_amount' => $user_bet,
-                    ]);*/
+                    /*  $bet = $this->bet->create([
+                          'user_id' => $request->get('user_id'),
+                          'lot_id' => $request->get('lot_id'),
+                          'bet_amount' => $bet_step_one,
+                          //'bet_amount' => $user_bet,
+                      ]);*/
 
                     if ($auction->end_selling <= $unix_minutes) {
                         $auction->update([
@@ -172,11 +172,11 @@ class AuctionBetsController extends BaseController
                     $bet_step_two = $one_bet->bet_amount;
                     $bet_step_two = ($bet_step_two * $price_step_percent) + $bet_step_two;
 
-                   /* $bet = $this->bet->create([
-                        'user_id' => $request->get('user_id'),
-                        'lot_id' => $request->get('lot_id'),
-                        'bet_amount' => $bet_step_two,
-                    ]);*/
+                    /* $bet = $this->bet->create([
+                         'user_id' => $request->get('user_id'),
+                         'lot_id' => $request->get('lot_id'),
+                         'bet_amount' => $bet_step_two,
+                     ]);*/
 
                     if ($auction->end_selling <= $unix_minutes) {
                         $auction->update([
@@ -189,11 +189,11 @@ class AuctionBetsController extends BaseController
                     $bet_step_two = $lot->price_start;
                     $bet_step_two = ($lot->price_start * $price_step_percent) + $bet_step_two;
 
-                   /* $bet = $this->bet->create([
-                        'user_id' => $request->get('user_id'),
-                        'lot_id' => $request->get('lot_id'),
-                        'bet_amount' => $bet_step_two,
-                    ]);*/
+                    /* $bet = $this->bet->create([
+                         'user_id' => $request->get('user_id'),
+                         'lot_id' => $request->get('lot_id'),
+                         'bet_amount' => $bet_step_two,
+                     ]);*/
 
                     if ($auction->end_selling <= $unix_minutes) {
                         $auction->update([
@@ -210,11 +210,11 @@ class AuctionBetsController extends BaseController
 
                         $bet_step_three = $one_bet->bet_amount + (double)$lot->price_step;
 
-                       /* $bet = $this->bet->create([
-                            'user_id' => $request->get('user_id'),
-                            'lot_id' => $request->get('lot_id'),
-                            'bet_amount' => $bet_step_three,
-                        ]);*/
+                        /* $bet = $this->bet->create([
+                             'user_id' => $request->get('user_id'),
+                             'lot_id' => $request->get('lot_id'),
+                             'bet_amount' => $bet_step_three,
+                         ]);*/
 
                         if ($auction->end_selling <= $unix_minutes) {
                             $auction->update([
@@ -226,11 +226,11 @@ class AuctionBetsController extends BaseController
 
                         $bet_step_three = (double)$lot->price_step + $lot->price_start;
 
-                       /* $bet = $this->bet->create([
-                            'user_id' => $request->get('user_id'),
-                            'lot_id' => $request->get('lot_id'),
-                            'bet_amount' => $bet_step_three,
-                        ]);*/
+                        /* $bet = $this->bet->create([
+                             'user_id' => $request->get('user_id'),
+                             'lot_id' => $request->get('lot_id'),
+                             'bet_amount' => $bet_step_three,
+                         ]);*/
 
                         if ($auction->end_selling <= $unix_minutes) {
                             $auction->update([

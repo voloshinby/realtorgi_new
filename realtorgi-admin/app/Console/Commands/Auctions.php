@@ -120,10 +120,15 @@ class Auctions extends Command
                                     $bet->winner = 1;
                                     $bet->save();
 
+                                    $admin = User::where([
+                                        ['type', '=', 'admin'],
+                                        ['email', '=', User::ADMIN_USER],
+                                    ])->first();
+
                                     Notification::create([
                                         'title' => 'Победа в аукционе',
                                         'text' => 'Пользователь ' . $user->first_name . ' ' . $user->last_name . ' победил в лоте под номером ' . $lot->lot_number,
-                                        'user_id' => 0,
+                                        'user_id' => $admin->id,
                                         'status' => 'new',
                                     ]);
 

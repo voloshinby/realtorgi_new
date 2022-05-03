@@ -31,6 +31,19 @@
                 </p>
             </router-link>
         </li>
+        <li class="nav-item">
+            <router-link to="/admin/listRequestedToDelete" class="nav-link">
+                <i class="nav-icon fas fa-list orange"></i>
+                <p>
+                    Заявки на удаление
+                    @if(DB::table('auction_confirms')->where('isUserRequestedToDelete' , true)->count() > 0)
+                        <span style="color: orange;">
+                        ({{ DB::table('auction_confirms')->where('isUserRequestedToDelete', true)->count() }})
+                    </span>
+                    @endif
+                </p>
+            </router-link>
+        </li>
 
 
         <li class="nav-item">

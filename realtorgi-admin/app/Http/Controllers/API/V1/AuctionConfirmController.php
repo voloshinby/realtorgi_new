@@ -142,7 +142,6 @@ class AuctionConfirmController extends BaseController
                     $message->to($user['email'])->subject('Заявка на участие в торгах одобрена');
                 }
             );
-
         } else {
             $auctionConfirm->update([
                 'confirmed_user' => true,

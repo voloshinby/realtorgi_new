@@ -10,6 +10,7 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable// implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens;
+    public const ADMIN_USER = 'admin@gmail.com';
 
     /**
      * The attributes that are mass assignable.

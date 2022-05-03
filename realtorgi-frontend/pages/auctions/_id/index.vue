@@ -1287,7 +1287,7 @@
                 <span v-if="this.auction.step === 2 && auction.price_step"
                       class="value">{{ auction.price_step.replace(/\D/g, '') }} %</span>
                 <span v-if="this.auction.step === 1 && auction.price_step" class="value">{{
-                    auction.price_step.replace(/\D/g, '').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+                    auction.price_step.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
                   }} BYN</span>
                 <span v-if="this.auction.step === 1 && !auction.price_step" class="value">{{
                     (auction.price_start * 0.05).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
@@ -1716,6 +1716,7 @@ export default {
         })
       }, 5000);
     }
+    console.log(  this.auction)
   },
   fetchOnServer: false,
   computed: {
@@ -1733,7 +1734,7 @@ export default {
           if (this.betHistory.length !== 0) {
             this.currentBid = (this.betHistory[0].bet_amount + parseFloat(this.auction.price_step.replace(/\D/g, '')))
           } else {
-            this.currentBid = (this.auction.price_start + parseFloat(this.auction.price_step.replace(/\D/g, '')))
+            this.currentBid = (this.auction.price_start + parseFloat(this.auction.price_step.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')))
           }
 
         } else {
