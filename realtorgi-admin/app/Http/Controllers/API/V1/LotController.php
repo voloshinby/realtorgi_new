@@ -10,7 +10,9 @@ use App\Models\Gallery;
 use App\Models\Lot;
 use App\Models\LotsComment;
 use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class LotController extends BaseController
 {
@@ -270,14 +272,42 @@ class LotController extends BaseController
         $lot_id = $request->get('lot_id');
         $user_sell_suggest = $request->get('user_sell_suggest');
         $price_sell_suggest = $request->get('price_sell_suggest');
-        // $lot = $this->lot->findOrFail($id);
-        // print_r($request->all()); exit();
-        $lots = Lot::where('id', $lot_id)->update([
+
+        Lot::where('id', $lot_id)->update([
             'user_sell_suggest' => $user_sell_suggest,
             'price_sell_suggest' => $price_sell_suggest,
         ]);
-        return $this->sendResponse("success", 'Lots list');
 
+        $lot = Lot::findOrFail($lot_id);
+
+        $user = User::findOrFail($user_sell_suggest);
+
+        Notification::create([
+            'title' => 'Победа в аукционе',
+            'text' => 'Пользователь ' . $user->first_name . ' ' . $user->last_name . ' победил в лоте под номером ' . $lot->lot_number,
+            'user_id' => 0,
+            'status' => 'new',
+        ]);
+
+        Notification::create([
+            'title' => 'Участие в аукционе',
+            'text' => 'Пользователь ' . $user->first_name . ' ' . $user->last_name . ' победил в лоте под номером ' . $lot->lot_number,
+            'user_id' => $user->id,
+            'status' => 'new',
+        ]);
+
+        $data = [];
+        $data['lot_id'] = $lot_id;
+        $data['created_at'] = $lot->updated_at;
+        $data['bet_amount'] = $price_sell_suggest;
+
+        Mail::send('emails.auctionWinner', $data,
+            function ($message) use ($user) {
+                $message->to($user['email'])->subject('Победа в аукционе');
+            }
+        );
+
+        return $this->sendResponse("success", 'Lots list');
     }
 
     public function userSellsInfo(Request $request, $id)

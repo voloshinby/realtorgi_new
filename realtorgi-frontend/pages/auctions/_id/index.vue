@@ -214,8 +214,13 @@
                   <span class="username">Событие</span>
                   <span class="price">Текущая цена</span>
                 </div>
-                <div class="row no-events">
-                  <span>Нет событий</span>
+                <div class="row" v-if="suggest">
+                  <span class="time"></span>
+                  <span class="">Пользователь №{{ suggest }} купил лот</span>
+                  <span class="price">{{ priceSuggest.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') }} BYN</span>
+                </div>
+                <div class="row no-events" v-else>
+                  <span> Нет событий</span>
                 </div>
               </div>
               <div class="row" v-for="event in betHistory" :key="event.id">
@@ -1504,6 +1509,7 @@ export default {
     bidError: true,
     price_buy: {},
     suggest: {},
+    priceSuggest: {},
 
     // Statuses
     loading: false,
@@ -1582,6 +1588,7 @@ export default {
     this.betHistory = data.data.data;
     let suggest = await this.$axios.get(process.env.API_URL + `/admin/api/admin/user/sells/${this.$route.params.id}`);
     this.suggest = suggest.data.data.user_sell_suggest;
+    this.priceSuggest = suggest.data.data.price_sell_suggest;
     this.auction.currentUser = this.$store.state.auth.userData.id;
     var count = 0;
     for (let i = 0; i < this.auction.confirms.length; i++) {
@@ -1716,7 +1723,7 @@ export default {
         })
       }, 5000);
     }
-    console.log(  this.auction)
+    console.log(this.auction)
   },
   fetchOnServer: false,
   computed: {
