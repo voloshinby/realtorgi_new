@@ -171,28 +171,28 @@ class AuctionController extends BaseController
         if ($auction->starts_at == $request->get('starts_at')) {
             $starts_at = $auction->starts_at;
         } else {
-            $starts_at = date('U', strtotime("{$request->get('starts_at')} + 2 hours"));
+            $starts_at = date('U', strtotime("{$request->get('starts_at')} + 1 hours"));
         }
 
         // $ends_at = date('U', strtotime($request->get('ends_at')));
         if ($auction->ends_at == $request->get('ends_at')) {
             $ends_at = $auction->ends_at;
         } else {
-            $ends_at = date('U', strtotime("{$request->get('ends_at')} + 2 hours"));
+            $ends_at = date('U', strtotime("{$request->get('ends_at')} + 1 hours"));
         }
 
         // $start_selling = date('U', strtotime($request->get('start_selling')));
         if ($auction->start_selling == $request->get('start_selling')) {
             $start_selling = $auction->start_selling;
         } else {
-            $start_selling = date('U', strtotime("{$request->get('start_selling')} + 2 hours"));
+            $start_selling = date('U', strtotime("{$request->get('start_selling')} + 1 hours"));
         }
 
         // $end_selling = date('U', strtotime($request->get('end_selling')));
         if ($auction->end_selling == $request->get('end_selling')) {
             $end_selling = $auction->end_selling;
         } else {
-            $end_selling = date('U', strtotime("{$request->get('end_selling')} + 2 hours"));
+            $end_selling = date('U', strtotime("{$request->get('end_selling')} + 1 hours"));
         }
 
         if (!is_null($request->get('city_id')) && !empty($request->get('city_id'))) {
