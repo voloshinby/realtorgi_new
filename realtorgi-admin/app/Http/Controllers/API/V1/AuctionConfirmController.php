@@ -11,6 +11,7 @@ use App\Models\Lot;
 use Illuminate\Http\Request;
 use App\Models\ExportData;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class AuctionConfirmController extends BaseController
 {
@@ -124,8 +125,10 @@ class AuctionConfirmController extends BaseController
         $auctionConfirm = $this->auctionConfirm->findOrFail($id);
         $user = User::where('id', $auctionConfirm->user_id)->first();
         $lot = Lot::where('id', $auctionConfirm->lot_id)->first();
+        $auction = Auction::where('id', $lot->auction_id)->first();
 
         if ($auctionConfirm->confirmed_admin == 0) {
+            $lot->auction_number = $auction['auction_number'];
             $auctionConfirm->update([
                 'confirmed_admin' => true,
             ]);
@@ -133,10 +136,9 @@ class AuctionConfirmController extends BaseController
             Notification::create([
                 'user_id' => $user['id'],
                 'title' => 'Ваша заявка была одобрена',
-                'text' => 'Заявка на участие в аукционе под номером ' . $lot->lot_number . ' была одобрена.',
+                'text' => 'Заявка на участие в аукционе под номером ' . $lot->auction_number . ' была одобрена.',
                 'status' => 'new',
             ]);
-
             Mail::send('emails.auctionConfirm', $lot->toArray(),
                 function ($message) use ($user) {
                     $message->to($user['email'])->subject('Заявка на участие в торгах одобрена');

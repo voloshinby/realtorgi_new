@@ -109,21 +109,56 @@
         @endcan
 
         @can('isAdmin')
+            <li class="nav-item">
+                <router-link to="/admin/feedback" class="nav-link">
+                    <i class="nav-icon fas fa-list orange"></i>
+                    <p>
+                        Организация торгов
+                        @if(DB::table('feedback')->where('status', 'new')->count() > 0)
+                            <span style="color: orange;">
+                        ({{ DB::table('feedback')->where('status', 'new')->count() }})
+                    </span>
+                        @endif
+                    </p>
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link to="/admin/notifications" class="nav-link">
+                    <i class="nav-icon fas fa-list orange"></i>
+                    <p>
+                        Уведомления
+                        @if(DB::table('notifications')->where('is_view_by_admin', 0)->count() > 0)
+                            <span style="color: orange;">
+                        ({{ DB::table('notifications')->where('is_view_by_admin', 0)->count() }})
+                    </span>
+                        @endif
+                    </p>
+                </router-link>
+            </li>
+
+            <li class="nav-item">
+                <router-link to="/admin/export_data" class="nav-link">
+                    <i class="nav-icon fas fa-list orange"></i>
+                    <p>
+                        Архивы по лотам
+                    </p>
+                </router-link>
+            </li>
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-cog green"></i>
                     <p>
                         Настройки
-                        @if(DB::table('feedback')->where('status', 'new')->count() > 0 || DB::table('notifications')->where('is_view_by_admin', 0)->count() > 0)
-                            <span style="color: orange;">
-                    ({{ DB::table('feedback')->where('status', 'new')->count() + DB::table('notifications')->where('is_view_by_admin', 0)->count() }})
-                </span>
-                        @endif
+{{--                        @if(DB::table('feedback')->where('status', 'new')->count() > 0 || DB::table('notifications')->where('is_view_by_admin', 0)->count() > 0)--}}
+{{--                            <span style="color: orange;">--}}
+{{--                    ({{ DB::table('feedback')->where('status', 'new')->count() + DB::table('notifications')->where('is_view_by_admin', 0)->count() }})--}}
+{{--                </span>--}}
+{{--                        @endif--}}
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-
                     <li class="nav-item">
                         <router-link to="/admin/categories" class="nav-link">
                             <i class="nav-icon fas fa-list-ol green"></i>
@@ -132,49 +167,11 @@
                             </p>
                         </router-link>
                     </li>
-
                     <li class="nav-item">
                         <router-link to="/admin/countries" class="nav-link">
                             <i class="nav-icon fas fa-tags green"></i>
                             <p>
                                 Области
-                            </p>
-                        </router-link>
-                    </li>
-
-                    <li class="nav-item">
-                        <router-link to="/admin/feedback" class="nav-link">
-                            <i class="nav-icon fas fa-list orange"></i>
-                            <p>
-                                Организация
-                                @if(DB::table('feedback')->where('status', 'new')->count() > 0)
-                                    <span style="color: orange;">
-                        ({{ DB::table('feedback')->where('status', 'new')->count() }})
-                    </span>
-                                @endif
-                            </p>
-                        </router-link>
-                    </li>
-
-                    <li class="nav-item">
-                        <router-link to="/admin/notifications" class="nav-link">
-                            <i class="nav-icon fas fa-list orange"></i>
-                            <p>
-                                Уведомления
-                                @if(DB::table('notifications')->where('is_view_by_admin', 0)->count() > 0)
-                                    <span style="color: orange;">
-                        ({{ DB::table('notifications')->where('is_view_by_admin', 0)->count() }})
-                    </span>
-                                @endif
-                            </p>
-                        </router-link>
-                    </li>
-
-                    <li class="nav-item">
-                        <router-link to="/admin/export_data" class="nav-link">
-                            <i class="nav-icon fas fa-list orange"></i>
-                            <p>
-                                Архивы по лотам
                             </p>
                         </router-link>
                     </li>

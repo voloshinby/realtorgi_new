@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Feedback;
+use Illuminate\Support\Facades\Mail;
 
 
 class FeedbackController extends BaseController
 {
 
     protected $feedback = '';
+    protected $user = '';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(Feedback $feedback)
+    public function __construct(Feedback $feedback, User $user)
     {
         // $this->middleware('auth:api');
         $this->feedback = $feedback;
+        $this->user = $user;
     }
 
     /**
@@ -48,6 +52,13 @@ class FeedbackController extends BaseController
             'user_id' => $request->get('user'),
             'status' => 'new'
         ]);
+
+        $user = $this->user->where('id', 160)->first(); //todo: change to admin ID
+        Mail::send('emails.feedbackConfirm', $feedback->toArray(),
+            function ($message) use ($user) {
+                $message->to($user->email, 'Администратор')->subject('Новая заявка на организацию торгов');
+            }
+        );
 
         return $this->sendResponse($feedback, 'Feedback Created Successfully');
     }
