@@ -2,7 +2,7 @@
     <div class="sign-in">
         <div class="sign-in-wrapper">
             <form class="content-wrapper" onsubmit="return false" @submit="submit">
-                <h1 class="title">Войдите в свой аккаунт</h1>
+                <h1 class="title">Войдите в свой аккаунт.</h1>
                 <div class="subtitle"><span>Если у вас нет аккаунта, вы можете <nuxt-link class="link" :to="{ name: 'auth-registration' }">зарегистрироваться.</nuxt-link></span></div>
                 <div class="inputs">
                   <div class="email-input input">

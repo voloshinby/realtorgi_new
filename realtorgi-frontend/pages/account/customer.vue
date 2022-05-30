@@ -47,7 +47,7 @@
     <div class="customer-request-wrapper">
       <div class="title">
         <h1>Мои заявки <span class="user-id">(id: {{ this.$store.state.auth.userData.id }})</span></h1>
-        <span class="subtitle">Заявки на участие в торгах</span>
+        <span class="subtitle">Заявки на участие в торгах.</span>
       </div>
       <div v-if="lots.length > 0" class="requests-table">
         <div class="requests-table-wrapper">
