@@ -9,7 +9,7 @@
           <div v-if="canApproveParticipationAuction" class="subtitle">Подтверждаете ли Вы свое участие в торгах по
             данному лоту ({{ choosenLot.lot.name }})?
           </div>
-          <div v-else class="subtitle">Вы можете подтвердить свое участие за 5 минут до начала торгов, через <span
+          <div v-else class="subtitle">Вы можете подтвердить свое участие в день начала торгов, через <span
             style="font-weight: bold;">{{ diffTimeBeforeApprove }} {{ labelTime }}</span></div>
           <div v-if="canApproveParticipationAuction" class="participation-popup-buttons">
             <button class="cancel" @click="openParticipationPopup = !openParticipationPopup">Закрыть</button>
@@ -47,7 +47,7 @@
     <div class="customer-request-wrapper">
       <div class="title">
         <h1>Мои заявки <span class="user-id">(id: {{ this.$store.state.auth.userData.id }})</span></h1>
-        <span class="subtitle">Заявки на участие в торгах.</span>
+        <span class="subtitle">Заявки на участие в торгах</span>
       </div>
       <div v-if="lots.length > 0" class="requests-table">
         <div class="requests-table-wrapper">
@@ -56,7 +56,7 @@
             <span class="name">Название лота</span>
             <span class="starts-at">Начало торгов</span>
             <span class="status">Статус</span>
-            <span class="confirm-status">Cтатус заявки</span>
+            <span class="confirm-status">Статус заявки</span>
             <span class="delete"></span>
           </div>
           <div class="table-row" v-for="( lot, index ) in lots" :key="index">
@@ -76,7 +76,7 @@
                   class="confirm-status link">Ожидает вашего подтверждения</span>
             <span v-else class="confirm-status">Подтверждено</span>
             <span
-              v-if="lot.lot && lot.isUserRequestedToDelete == 0 && (lot.lot.status === 'Предстоящие' || lot.lot.status === 'Текущие' || lot.lot.status === 'Повторные')"
+              v-if="lot.lot && lot.isUserRequestedToDelete === 0 && (lot.lot.status === 'Предстоящие' || lot.lot.status === 'Текущие' || lot.lot.status === 'Повторные')"
               @click="showDeleteModal(index)" class="delete"><x-circle-icon/></span>
             <span v-else class="delete"></span>
           </div>
@@ -137,7 +137,7 @@ export default {
       this.$notify({
         'group': 'user-notifications',
         'title': `<div class='title'>Электронный адрес вашей почты не подтвержден.</div> <div class='notification-date'>${moment((Date.parse(new Date()))).format('HH:mm')}</div>`,
-        'text': 'Вы не можете расматривать страницы личного кабинета, пока не подтвердите адрес электронной почты.',
+        'text': 'Вы не можете просматривать страницы личного кабинета, пока не подтвердите адрес электронной почты.',
         'duration': 5000
       })
       this.$router.push('/auth/registration/confirm')
@@ -154,7 +154,13 @@ export default {
       const diffInDays = (end, start) => {
         let timeDiff = Math.abs(end.getTime() - start.getTime());
 
-        return Math.ceil(timeDiff / (1000 * 60 * 60));
+        return timeDiff / (1000 * 60 * 60 * 24);
+      }
+
+      const diffInHours = (end, start) => {
+        let timeDiff = Math.abs(end.getTime() - start.getTime());
+
+        return Math.floor((timeDiff / 1000) / 60 / 60);
       }
 
       const diffInMinutes = (end, start) => {
@@ -166,12 +172,30 @@ export default {
       this.diffTimeBeforeApprove = diffInDays(currentDate, auctionStartDateTime);
 
       if (this.diffTimeBeforeApprove <= 1) {
-        this.diffTimeBeforeApprove = diffInMinutes(currentDate, auctionStartDateTime);
+        if (auctionStartDateTime.getDate() === currentDate.getDate()) {
+          if ((currentDate.getHours() <= 8) && (currentDate.getMinutes() <= 58)) {
+            this.canApproveParticipationAuction = true;
 
-        if (this.diffTimeBeforeApprove <= 5) {
-          this.canApproveParticipationAuction = true;
+          }
         }
+
+        this.diffTimeBeforeApprove = diffInHours(currentDate, auctionStartDateTime);
+        this.labelTime = 'часов';
+      } else {
+        this.diffTimeBeforeApprove = diffInMinutes(currentDate, auctionStartDateTime);
         this.labelTime = 'минут';
+
+        if (this.diffTimeBeforeApprove >= 60) {
+          this.diffTimeBeforeApprove = diffInHours(currentDate, auctionStartDateTime);
+          this.labelTime = 'часов';
+
+          if (this.diffTimeBeforeApprove >= 24) {
+            this.diffTimeBeforeApprove = diffInDays(currentDate, auctionStartDateTime);
+            this.labelTime = 'дней';
+          }
+        }
+
+        // console.log(this.diffTimeBeforeApprove);
       }
 
       this.openParticipationPopup = !this.openParticipationPopup
