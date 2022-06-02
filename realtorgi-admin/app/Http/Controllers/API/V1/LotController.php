@@ -297,7 +297,8 @@ class LotController extends BaseController
         ]);
 
         $data = [];
-        $data['lot_id'] = $lot_id;
+        $data['lot_id'] = $lot->lot_number;
+        $data['auction_id'] = $lot->auction_id;
         $data['created_at'] = $lot->updated_at;
         $data['bet_amount'] = $price_sell_suggest;
 

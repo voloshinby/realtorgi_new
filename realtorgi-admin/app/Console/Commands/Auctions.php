@@ -136,7 +136,8 @@ class Auctions extends Command
                                     ]);
 
                                     $data = [];
-                                    $data['lot_id'] = $bet->lot_id;
+                                    $data['lot_id'] = $lot->lot_number;
+                                    $data['auction_id'] = $lot->auction_id;
                                     $data['created_at'] = $bet->created_at;
                                     $data['bet_amount'] = $bet->bet_amount;
 
