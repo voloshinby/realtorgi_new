@@ -1764,13 +1764,13 @@ export default {
           if (this.betHistory.length !== 0) {
             this.currentBid = this.betHistory[0].bet_amount + (this.auction.price_start * 0.05);
           } else {
-            this.currentBid = this.auction.price_start + (this.auction.price_start * 1.05);
+            this.currentBid = this.auction.price_start + (this.auction.price_start * 0.05);
           }
         } else {
           if (this.betHistory.length !== 0) {
             this.currentBid = this.betHistory[0].bet_amount + (this.betHistory[0].bet_amount * 0.05);
           } else {
-            this.currentBid = this.auction.price_start + (this.auction.price_start * 1.05);
+            this.currentBid = this.auction.price_start + (this.auction.price_start * 0.05);
           }
         }
       }
