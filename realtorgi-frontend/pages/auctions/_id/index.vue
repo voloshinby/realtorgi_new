@@ -1895,7 +1895,9 @@ export default {
           this.$axios.$post(process.env.API_URL + '/admin/api/admin/bet', {
             user_id: this.$store.state.auth.userData.id,
             lot_id: this.auction.id,
+            bet: this.currentBid
           })
+          this.inputBid = this.currentBid
         } else {
           this.$axios.$post(process.env.API_URL + '/admin/api/admin/bet', {
             user_id: this.$store.state.auth.userData.id,
