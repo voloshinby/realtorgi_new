@@ -147,13 +147,11 @@ class Auctions extends Command
                                         }
                                     );
                                 }
-
                             } else {
                                 Lot::where('id', $lot->id)->update([
                                     'status' => 'Несостоявшиеся',
                                 ]);
                             }
-
                         }
                     } else {
                         if ($starts_at <= (int)$curr && $start_selling >= (int)$curr) {

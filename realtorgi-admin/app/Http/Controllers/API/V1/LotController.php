@@ -266,7 +266,7 @@ class LotController extends BaseController
 
     }
 
-    public function userSells(Request $request)
+    final public function userSells(Request $request)
     {
 
         $lot_id = $request->get('lot_id');
