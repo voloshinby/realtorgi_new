@@ -172,11 +172,11 @@ export default {
       this.diffTimeBeforeApprove = diffInDays(currentDate, auctionStartDateTime);
 
       if (this.diffTimeBeforeApprove <= 1) {
-        if (auctionStartDateTime.getDate() === currentDate.getDate()) {
+        // if (auctionStartDateTime.getDate() === currentDate.getDate()) {
           if ((currentDate.getHours() <= 8) && (currentDate.getMinutes() <= 58)) {
             this.canApproveParticipationAuction = true;
 
-          }
+          // }
         }
 
         this.diffTimeBeforeApprove = diffInHours(currentDate, auctionStartDateTime);
